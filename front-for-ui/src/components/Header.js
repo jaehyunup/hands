@@ -1,12 +1,31 @@
 import React from 'react';
 
 import { Button,Navbar, Nav,NavDropdown } from 'react-bootstrap';
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import Signin from "./account/Signin"
 import style from "../styles/header.css"
+import "../styles/signin.css";
 
 class Header extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalFlag: false,
+    };
+  }
+
+openModal = () => {
+    console.log(this.state.modalFlag)
+    this.setState({ modalFlag: true });
+  };
+
+closeModal = () => {
+    this.setState({ modalFlag: false });
+};
+
   render() {
     return (
+    <>
     <Navbar collapseOnSelect className="py-3" expand="lg" fixed="top">
       <Navbar.Brand href="#home">HANDS</Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -20,11 +39,13 @@ class Header extends React.Component {
           </Nav.Link>
         </Nav>
         <Nav className="sub-nav py-2">
-          <Nav.Link className="loginText"><Link to=""/>로그인</Nav.Link>
+          <Nav.Link className="loginText" onClick={this.openModal}>로그인</Nav.Link>
           <Button className="joinBtn mx-2">회원가입</Button>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
+    <Signin isOpen={this.state.modalFlag} close={this.closeModal} />
+    </>
     )
   }
 }
