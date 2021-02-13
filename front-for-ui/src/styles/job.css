@@ -2,6 +2,33 @@
   font-family: "gmarket-700";
 }
 
+.joblist{
+  border:1px solid #f2f4f7;
+  border-radius: 10px;
+  padding:1rem;
+  box-shadow: 20px 10px #000;
+  
+}
+.joblist > img{
+  float: left;
+  height:3rem;
+  width: 3rem;
+  object-fit:cover;
+  margin-right:2rem;
+
+}
+.jobList > .article{
+  float:right;
+}
+.articleheader{
+  font-size:1.0rem;
+  
+}
+.articlesubheader{
+font-family: 'gmarket-500';
+font-size:0.8rem;
+}
+
 h1,h2,h3,h4,h5{
   font-family: "gmarket-700";
 }

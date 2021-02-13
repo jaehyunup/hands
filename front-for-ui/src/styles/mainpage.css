@@ -447,7 +447,7 @@ body {
 .textSlide{
     color:#7548D6;
     font-size:3rem;
-    font-weight:900;
+    font-family: "eland-700";
 }
 .textSlide:after {
     content:"고양이랑 놀고";

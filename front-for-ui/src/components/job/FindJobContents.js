@@ -1,7 +1,8 @@
 import React from 'react';
-import {Container,Row,Col,Form} from 'react-bootstrap';
+import {Image,Container,Row,Col,Form} from 'react-bootstrap';
 import {TextField,InputLabel,MenuItem,Select,FormControl,Fab} from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
+import jobImage from '../../img/logo.png';
 
 class FindJobContents extends React.Component {
     constructor(props) {
@@ -70,20 +71,15 @@ class FindJobContents extends React.Component {
                         </Row>
                         <Row>
                             <Col md={12} lg={12} className={"mt-4 px-0 mx-0"} style={{maxHeight:"30rem",overflow:"scroll"}}>
-                            <p>test</p><p>test</p><p>test</p><p>test</p><p>test</p><p>test</p>
-                            <p>test</p><p>test</p><p>test</p><p>test</p><p>test</p><p>test</p>
-                            <p>test</p><p>test</p><p>test</p><p>test</p><p>test</p><p>test</p>
-                            <p>test</p><p>test</p><p>test</p><p>test</p><p>test</p><p>test</p>
-                            <p>test</p><p>test</p><p>test</p><p>test</p><p>test</p><p>test</p>
-                            <p>test</p><p>test</p><p>test</p><p>test</p><p>test</p><p>test</p>
-                            <p>test</p><p>test</p><p>test</p><p>test</p><p>test</p><p>test</p>
-                            <p>test</p><p>test</p><p>test</p><p>test</p><p>test</p><p>test</p>
-                            <p>test</p><p>test</p><p>test</p><p>test</p><p>test</p><p>test</p>
-                            <p>test</p><p>test</p><p>test</p><p>test</p><p>test</p><p>test</p>
-                            <p>test</p><p>test</p><p>test</p><p>test</p><p>test</p><p>test</p>
-                            <p>test</p><p>test</p><p>test</p><p>test</p><p>test</p><p>test</p>
-                            <p>test</p><p>test</p><p>test</p><p>test</p><p>test</p><p>test</p>
-                            <p>test</p><p>test</p><p>test</p><p>test</p><p>test</p><p>test</p>
+                                <div className={"joblist"}>
+                                    <img alt={"jobImage"} src={"https://source.unsplash.com/random"}/>
+                                    <div className={"article"}>
+                                        <div>
+                                            <div className={"articleheader"}>저희집 고양이랑 놀아줄사람을 구해요</div>
+                                            <div className={"articlesubheader"}>3000원</div>
+                                        </div>
+                                    </div>
+                                </div>
 
                             </Col>
                         </Row>
