@@ -77,6 +77,12 @@ class FindJobContents extends React.Component {
                                         <div>
                                             <div className={"articleheader"}>저희집 고양이랑 놀아줄사람을 구해요</div>
                                             <div className={"articlesubheader"}>3000원</div>
+                                            <div className={"articlewriter"}>
+                                                <img alt="유저프로필" src={"https://ui-avatars.com/api/?name=H&background=random"}/>
+                                                <div className={"articlewritercontents"}>
+                                                    <p>킹동민</p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

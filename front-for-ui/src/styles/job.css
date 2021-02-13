@@ -22,8 +22,29 @@
 }
 .articleheader{
   font-size:1.0rem;
-  
 }
+.articlewriter{
+  position:absolute;
+  bottom:0.5rem;
+  right:0.5rem;
+}
+.articlewriter > img{
+  float:left;
+  width:1.5rem;
+  height:1.5rem;
+  border-radius: 20px;
+}
+.articlewritercontents{
+  float:right;
+  margin-left:0.3rem;
+}
+
+.articlewritercontents > p{
+  font-size:0.9rem;
+  margin-top:1px;
+  margin-bottom: 1px;
+}
+
 .articlesubheader{
 font-family: 'gmarket-500';
 font-size:0.8rem;
