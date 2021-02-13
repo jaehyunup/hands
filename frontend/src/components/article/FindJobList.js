@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from "axios";
+import Job from './Job';
 
 class FindJobList extends React.Component {
     constructor(props) {
@@ -23,15 +24,27 @@ class FindJobList extends React.Component {
         this.handleminCredit = this.handleminCredit.bind(this);
     }
 
-    loadList = () => {
+    loadList = async () => {
         console.log("전체 리스트 출력");
         axios
         .get("http://i4d101.p.ssafy.io:8080/job/findJobs")
         .then(res => {
             console.log(res);
-            this.jobList = res.data;
+            this.setState({
+                jobList : res.data
+            });
+        })
+        .catch(e => {
+            console.error(e);
+            this.setState({
+                loading : false
+            })
         });
     };
+
+    componentDidMount() {
+        this.loadList();
+    }
 
     //주소검색 키워드 input 내용 변경될 때
     handleKeyword(event) {
@@ -50,7 +63,9 @@ class FindJobList extends React.Component {
         .then(res => {
             console.log("주소 키워드로 검색한 데이터");
             console.log(res);
-            this.jobList = res.data;
+            this.setState({
+                jobList : res.data
+            });
         });
         
         event.preventDefault(); //클릭후에도 데이터 남아있음
@@ -66,7 +81,9 @@ class FindJobList extends React.Component {
             .then(res => {
                 console.log("크레딧 범위로 검색한 결과");
                 console.log(res);
-                this.jobList = res.data;
+                this.setState({
+                    jobList : res.data
+                });
             });
         });
     }
@@ -82,7 +99,9 @@ class FindJobList extends React.Component {
             .then(res => {
                 console.log("크레딧 범위로 검색한 결과");
                 console.log(res);
-                this.jobList = res.data;
+                this.setState({
+                    jobList : res.data
+                });
             });
         });
     }   
@@ -96,7 +115,9 @@ class FindJobList extends React.Component {
         .then(res => {
             console.log("크레딧순 정렬");
             console.log(res);
-            this.jobList = res.data;
+            this.setState({
+                jobList : res.data
+            });
         });
     }
 
@@ -109,14 +130,14 @@ class FindJobList extends React.Component {
                 .then(res => {
                     console.log("디데이로 검색");
                     console.log(res);
-                    this.jobList = res.data;
+                    this.setState({
+                        jobList : res.data
+                    });
                 });
         });
         
     }
 
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  미완성  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
-    //카테고리 선택해서 검색 (체크는 하나만 되도록)
     handleCheckbox(event) {
         const checkboxes = document.getElementsByName("category");
         console.log(checkboxes);
@@ -131,13 +152,17 @@ class FindJobList extends React.Component {
                 .then(res => {
                     console.log("카테고리 검색");
                     console.log(res);
-                    this.jobList = res.data;
+                    this.setState({
+                        jobList : res.data
+                    });
                 });
-        );
+            });
     }
 
+    
     //!!!!!!!!!!!!!!!!!!! job 컴포넌트로 for문 돌리는거 구현 필요 !!!!!!!!!!!!!!!!!!!!!!
     render() {
+        const { jobList } = this.state.jobList;
         return (
             <div
             className="item"
@@ -172,7 +197,6 @@ class FindJobList extends React.Component {
                     <input type="number" value={this.state.minCredit} onChange={this.handleminCredit}/>
                     <input type="number" value={this.state.maxCredit} onChange={this.handlemaxCredit}/>
                         
-
                     <select value={this.state.sortKeyword} onChange={this.handleSort}>
                         <option value="">정렬하기</option>
                         <option value="credit">크레딧순</option>
@@ -192,6 +216,19 @@ class FindJobList extends React.Component {
                     border: "1px solid black",
                     }}
                 >
+                    {
+                        this.state.jobList.map((job,index) => {
+                            return ( <Job key={index}
+                            jobUserUUid={job.jobUserUUid}
+                            categoryId={job.categoryId}
+                            content={job.content}
+                            workingHour={job.workingHour}
+                            jobCredit={job.jobCredit}
+                            workingAddress={job.workingAddress}
+                            dday={job.dday} /> )
+                        })
+                    }
+                    <ul>{jobList}</ul>
                 </div>
             </div>
         );
