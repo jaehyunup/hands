@@ -40,7 +40,10 @@ zuul:
       path: /review/**
       url: http://i4d101.p.ssafy.io:8001/review
       sensitiveHeaders: Cookie,Set-Cookie
-
+    hands-keyword-service:
+      path: /keyword/**
+      url : http://i4d101.p.ssafy.io:8002/
+      sensitiveHeaders: Cookie,Set-Cookie
 # Eureka Client Settings
 eureka:
   client:
