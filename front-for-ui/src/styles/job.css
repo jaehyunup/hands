@@ -1,0 +1,42 @@
+.findjobroot{
+  font-family: "gmarket-700";
+}
+
+h1,h2,h3,h4,h5{
+  font-family: "gmarket-700";
+}
+h6,h7,p{
+  font-family: "gmarket-300";
+}
+.container{
+  margin:0;
+  padding:0;
+}
+
+label.btn:not(.btn-flat) { 
+    background-color: #fff;
+    font-weight:700;
+    border:1px solid #000;
+    font-family: "eland-300";
+
+  }
+label.btn-flat{ 
+    margin-left:3px;
+    margin-right:3px;
+    background-color: #f2f4f7;
+    border:none;
+    font-weight:300;
+    font-family: "eland-300";
+}
+.slick-prev:before, .slick-next:before{
+  color:#000 !important;
+}
+  input{
+    opacity: 0;
+    width:0;
+    height:0;
+  }
+
+  .mapRow{
+
+  }

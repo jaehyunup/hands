@@ -2,9 +2,9 @@ import React from 'react';
 
 import { Button,Navbar, Nav,NavDropdown } from 'react-bootstrap';
 import { Link } from "react-router-dom";
-import Signin from "./account/Signin"
-import style from "../styles/header.css"
-import "../styles/signin.css";
+import Signin from "../../account/Signin"
+import style from "../../../styles/header.css"
+import "../../../styles/signin.css";
 
 class Header extends React.Component {
   constructor(props) {
@@ -26,7 +26,7 @@ closeModal = () => {
   render() {
     return (
     <>
-    <Navbar collapseOnSelect className="py-3" expand="lg" fixed="top">
+    <Navbar collapseOnSelect className="py-3" expand="sm" fixed="top">
       <Navbar.Brand href="#home">HANDS</Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">

@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import { Home } from '../pages';
 import Login from '../components/account/Login'
-import Join from '../components/account/Join';
+import JobPage from '../pages/job/jobPage'
+import jQuery from "jquery";
+window.$ = window.jQuery = jQuery;
 
 
 class App extends Component {
@@ -14,8 +16,7 @@ class App extends Component {
       }}>
         <Route path="/home" component={Home}/>
         <Route path="/login" component={Login}/>
-        <Route path="/join" component={Join}/>
-
+        <Route path="/job" component={JobPage}/>
       </div>
     );
   }
