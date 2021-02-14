@@ -25,6 +25,7 @@ class Header extends React.Component {
       <div>
         <a href="/home">HAND</a>
         <Link to="/findjob">일거리찾기</Link>
+        <Link to="/createjob">일거리생성</Link>
         <Link to="/findhandy">핸디찾기</Link>
         {this.props.logintoken && <Link to="/profile">마이페이지</Link>}
         {this.props.logintoken && <Link onClick={this.onLogOut}>로그아웃</Link>} 
