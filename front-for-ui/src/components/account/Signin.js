@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import "../../styles/signin.css";
 
 class SignIn extends Component {
   state = {
@@ -30,17 +29,17 @@ class SignIn extends Component {
   }; 
 
   render() {
-    const { isOpen, close } = this.props;   //아까 버튼에서 props로 가져온것
+    const { modalIsOpen, close } = this.props;   //아까 버튼에서 props로 가져온것
     return (
       <>
-        { isOpen ? (  
-          <div className="modal">
-            <div onClick={close}>
+        { modalIsOpen ? (  
+          <div className="loginmodalroot">
+            <div>
               <div className="loginModal">
-                <span className="close" onClick={close}>
+                <span className="close" >
                   &times;
                 </span>
-                <div className="modalContents" onClick={isOpen}>
+                <div className="modalContents" >
                   <img
                     className="signinIcon"
                     src="/Images/SignIn/signinIcon.png"

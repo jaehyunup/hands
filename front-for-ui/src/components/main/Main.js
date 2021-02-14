@@ -5,15 +5,26 @@ import logo from '../../img/logo.png';
 import freeman from '../../img/freeman.png';
 import women from '../../img/women.png'
 import {Link} from "react-router-dom";
-
+import Signin from "../../account/SignIn"
+import "../../../styles/signin.css"
 
 class Main extends React.Component {
+    constructor(props) {
+    super(props);
+    this.state = {
+      modalFlag: false,
+        };
+    }
 
+    loginModalToggle = () => {
+        this.setState({ modalFlag: !this.state.modalFlag });
+    };
       
     render() {
         return (
             <div>
                 <Container fluid>
+                    <Signin modalIsOpen={this.state.modalFlag} close={this.closeModal} />
                     <Row className="hero">
                         <div className="diagonal-hero-bg">
                             <div className="stars">
