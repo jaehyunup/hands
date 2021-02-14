@@ -15,13 +15,6 @@ class FindJobList extends React.Component {
             sortKeyword : '',
             dday : '',
         };
-        this.handleSearch = this.handleSearch.bind(this);
-        this.handleKeyword = this.handleKeyword.bind(this);
-        this.handleCheckbox = this.handleCheckbox.bind(this);
-        this.handleDday = this.handleDday.bind(this);
-        this.handleSort = this.handleSort.bind(this);
-        this.handlemaxCredit = this.handlemaxCredit.bind(this);
-        this.handleminCredit = this.handleminCredit.bind(this);
     }
 
     loadList = async () => {
