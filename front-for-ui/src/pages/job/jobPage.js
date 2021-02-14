@@ -31,7 +31,7 @@ class jobPage extends React.Component {
     <>
       <Container fluid className = {"findjobroot"} > 
               <Row>
-              <FindJobHeader></FindJobHeader>
+              
               </Row>
               <Row>
                   <Col md={6} lg={6}>

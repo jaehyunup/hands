@@ -33,9 +33,9 @@ class FindJobContents extends React.Component {
     render() {
         return (
             <>
-             <Container fluid className={"px-5 py-3 vh-100"}>
+             <Container fluid className={"px-5 py-1 vh-100"}>
                  <Row dFlex alignItemsStart>
-                    <Col md={12} lg={12} className="px-0 mx-0 mt-3">
+                    <Col md={12} lg={12} className="px-0 mx-0 mt-0">
                         <h6>200개 이상의 일거리</h6>
                         <h4>구미시 진평동 근처 일거리</h4>
                     </Col>
@@ -74,21 +74,28 @@ class FindJobContents extends React.Component {
                         
                         </Row>
                         <Row>
-                            <Col md={12} lg={12} className={"mt-4 px-0 mx-0"} style={{maxHeight:"30rem",overflow:"scroll"}}>
-                                <div className={"row joblist"}>
+                            <Col md={12} lg={12} className={"mt-4 px-4"} style={{maxHeight:"30rem",overflow:"scroll"}}>
+                               
+                                <div className={"row d-flex joblist align-items-center"}>
                                     <div className={"col-md-2 col-sm-2"}>
-                                        <img width={"50"} height={"50"} alt={"jobImage"} src={"https://source.unsplash.com/random"}/>
+                                        <img width={"60"} height={"60"} alt={"jobImage"} src={"https://source.unsplash.com/random"}/>
                                     </div>
-                                    <div className={"col-md-5 col-sm-6"}>
+                                    <div className={"col-md-6 col-sm-6"}>
                                         <div className={"article"}>
                                             <div>
                                                 <div className={"articleheader"}>구미시 인동중앙로5길 28-15</div>
                                                 <div className={"articlesubheader"}>우리 고양이랑 놀아주실분</div>
+                                                <div className={"articleHashTagDiv"}>
+                                                    <p className={"btn btn-danger"}>#힘</p>
+                                                    <p className={"btn btn-danger"}>#강아지</p>
+                                                    <p className={"btn btn-danger"}>#고양이</p>
+                                                    <p className={"btn btn-danger"}>#심부름</p>
+                                                </div>
                                                 <div classNmae={"articlebody"}>3000원</div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className={"col-md-2 col-sm-5 mr-auto justify-content-right"}>
+                                    <div className={"col-md-1 col-sm-5 mr-auto justify-content-right"}>
                                         <Button variant="outline-primary" style={{height:"40%",fontSize:"0.2rem"}}>정보</Button>{' '}
                                         <Button variant="outline-info" className={"mt-2"} style={{height:"40%",fontSize:"0.2rem"}}>위치</Button>
 
@@ -110,6 +117,180 @@ class FindJobContents extends React.Component {
                                         </div>
                                     </div>
                                 </div>
+
+
+                                <div className={"row d-flex joblist align-items-center"}>
+                                    <div className={"col-md-2 col-sm-2"}>
+                                        <img width={"60"} height={"60"} alt={"jobImage"} src={"https://source.unsplash.com/random"}/>
+                                    </div>
+                                    <div className={"col-md-6 col-sm-6"}>
+                                        <div className={"article"}>
+                                            <div>
+                                                <div className={"articleheader"}>구미시 인동중앙로5길 28-15</div>
+                                                <div className={"articlesubheader"}>우리 고양이랑 놀아주실분</div>
+                                                <div className={"articleHashTagDiv"}>
+                                                    <p className={"btn btn-danger"}>#힘</p>
+                                                    <p className={"btn btn-danger"}>#강아지</p>
+                                                    <p className={"btn btn-danger"}>#고양이</p>
+                                                    <p className={"btn btn-danger"}>#심부름</p>
+                                                </div>
+                                                <div classNmae={"articlebody"}>3000원</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className={"col-md-1 col-sm-5 mr-auto justify-content-right"}>
+                                        <Button variant="outline-primary" style={{height:"40%",fontSize:"0.2rem"}}>정보</Button>{' '}
+                                        <Button variant="outline-info" className={"mt-2"} style={{height:"40%",fontSize:"0.2rem"}}>위치</Button>
+
+                                    </div>
+                                    <div className={"col-md-3 col-sm-7"}>
+                                        <div className={"articledata"}>
+                                                <div className={"job-date"}>
+                                                    <DateRangeIcon style={{fontSize: "1rem"}}></DateRangeIcon> 2021.02.25
+                                                </div>
+                                                <div className={"job-hour"}>
+                                                    <HourglassEmptyIcon style={{fontSize: "1rem"}}></HourglassEmptyIcon> 2시간 근무
+                                                </div>
+                                                <div className={"job-dday"}>
+                                                    <AvTimerIcon style={{fontSize: "1rem"}}></AvTimerIcon> 8일 남음
+                                                </div>
+                                                <div className={"job-user"}>
+                                                    <PersonIcon style={{fontSize: "1rem"}}></PersonIcon> 갓동민
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div className={"row d-flex joblist align-items-center"}>
+                                    <div className={"col-md-2 col-sm-2"}>
+                                        <img width={"60"} height={"60"} alt={"jobImage"} src={"https://source.unsplash.com/random"}/>
+                                    </div>
+                                    <div className={"col-md-6 col-sm-6"}>
+                                        <div className={"article"}>
+                                            <div>
+                                                <div className={"articleheader"}>구미시 인동중앙로5길 28-15</div>
+                                                <div className={"articlesubheader"}>우리 고양이랑 놀아주실분</div>
+                                                <div className={"articleHashTagDiv"}>
+                                                    <p className={"btn btn-danger"}>#힘</p>
+                                                    <p className={"btn btn-danger"}>#강아지</p>
+                                                    <p className={"btn btn-danger"}>#고양이</p>
+                                                    <p className={"btn btn-danger"}>#심부름</p>
+                                                </div>
+                                                <div classNmae={"articlebody"}>3000원</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className={"col-md-1 col-sm-5 mr-auto justify-content-right"}>
+                                        <Button variant="outline-primary" style={{height:"40%",fontSize:"0.2rem"}}>정보</Button>{' '}
+                                        <Button variant="outline-info" className={"mt-2"} style={{height:"40%",fontSize:"0.2rem"}}>위치</Button>
+
+                                    </div>
+                                    <div className={"col-md-3 col-sm-7"}>
+                                        <div className={"articledata"}>
+                                                <div className={"job-date"}>
+                                                    <DateRangeIcon style={{fontSize: "1rem"}}></DateRangeIcon> 2021.02.25
+                                                </div>
+                                                <div className={"job-hour"}>
+                                                    <HourglassEmptyIcon style={{fontSize: "1rem"}}></HourglassEmptyIcon> 2시간 근무
+                                                </div>
+                                                <div className={"job-dday"}>
+                                                    <AvTimerIcon style={{fontSize: "1rem"}}></AvTimerIcon> 8일 남음
+                                                </div>
+                                                <div className={"job-user"}>
+                                                    <PersonIcon style={{fontSize: "1rem"}}></PersonIcon> 갓동민
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div className={"row d-flex joblist align-items-center"}>
+                                    <div className={"col-md-2 col-sm-2"}>
+                                        <img width={"60"} height={"60"} alt={"jobImage"} src={"https://source.unsplash.com/random"}/>
+                                    </div>
+                                    <div className={"col-md-6 col-sm-6"}>
+                                        <div className={"article"}>
+                                            <div>
+                                                <div className={"articleheader"}>구미시 인동중앙로5길 28-15</div>
+                                                <div className={"articlesubheader"}>우리 고양이랑 놀아주실분</div>
+                                                <div className={"articleHashTagDiv"}>
+                                                    <p className={"btn btn-danger"}>#힘</p>
+                                                    <p className={"btn btn-danger"}>#강아지</p>
+                                                    <p className={"btn btn-danger"}>#고양이</p>
+                                                    <p className={"btn btn-danger"}>#심부름</p>
+                                                </div>
+                                                <div classNmae={"articlebody"}>3000원</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className={"col-md-1 col-sm-5 mr-auto justify-content-right"}>
+                                        <Button variant="outline-primary" style={{height:"40%",fontSize:"0.2rem"}}>정보</Button>{' '}
+                                        <Button variant="outline-info" className={"mt-2"} style={{height:"40%",fontSize:"0.2rem"}}>위치</Button>
+
+                                    </div>
+                                    <div className={"col-md-3 col-sm-7"}>
+                                        <div className={"articledata"}>
+                                                <div className={"job-date"}>
+                                                    <DateRangeIcon style={{fontSize: "1rem"}}></DateRangeIcon> 2021.02.25
+                                                </div>
+                                                <div className={"job-hour"}>
+                                                    <HourglassEmptyIcon style={{fontSize: "1rem"}}></HourglassEmptyIcon> 2시간 근무
+                                                </div>
+                                                <div className={"job-dday"}>
+                                                    <AvTimerIcon style={{fontSize: "1rem"}}></AvTimerIcon> 8일 남음
+                                                </div>
+                                                <div className={"job-user"}>
+                                                    <PersonIcon style={{fontSize: "1rem"}}></PersonIcon> 갓동민
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div className={"row d-flex joblist align-items-center"}>
+                                    <div className={"col-md-2 col-sm-2"}>
+                                        <img width={"60"} height={"60"} alt={"jobImage"} src={"https://source.unsplash.com/random"}/>
+                                    </div>
+                                    <div className={"col-md-6 col-sm-6"}>
+                                        <div className={"article"}>
+                                            <div>
+                                                <div className={"articleheader"}>구미시 인동중앙로5길 28-15</div>
+                                                <div className={"articlesubheader"}>우리 고양이랑 놀아주실분</div>
+                                                <div className={"articleHashTagDiv"}>
+                                                    <p className={"btn btn-danger"}>#힘</p>
+                                                    <p className={"btn btn-danger"}>#강아지</p>
+                                                    <p className={"btn btn-danger"}>#고양이</p>
+                                                    <p className={"btn btn-danger"}>#심부름</p>
+                                                </div>
+                                                <div classNmae={"articlebody"}>3000원</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className={"col-md-1 col-sm-5 mr-auto justify-content-right"}>
+                                        <Button variant="outline-primary" style={{height:"40%",fontSize:"0.2rem"}}>정보</Button>{' '}
+                                        <Button variant="outline-info" className={"mt-2"} style={{height:"40%",fontSize:"0.2rem"}}>위치</Button>
+
+                                    </div>
+                                    <div className={"col-md-3 col-sm-7"}>
+                                        <div className={"articledata"}>
+                                                <div className={"job-date"}>
+                                                    <DateRangeIcon style={{fontSize: "1rem"}}></DateRangeIcon> 2021.02.25
+                                                </div>
+                                                <div className={"job-hour"}>
+                                                    <HourglassEmptyIcon style={{fontSize: "1rem"}}></HourglassEmptyIcon> 2시간 근무
+                                                </div>
+                                                <div className={"job-dday"}>
+                                                    <AvTimerIcon style={{fontSize: "1rem"}}></AvTimerIcon> 8일 남음
+                                                </div>
+                                                <div className={"job-user"}>
+                                                    <PersonIcon style={{fontSize: "1rem"}}></PersonIcon> 갓동민
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
                                 
 
                             </Col>
