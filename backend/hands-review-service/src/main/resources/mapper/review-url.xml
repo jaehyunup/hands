@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.bangkoklab.data.repository.mapper.ReviewUrlMapper">
+	
+	<insert id="insertReviewUrl" parameterType="ReviewUrlVO">
+		INSERT INTO review_url (
+									url_id,
+									review_id,
+									url
+								) VALUES (
+									#{urlId},
+									#{reviewId},
+									#{url}
+								)
+	</insert>
+	
+	<select id="getUrlsByReviewId" parameterType="String" resultType="ReviewUrlVO">
+		SELECT url_id,
+			   review_id,
+			   url
+		FROM review_url
+		WHERE review_id = #{reviewId}
+	</select>
+	
+	<delete id="deleteUrl" parameterType="String">
+		DELETE FROM review_url
+		WHERE review_id = #{reviewId}
+	</delete>
+	
+</mapper>

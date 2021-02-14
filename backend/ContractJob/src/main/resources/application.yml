@@ -1,0 +1,24 @@
+server :
+  port : 8053
+
+  
+spring:
+  application:
+    name: HANDS-CONTRACT-SERVICE
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: false
+  profiles:
+    active: local
+  redis:  
+    host: i4d101.p.ssafy.io
+    port: 6379
+      
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://i4d101.p.ssafy.io:8761/eureka

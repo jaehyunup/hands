@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bangkoklab.findJobService.data.mapper.JobMapper">
+	<resultMap type="job" id="jobResult">
+		<result column="job_id" property="jobId"/>
+		<result column="job_user_uuid" property="jobUserUUid"/>
+		<result column="category_id" property="categoryId"/>
+		<result column="content" property="content"/>
+		<result column="job_regdate" property="jobRegdate"/>
+		<result column="working_hour" property="workingHour"/>
+		<result column="job_credit" property="jobCredit"/>
+		<result column="working_date" property="workingDate"/>
+		<result column="working_address" property="workingAddress"/>
+		<result column="status" property="status"/>
+		<result column="job_name" property="jobName"/>
+		<result column="userAddress" property="userAddress"/>
+		<result column="userEmail" property="userEmail"/>
+		<result column="userGender" property="userGender"/>
+		<result column="userName" property="userName"/>
+		<result column="userNickname" property="userNickname"/>
+		<result column="userPhone" property="userPhone"/>
+	</resultMap>
+	
+	<insert id="insertJob" parameterType="job">
+		INSERT into job(
+			job_id,
+			job_user_uuid,
+			category_id,
+			content,
+			job_regdate,
+			working_hour,
+			job_credit,
+			working_date,
+			working_address,
+			status,
+			job_name,
+			userAddress,
+			userEmail,
+			userGender,
+			userName,
+			userNickname,
+			userPhone
+		)values(
+			#{jobId},
+			#{jobUserUUid},
+			#{categoryId},
+			#{content},
+			#{jobRegdate},
+			#{workingHour},
+			#{jobCredit},
+			#{workingDate},
+			#{workingAddress},
+			#{status},
+			#{jobName},
+			#{userAddress},
+			#{userEmail},
+			#{userGender},
+			#{userName},
+			#{userNickname},
+			#{userPhone}
+		)
+	</insert>
+	
+	<delete id="deleteJob">
+		delete 
+		from job
+		where job_id = #{jobId}
+	</delete>
+	
+	<delete id="deletOverDayJob">
+		delete 
+		from job
+		where 0  &gt; DATEDIFF(working_date, CURDATE());
+	</delete>
+	
+	<update id="updateJob">
+		UPDATE 
+			job 
+		SET
+			job_user_uuid = #{jobUserUUid},
+			category_id = #{categoryId},
+			content = #{content},
+			job_regdate = #{jobRegdate},
+			working_hour = #{workingHour},
+			job_credit = #{jobCredit},
+			working_date = #{workingDate},
+			working_address = #{workingAddress},
+			status = #{status}
+		WHERE
+			job_id = #{jobId}
+	</update>
+	
+	<select id="findProfile" parameterType="String" resultType="Profile">
+		select 
+			address,email,gender,name,nickname,phone
+		from
+			user_profile 
+		where 
+			profile_id = (select profile_id from authentication where user_uuid =#{uuid})
+	</select>
+	
+</mapper>

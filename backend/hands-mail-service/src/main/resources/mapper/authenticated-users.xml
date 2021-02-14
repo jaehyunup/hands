@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.bangkoklab.data.repository.mapper.AuthCheckMapper">
+
+	<select id="isCheckedByEncryptedEmail" resultType="String" parameterType="String">
+		SELECT is_authenticated
+		FROM auth_users
+		WHERE encrypted_email= #{encrypted_email}
+	</select>
+
+	<insert id="insertAuthenticatedUsersByEncryptedEmail" parameterType="String">
+		INSERT INTO auth_users(
+											encrypted_email
+										) VALUES (
+											#{encrypted_email}
+										)
+	</insert>
+	
+	<update id="updateNotCheckedByEncryptedEmail" parameterType="String">
+		UPDATE auth_users
+		SET is_authenticated = "false"
+		WHERE encrypted_email = #{encrypted_email}
+	</update>
+	
+	<update id="updateCheckedByEncryptedEmail" parameterType="String">
+		UPDATE auth_users
+		SET is_authenticated = "true"
+		WHERE encrypted_email = #{encrypted_email}
+	</update>
+	
+	<delete id="deleteByEncryptedEmail" parameterType="String">
+		DELETE FROM auth_users
+		WHERE encrypted_email = #{encrypted_email}
+	</delete>
+	
+	<delete id="deleteAll">
+		DELETE FROM auth_users
+	</delete>
+</mapper>

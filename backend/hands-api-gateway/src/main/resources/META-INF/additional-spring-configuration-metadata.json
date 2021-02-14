@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "hands.security.jwt.secret",
+      "type": "java.lang.String",
+      "description": "Description for hands.security.jwt.secret."
+  }
+] }

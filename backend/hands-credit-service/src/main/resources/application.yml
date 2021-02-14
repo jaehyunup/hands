@@ -1,0 +1,35 @@
+# server settings (servlet,context-path configuration.. )
+server :
+  port : 8082
+  servlet:
+    context-path:
+
+# Spring boot application config(DataSource, jpa...)
+spring:
+  datasource:
+    url: jdbc:mariadb://i4d101.p.ssafy.io:3306/hands
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: hands
+    password: goswmelql
+  jpa:
+    open-in-view: false
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  application:
+    name: hands-credit-service
+
+
+
+# eureka client settings
+eureka:
+  instance:
+    instance-id: credit-service-instance
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone : http://i4d101.p.ssafy.io:8761/eureka
+
+
