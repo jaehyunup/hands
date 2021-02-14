@@ -5,6 +5,7 @@ class FindJob extends React.Component {
     return (
       <div>
         <div>FindJob</div>
+        
       </div>
     )
   }

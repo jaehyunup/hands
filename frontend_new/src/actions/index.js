@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import {USERLOGIN, USERLOGOUT, UPDATEPROFILE, CHECKPROFILE, TOGGLEHANDY,CHANGEPASSWORD } from './actionType'
+import {USERLOGIN, USERLOGOUT, UPDATEPROFILE, CHECKPROFILE, TOGGLEHANDY,CHANGEPASSWORD, FINDFOLLOW } from './actionType'
 import {TOGLELOGIN} from './actionType'
 
 //로그인
@@ -67,6 +67,21 @@ export async function changepassword(newPassword, logintoken) {
   return { type:CHANGEPASSWORD,}
 }
 
+
+//팔로우조회
+export async function findfollow(findfollowInfo, logintoken) {
+  console.log(findfollowInfo)
+  console.log(logintoken)
+  const _data = axios.post("http://i4d101.p.ssafy.io:8080/social/findFollow",JSON.stringify(findfollowInfo),{headers:{
+    'Content-Type': 'application/json',
+    'X-AUTH-TOKEN': logintoken
+  }})
+  .then(res => res.data)
+  .catch(err => {
+    console.log(err)
+  })
+  return { type : FINDFOLLOW, payload : _data}
+}
 //안씀
 export function toglelogin () {
   return {

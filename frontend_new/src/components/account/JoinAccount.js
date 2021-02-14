@@ -84,6 +84,7 @@ class JoinAccount extends React.Component {
         })
       })
       .catch(err=>{
+        alert("이미 존재하는 이메일 입니다.")
         console.error(err)
         console.log("이미 존재하는 이메일 입니다.")
       })
@@ -259,33 +260,33 @@ class JoinAccount extends React.Component {
         <div>JoinAccount</div>
         <form onSubmit={this.onSubmitHandler}>
           <label for="name">* 이름</label>
-          <input id="name" placeholder="이름" type="text" value={this.state.name} onChange={this.onNameHandler}></input>
+          <input id="name" placeholder="이름" type="text" value={this.state.name} onChange={this.onNameHandler}></input><br/>
 
           <label for="nickname">* 닉네임</label>
           <input id="nickname" placeholder="닉네임" type="text" value={this.state.nickname} onChange={this.onNicknameHandler}></input>
-          <button onClick={this.checkNickname}>닉네임 확인</button>
+          <button onClick={this.checkNickname}>닉네임 확인</button><br/>
 
           <label for="email">* 이메일</label>
-          <input id="email" placeholder="이메일" type="email" value={this.state.email} onChange={this.onEmailHandler}></input>
-          <button onClick={this.checkEmail}>이메일 확인</button>
+          <input id="email" placeholder="이메일(이메일이 로그인할때 아이디로 사용됩니다.)" type="email" value={this.state.email} onChange={this.onEmailHandler}></input>
+          <button onClick={this.checkEmail}>이메일 확인</button><br/>
 
           <label for="password">* 비밀번호</label>
-          <input id="password" placeholder="비밀번호" type="password" value={this.state.password} onChange={this.onPasswordHandler}></input>
+          <input id="password" placeholder="비밀번호" type="password" value={this.state.password} onChange={this.onPasswordHandler}></input><br/>
 
           <label for="confirmpassword">* 비밀번호확인</label>
-          <input id="confirmpassword" placeholder="비밀번호확인" type="password" value={this.state.confirmPassword} onChange={this.onConfirmPasswordHandler}></input>
+          <input id="confirmpassword" placeholder="비밀번호확인" type="password" value={this.state.confirmPassword} onChange={this.onConfirmPasswordHandler}></input><br/>
 
           <label for="phone">* 휴대전화번호</label>
-          <input if="phone" placeholder="-뺴고 입력해주세요" type="text" value={this.state.phone} onChange={this.onPhoneHandler}></input>
+          <input if="phone" placeholder="-뺴고 입력해주세요" type="text" value={this.state.phone} onChange={this.onPhoneHandler}></input><br/>
 
           <label for="address">주소</label>
-          <input if="address" placeholder="주소" type="text" value={this.state.address} onChange={this.onAddressHandler}></input>
+          <input if="address" placeholder="주소" type="text" value={this.state.address} onChange={this.onAddressHandler}></input><br/>
 
           <label for="gender">성별</label>
-          <input id="gender" placeholder="성별" type="text" value={this.state.gender} onChange={this.onGenderHandler}></input>
+          <input id="gender" placeholder="성별" type="text" value={this.state.gender} onChange={this.onGenderHandler}></input><br/>
 
           <label for="description">자기소개</label>
-          <textarea id="description" value={this.state.description} onChange={this.onDescriptionHandler}></textarea>
+          <textarea id="description" value={this.state.description} onChange={this.onDescriptionHandler}></textarea><br/> 
 
           <p>*표시는 필수입력 정보입니다.</p>
           <button type="submit">회원가입</button>

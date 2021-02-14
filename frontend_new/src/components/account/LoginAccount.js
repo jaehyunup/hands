@@ -36,8 +36,8 @@ class LoginAccount extends React.Component {
       // 로그인할떄 인증된 사용자인지 확인하는 axios
       // axios.get(`http://i4d101.p.ssafy.io:8080/mail/confirmation?email=${this.state.email}`)
       // .then(res => {
+      //   console.log(res)
       //   const status = res.data
-      //   console.log(status)
       //   if (status) {
       //     console.log('로그인성공')
       //     alert("로그인되었습니다.")
@@ -52,7 +52,6 @@ class LoginAccount extends React.Component {
       // .catch(err=> {
       //   console.log(err)
       //   window.location.href ='/login'
-
       // })
       this.props.history.push('/home')
       alert("로그인되었습니다.")
@@ -89,12 +88,12 @@ class LoginAccount extends React.Component {
         <div>LoginAccount</div>
         <form onSubmit={this.onSubmitHandler}>
           <label for="email">이메일</label>
-          <input id="email" placeholder="이메일 주소" type="email" value={this.state.email} onChange={this.onEmailHandler} ></input>
+          <input id="email" placeholder="이메일 주소" type="email" value={this.state.email} onChange={this.onEmailHandler} ></input><br/>
 
           <label for="password">비밀번호</label>
-          <input id="password" placeholder="비밀번호" type="password" value={this.state.password} onChange={this.onPasswordHandler}></input>
-          <Link to="/login/findaccount">이메일/비밀번호 찾기</Link>
-          <button>로그인</button>
+          <input id="password" placeholder="비밀번호" type="password" value={this.state.password} onChange={this.onPasswordHandler}></input><br/>
+          <Link to="/login/findaccount">이메일/비밀번호 찾기</Link><br/>
+          <button>로그인</button><br/>
           <Link to="/join">회원가입</Link>
         </form>
       </div>

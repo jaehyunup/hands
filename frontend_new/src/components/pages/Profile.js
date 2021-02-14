@@ -5,7 +5,7 @@ import { withRouter } from 'react-router';
 import { Route } from 'react-router-dom';
 import AccountProfile from '../Profile/AccountProfile'
 import UpdateProfile from '../Profile/UpdateProfile'
-import { checkprofile } from '../../actions';
+import { checkprofile, findfollow} from '../../actions';
 import ChangePassword from '../Profile/ChangePassword'
 
 class Profile extends React.Component {
@@ -22,6 +22,7 @@ class Profile extends React.Component {
       this.props.history.push('/login')
       return
     }
+
   }
   
   render() {
@@ -36,22 +37,43 @@ class Profile extends React.Component {
   }
 }
 
+
+
 const mapStateToProps = (state) => {
+  // console.log(state)
+  if (state.logined) {
+    return {
+      logintoken: state.token,
+      profileId : state.logined.profileId,
+      email:state.logined.email,
+      userUuid:state.logined.userUuid,
+      name:state.logined.name,
+      phone:state.logined.phone,
+      address:state.logined.address,
+      gender:state.logined.gender,
+      description:state.logined.description,
+      nickname:state.logined.nickname,
+      type:state.logined.type,
+      follows:state.follows
+    }
+  }else{
+    return{
+
+    }
+  }
+}
+
+const mapDispatchToProps  = (dispatch) => {
   return {
-    logintoken: state.token,
-}}
+    findfollow: (followinfo,token) => {dispatch(findfollow(followinfo,token))
+    },
+    checkprofile:(token_info) => {dispatch(checkprofile(token_info))
+    } 
+  }
+}
 
-// const mapDispatchToProps  = (dispatch) => {
-//   return {
-//     checkprofile:(token_info) => {dispatch(checkprofile(token_info))
-//     } 
-//   }
-// }
 
-// Profile = connect(mapStateToProps, mapDispatchToProps) (Profile);
 
-// export default withRouter(Profile)
-
-Profile = connect(mapStateToProps) (Profile);
+Profile = connect(mapStateToProps,mapDispatchToProps) (Profile);
 
 export default Profile
