@@ -1,9 +1,13 @@
 import React from 'react';
-import {Image,Container,Row,Col,Form} from 'react-bootstrap';
+import {Button,Image,Container,Row,Col,Form} from 'react-bootstrap';
 import {TextField,InputLabel,MenuItem,Select,FormControl,Fab} from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import jobImage from '../../img/logo.png';
-
+import PersonIcon from '@material-ui/icons/Person';
+import AvTimerIcon from '@material-ui/icons/AvTimer';
+import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
+import DateRangeIcon from '@material-ui/icons/DateRange';
+import InfoIcon from '@material-ui/icons/Info';
 class FindJobContents extends React.Component {
     constructor(props) {
         super(props);
@@ -71,21 +75,42 @@ class FindJobContents extends React.Component {
                         </Row>
                         <Row>
                             <Col md={12} lg={12} className={"mt-4 px-0 mx-0"} style={{maxHeight:"30rem",overflow:"scroll"}}>
-                                <div className={"joblist"}>
-                                    <img alt={"jobImage"} src={"https://source.unsplash.com/random"}/>
-                                    <div className={"article"}>
-                                        <div>
-                                            <div className={"articleheader"}>저희집 고양이랑 놀아줄사람을 구해요</div>
-                                            <div className={"articlesubheader"}>3000원</div>
-                                            <div className={"articlewriter"}>
-                                                <img alt="유저프로필" src={"https://ui-avatars.com/api/?name=H&background=random"}/>
-                                                <div className={"articlewritercontents"}>
-                                                    <p>킹동민</p>
-                                                </div>
+                                <div className={"row joblist"}>
+                                    <div className={"col-md-2 col-sm-2"}>
+                                        <img width={"50"} height={"50"} alt={"jobImage"} src={"https://source.unsplash.com/random"}/>
+                                    </div>
+                                    <div className={"col-md-5 col-sm-6"}>
+                                        <div className={"article"}>
+                                            <div>
+                                                <div className={"articleheader"}>구미시 인동중앙로5길 28-15</div>
+                                                <div className={"articlesubheader"}>우리 고양이랑 놀아주실분</div>
+                                                <div classNmae={"articlebody"}>3000원</div>
                                             </div>
                                         </div>
                                     </div>
+                                    <div className={"col-md-2 col-sm-5 mr-auto justify-content-right"}>
+                                        <Button variant="outline-primary" style={{height:"40%",fontSize:"0.2rem"}}>정보</Button>{' '}
+                                        <Button variant="outline-info" className={"mt-2"} style={{height:"40%",fontSize:"0.2rem"}}>위치</Button>
+
+                                    </div>
+                                    <div className={"col-md-3 col-sm-7"}>
+                                        <div className={"articledata"}>
+                                                <div className={"job-date"}>
+                                                    <DateRangeIcon style={{fontSize: "1rem"}}></DateRangeIcon> 2021.02.25
+                                                </div>
+                                                <div className={"job-hour"}>
+                                                    <HourglassEmptyIcon style={{fontSize: "1rem"}}></HourglassEmptyIcon> 2시간 근무
+                                                </div>
+                                                <div className={"job-dday"}>
+                                                    <AvTimerIcon style={{fontSize: "1rem"}}></AvTimerIcon> 8일 남음
+                                                </div>
+                                                <div className={"job-user"}>
+                                                    <PersonIcon style={{fontSize: "1rem"}}></PersonIcon> 갓동민
+                                                </div>
+                                        </div>
+                                    </div>
                                 </div>
+                                
 
                             </Col>
                         </Row>

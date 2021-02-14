@@ -4,43 +4,50 @@
 
 .joblist{
   border:1px solid #f2f4f7;
-  border-radius: 10px;
   padding:1rem;
-  box-shadow: 20px 10px #000;
-  
+  padding-top:0.4rem;
+  padding-bottom:0.4rem;
+  margin:4px;
+  box-shadow: 1px 1px gray;
 }
-.joblist > img{
-  float: left;
-  height:3rem;
-  width: 3rem;
-  object-fit:cover;
-  margin-right:2rem;
 
-}
 .jobList > .article{
   float:right;
 }
 .articleheader{
-  font-size:1.0rem;
+  font-size:0.6rem;
+  font-family: 'gmarket-500';
+  color:#777;
 }
 .articlewriter{
-  position:absolute;
-  bottom:0.5rem;
-  right:0.5rem;
+  position:relative;
+  float:right;
+  bottom:1.4rem;
+  right:0.4rem;
 }
-.articlewriter > img{
-  float:left;
-  width:1.5rem;
-  height:1.5rem;
-  border-radius: 20px;
+.articledata{
+  position:relative;
+  font-size:0.3rem;
+  font-family: 'eland-500';
+  color:#333;
+  float:right;
+  top:0;
+  right:0;
 }
+
+
 .articlewritercontents{
   float:right;
-  margin-left:0.3rem;
+  margin-top:0.1rem;
+}
+.articlebody{
+  font-family: 'gmarket-500';
+  font-size:0.7rem;
 }
 
 .articlewritercontents > p{
-  font-size:0.9rem;
+  font-size:0.8rem;
+  font-family: 'eland-500';
   margin-top:1px;
   margin-bottom: 1px;
 }
