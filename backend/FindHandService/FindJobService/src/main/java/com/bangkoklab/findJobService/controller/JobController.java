@@ -101,6 +101,9 @@ public class JobController {
 			job.setUserName(profile.getName());
 			job.setUserNickname(profile.getNickname());
 			job.setUserPhone(profile.getPhone());
+			Date time = new Date();
+			
+			job.setJobRegdate(time);
 			service.insertJob(job);
 			resultMap.put("message", "success");
 			status = HttpStatus.OK;

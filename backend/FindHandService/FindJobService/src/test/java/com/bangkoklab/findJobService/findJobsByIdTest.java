@@ -24,7 +24,7 @@ public class findJobsByIdTest extends ControllerTest{
 
 		mockMvc.perform(
 				get("/Jobs/jobInfo")
-				.param("jobId","f007a349-909a-4884-9eb1-992835998fe5")
+				.param("jobId","50d9154d-39f0-4a25-acce-a67539602a65")
 				).andDo(print())
 				.andExpect(status().isOk());
 		// assertTrue("H".equals(handController.HandDeals()));
