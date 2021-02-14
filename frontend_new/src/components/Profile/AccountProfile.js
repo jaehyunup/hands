@@ -1,22 +1,88 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios'
-import { checkprofile } from '../../actions'
+import { checkprofile, findfollow } from '../../actions'
+import { compose } from 'redux';
 
 class AccountProfile extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      follow: [],
+      follows: [],
       keyword:'',
       holdingcredit:0,
       addcredit:'',
-      keywords:[]
+      keywords:[],
+      email: this.props.email
     }
     // profile정보 바로 조회
     this.props.checkprofile(this.props.logintoken)
     
+    setTimeout(() => {
+      const findfollowinfo = {
+        myId:this.props.email
+      }
+      const logintoken = this.props.logintoken
+      this.props.findfollow(findfollowinfo, logintoken)
+      this.setState({
+        follows:this.props.follows
+      })
+    }, 500);
+
+    // follows 조회
+    // const findfollowInfo = {
+    //   myId: this.props.email
+    // }
+
+    // this.props.findfollow({myId: this.props.email}, this.props.logintoken)
+    // this.setState({
+    //   email:this.props.email
+    // })
+    
+    // axios.post("http://i4d101.p.ssafy.io:8080/social/findFollow",JSON.stringify({
+    //   myId: this.props.email
+    // }),{headers:{
+    //   'Content-Type': 'application/json',
+    //   'X-AUTH-TOKEN': this.props.logintoken
+    // }})
+    // .then(res => {
+    //   console.log("팔로우:",res.data)
+    //   this.setState({
+    //     follows: res.data
+    //   })
+    // })
+    // .catch(err => {
+    //   console.log(err)
+    // })
+
+    //follow 추가
+    // const addfollowInfo = {
+    //   myid: this.props.email,
+    //   followId:'',
+    // }
+    // axios.post("http://i4d101.p.ssafy.io:8052/follow",JSON.stringify(addfollowInfo),{headers:{
+    //   'Content-Type': 'application/json',
+    //   'X-AUTH-TOKEN': this.props.logintoken
+    // }})
+    // .then(res => {
+      
+    // })
+    //follow 취소
+    // const deletefollowInfo = {
+    //   myid: this.props.email,
+    //   followId:'',
+    // }
+    // axios.post("http://i4d101.p.ssafy.io:8052/deleteFollowById",JSON.stringify(deletefollowInfo),{headers:{
+    //   'Content-Type': 'application/json',
+    //   'X-AUTH-TOKEN': this.props.logintoken
+    // }})
+    // .then(res => {
+      
+    // })
+    //
+
+
     //credit조회 axios
     axios.get(`http://i4d101.p.ssafy.io:8080/credit/${this.props.userUuid}`, {headers:{
       'Content-Type': 'application/json',
@@ -30,7 +96,7 @@ class AccountProfile extends React.Component {
     })
 
     //키워드 조회 axios
-    axios.get(`http://i4d101.p.ssafy.io:8080/hands-keyword-server/user/keywords?`,{params: {
+    axios.get(`http://i4d101.p.ssafy.io:8080/keyword/user/keywords?`,{params: {
       userUuid: this.props.userUuid
     }},{headers:{
       'Content-Type': 'application/json',
@@ -43,8 +109,55 @@ class AccountProfile extends React.Component {
     .catch(err => {
       console.log(err)
     })
+
+    // follows 조회
+    // const findfollowInfo = {
+    //   myId: this.state.email
+    // }
+    
+    // axios.post("http://i4d101.p.ssafy.io:8080/social/findFollow",JSON.stringify(findfollowInfo),{headers:{
+    //   'Content-Type': 'application/json',
+    //   'X-AUTH-TOKEN': this.props.logintoken
+    // }})
+    // .then(res => {
+    //   console.log("팔로우:",res.data)
+    //   this.setState({
+    //     follows: res.data
+    //   })
+    // })
+    // .catch(err => {
+    //   console.log(err)
+    // })
   }
-  
+
+  // async _findfollow (findfollowinfo) {
+
+  //   await this.props.findfollow(findfollowinfo, this.props.logintoken)
+  // }
+  //팔로우추가
+  // addfollow = e => {
+  //   e.preventDefault();
+
+  //   const addfollwInfo = {
+  //     myId:'asdsd9852@naver.com',
+  //     followId:'ssafy4@ssafy.com'
+  //   }
+  //   console.log(addfollwInfo)
+  //   console.log(this.props.logintoken)
+
+  //   axios.post('http://i4d101.p.ssafy.io:8080/social/follow', JSON.stringify(addfollwInfo), {headers:{
+  //     'Content-Type': 'application/json',
+  //     'X-AUTH-TOKEN': this.props.logintoken
+  //   }})
+  //   .then(res => {
+  //     console.log(res)
+  //   })
+  //   .catch(err => {
+  //     console.log(err)
+  //   })
+  // }
+
+
   //변수제어 함수
   onKeywordHandler = e => {this.setState({keyword:e.target.value})}
   onAddCreditHandler = e => {this.setState({addcredit: e.target.value})}
@@ -66,7 +179,7 @@ class AccountProfile extends React.Component {
     }})
     .then(res => {
       alert("회원탈퇴가 완료되었습니다.")
-      this.props.history.push('/home')
+      window.location.href = '/home';
     })
     .catch(err => {
       console.log(err)
@@ -153,7 +266,7 @@ class AccountProfile extends React.Component {
     }
 
     //키워드삭제 axios
-    axios.delete("http://i4d101.p.ssafy.io:8080/hands-keyword-server/user/keywords",
+    axios.delete("http://i4d101.p.ssafy.io:8080/keyword/user/keywords",
      {headers:{
       'Content-Type': 'application/json'
     },
@@ -162,7 +275,7 @@ class AccountProfile extends React.Component {
   })
     .then(res => {
       //키워드 조회(갱신) axios
-      axios.get(`http://i4d101.p.ssafy.io:8080/hands-keyword-server/user/keywords?`,{params: {
+      axios.get(`http://i4d101.p.ssafy.io:8080/keyword/user/keywords?`,{params: {
       userUuid: this.props.userUuid
       }},{headers:{
         'Content-Type': 'application/json',
@@ -196,12 +309,12 @@ class AccountProfile extends React.Component {
     }
 
     //키워드 추가 axios
-    axios.post("http://i4d101.p.ssafy.io:8080/hands-keyword-server/user/keywords", JSON.stringify(inputInfo),{headers:{
+    axios.post("http://i4d101.p.ssafy.io:8080/keyword/user/keywords", JSON.stringify(inputInfo),{headers:{
       'Content-Type': 'application/json'
     }})
     .then(res => {
       //키워드 조회(갱신) axios
-      axios.get(`http://i4d101.p.ssafy.io:8080/hands-keyword-server/user/keywords?`,{params: {
+      axios.get(`http://i4d101.p.ssafy.io:8080/keyword/user/keywords?`,{params: {
         userUuid: this.props.userUuid
       }},{headers:{
         'Content-Type': 'application/json',
@@ -222,11 +335,33 @@ class AccountProfile extends React.Component {
 
   // enter키로 키워드 추가
   handleKeyPress = e => {
-    console.log(e.key)
     if (e.key === 'Enter') {
       this.onAddKeyword(e)
     }
   }
+
+  // 팔로우조회
+  // findFollow() {
+  //   const findfollowInfo = {
+  //     myId: this.props.email
+  //   }
+  //   console.log(this.props.profileId)
+  //   axios.post("http://i4d101.p.ssafy.io:8080/social/findFollow",JSON.stringify(JSON.stringify(findfollowInfo)),{headers:{
+  //     'Content-Type': 'application/json',
+  //     'X-AUTH-TOKEN': this.props.logintoken
+  //   }})
+  //   .then(res => {
+  //     console.log("팔로우:",res.data)
+  //     this.setState({
+  //       follows: res.data
+  //     })
+  //   })
+  //   .catch(err => {
+  //     console.log(err)
+  //   })
+
+  // }
+
 
   render() {
     if (!this.props.logintoken) {
@@ -236,6 +371,14 @@ class AccountProfile extends React.Component {
     return (
       <div>
         <div>{this.props.name}님의 Profile</div>
+        <div>
+          
+          <label>팔로우 : </label>
+          {this.props.follows && 
+          <span>{this.props.follows.length}</span>}
+          <text></text>
+
+        </div>
         <div>
           <label for="name">이름  </label>
           <text if="name">{this.props.name}</text><br/>
@@ -264,7 +407,7 @@ class AccountProfile extends React.Component {
           <text>{this.keywordList()}</text><br/>
           <label id="addkeywords">키워드 추가</label>
           <input id="addkeywords" value={this.state.keyword} onChange={this.onKeywordHandler} onKeyPress={this.handleKeyPress}></input>
-          <button>추가</button>
+          <button onClick={this.onAddKeyword}>추가</button>
 
         </div>
         <button onClick={this.onUpdateProfile}>프로필 수정하기</button><br/>
@@ -281,8 +424,8 @@ const mapStateToProps = (state) => {
     return {
       logintoken: state.token,
       profileId : state.logined.profileId,
-      userUuid:state.logined.userUuid,
       email:state.logined.email,
+      userUuid:state.logined.userUuid,
       name:state.logined.name,
       phone:state.logined.phone,
       address:state.logined.address,
@@ -290,6 +433,7 @@ const mapStateToProps = (state) => {
       description:state.logined.description,
       nickname:state.logined.nickname,
       type:state.logined.type,
+      follows:state.follows
     }
   }else{
     return{
@@ -300,6 +444,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps  = (dispatch) => {
   return {
+    findfollow: (followinfo,token) => {dispatch(findfollow(followinfo,token))
+    },
     checkprofile:(token_info) => {dispatch(checkprofile(token_info))
     } 
   }

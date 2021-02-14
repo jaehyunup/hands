@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { logout } from '../../actions'
+import { compose } from 'redux';
 
 class ChangePassword extends React.Component {
   constructor(props) {
@@ -51,6 +52,9 @@ class ChangePassword extends React.Component {
           .then(res => {
             alert("비밀번호가 변경되었습니다. 다시 로그인 해주세요")
             this.onLogOut()
+          })
+          .catch(err => {
+            console.log(err)
           })
         }else {
           alert("변경할 비밀번호가 일치하지 않습니다.")

@@ -13,3 +13,5 @@ export const CHANGEPASSWORD = 'CHANGE_PASSWORD'
 
 //안씀
 export const TOGLELOGIN = 'TOGLE_LOGIN'
+//팔로우 조회
+export const FINDFOLLOW = 'FIND_FOLLOW'
