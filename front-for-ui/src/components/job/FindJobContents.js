@@ -2,12 +2,10 @@ import React from 'react';
 import {Button,Image,Container,Row,Col,Form} from 'react-bootstrap';
 import {OutlinedInput,FilledInput,TextField,InputLabel,MenuItem,Select,FormControl,Fab} from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import jobImage from '../../img/logo.png';
 import PersonIcon from '@material-ui/icons/Person';
 import AvTimerIcon from '@material-ui/icons/AvTimer';
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
 import DateRangeIcon from '@material-ui/icons/DateRange';
-import InfoIcon from '@material-ui/icons/Info';
 
 class FindJobContents extends React.Component {
     constructor(props) {
@@ -18,6 +16,7 @@ class FindJobContents extends React.Component {
           date:"전체",
           minCredit:0,
           maxCredit:0,
+          hashTag:""
         };
     }
     CategoryChange = (e) => {
@@ -30,6 +29,11 @@ class FindJobContents extends React.Component {
 
         this.setState({
             date:e.target.value
+        });
+    }
+    hashtagChange = (e) => {
+        this.setState({
+            hashTag:e.target.value
         });
     }
     minCreditChange = (e)=>{
@@ -53,6 +57,18 @@ class FindJobContents extends React.Component {
                         <h4>구미시 진평동 근처 일거리</h4>
                     </Col>
                     <Col md={12} lg={12} className="pt-4">
+                        <Row>
+                            <FormControl size="small" margin='dense' variant="outlined" className="mx-2">
+                                <InputLabel shrink htmlFor="mincredit-placeholder">최소크레딧</InputLabel>
+                                <OutlinedInput labelId="mincredit-placeholder" label="최소크레딧" id="input-mincredit" value={this.state.minCredit} onChange={this.minCreditChange}/>
+                            </FormControl>
+                            <FormControl size="small" margin='dense' variant="outlined" className="mx-2">
+                                <InputLabel shrink htmlFor="mincredit-placeholder">최대크레딧</InputLabel>
+                                <OutlinedInput labelId="mincredit-placeholder" label="최대크레딧" id="input-maxcredit" value={this.state.maxCredit} onChange={this.maxCreditChange}/>
+                            </FormControl>
+                        
+                            
+                        </Row>
                         <Row>  
                             <FormControl size="small" margin='dense' variant="outlined" className="mx-2">
                                 <InputLabel shrink htmlFor="category-placeholder">카테고리</InputLabel>
@@ -82,19 +98,18 @@ class FindJobContents extends React.Component {
                                     <MenuItem value="15">15일이내</MenuItem>
                                 </Select>
                             </FormControl>
+                            <FormControl size="small" margin='dense' variant="outlined" className="mx-2">
+                                <Fab size="small" color="secondary">
+                                    <SearchIcon size={"extended"}></SearchIcon>
+                                </Fab>
+                            </FormControl>
+                            <FormControl size="small" margin='dense' variant="outlined" className="mx-2">
+                                <InputLabel shrink htmlFor="hashtag-placeholder">해시태그</InputLabel>
+                                <OutlinedInput labelId="hashtag-placeholder" id="input-hashtag-outlined" value={this.state.hashtag} onChange={this.hashtagChange}/>
+                            </FormControl>
                         </Row>
 
-                        <Row>
-                            <FormControl size="small" margin='dense' variant="outlined" className="mx-2">
-                                <InputLabel shrink htmlFor="mincredit-placeholder">최소크레딧</InputLabel>
-                                <OutlinedInput labelId="mincredit-placeholder" label="최소" id="input-mincredit" value={this.state.minCredit} onChange={this.minCreditChange}/>
-                            </FormControl>
-                            <FormControl size="small" margin='dense' variant="outlined" className="mx-2">
-                                <InputLabel shrink htmlFor="mincredit-placeholder">최대크레딧</InputLabel>
-                                <OutlinedInput labelId="mincredit-placeholder" label="최대" id="input-maxcredit" value={this.state.maxCredit} onChange={this.maxCreditChange}/>
-                            </FormControl>
-                            
-                        </Row>
+                       
 
                         <Row>
                             <Col md={12} lg={12} className={"mt-4 px-4"} style={{maxHeight:"30rem",overflow:"scroll"}}>

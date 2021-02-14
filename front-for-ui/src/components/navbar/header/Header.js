@@ -1,11 +1,8 @@
 import React from 'react';
-
 import { Button,Navbar, Nav,NavDropdown } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import Signin from "../../account/Signin"
-import style from "../../../styles/header.css"
-import "../../../styles/signin.css";
-
+import "../../../styles/header.css"
 class Header extends React.Component {
   constructor(props) {
     super(props);
@@ -14,14 +11,14 @@ class Header extends React.Component {
     };
   }
 
-openModal = () => {
-    console.log(this.state.modalFlag)
+  openModal = () => {
+    console.log('던져짐')
     this.setState({ modalFlag: true });
   };
 
-closeModal = () => {
+  closeModal = () => {
     this.setState({ modalFlag: false });
-};
+  };
 
   render() {
     return (
@@ -34,12 +31,12 @@ closeModal = () => {
           <Nav.Link>
               <Link to="/home/findjob"/>일거리찾기
           </Nav.Link>
-          <Nav.Link><
-            Link to=""/>우리동네 핸디찾기
+          <Nav.Link>
+            <Link to=""/>우리동네 핸디찾기
           </Nav.Link>
         </Nav>
         <Nav className="sub-nav py-2">
-          <Nav.Link className="loginText" onClick={this.openModal}>로그인</Nav.Link>
+          <Button className="loginText" onClick={this.openModal}>로그인</Button>
           <Button className="joinBtn mx-2">회원가입</Button>
         </Nav>
       </Navbar.Collapse>
