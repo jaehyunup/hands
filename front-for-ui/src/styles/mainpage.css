@@ -3,9 +3,6 @@ body {
     margin: 0 0 0 0;
 }
 
-.hello{
-    margin-top:7rem;
-}
 
 
 /********
@@ -39,6 +36,7 @@ body {
 .stars {
     z-index: -1;
     overflow: hidden;
+    position: relative;
     top: 0;
     left: 0;
     width: 100%;
@@ -119,14 +117,14 @@ body {
     width: 25rem;
     margin: auto;
     margin-top: 50px;
-    position: absolute;
+    position: relative;
     background: #F6F5FE;
     border-radius: 50%;
     animation: balloon 2s forwards infinite;
 }
 
 .ground {
-    border: 3px solid #7548D6;
+    border: 2px solid #7548D6;
     position: absolute;
     top: 350px;
     left: 100px;
@@ -202,7 +200,7 @@ body {
         width: 0px;
     }
     50%, 80%, 100% {
-        width: 500px;
+        width: 300px;
     }
 }
 @keyframes ground-one-anim {
@@ -449,21 +447,21 @@ body {
 .textSlide{
     color:#7548D6;
     font-size:3rem;
-    font-weight:900;
+    font-family: "eland-700";
 }
 .textSlide:after {
-    content:"고양이랑 놀아주고";
+    content:"고양이랑 놀고";
     animation: spin 8s linear infinite;
     text-shadow: 1px 1px 2px #444;
 }
 @keyframes spin {
-    0% { content:"고양이랑 놀아주고";}
-    15% { content:"전등교체 도와주고";}
+    0% { content:"고양이랑 놀고";}
+    15% { content:"전등 갈아주고";}
     30% { content:"짐 맡아주고"}
     45% { content:"물건 옮겨주고";}
-    60% { content: "일일 기사님으로";}
-    75% { content: "장바구니 들어주고"; }
-    90% { content: "일일 보디가드로"; }
+    60% { content: "일일 기사하고";}
+    75% { content: "장바구니 들고"; }
+    90% { content: "밤길 동행하고"; }
 }
 
 .mainjoinBtn {
@@ -502,10 +500,10 @@ body {
     color:#fff !important;
 }
 
+  
 .section1{
-    margin-top:13rem;
-    margin-bottom:5rem;
-    height:43rem;
+    min-height: 100%;
+    height:100%;
     background-color: #7548D6;
     color:white;
 }
@@ -552,3 +550,56 @@ body {
 카드 디자인을위한 css
 ********/
 
+card {
+    background-color: white;
+    border: none;
+    transition: transform 3s; /* Animation */
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+  }
+  .card .card-title {
+    font-weight: 400;
+    font-size: 1.6rem;
+    color:#111;
+  }
+  .card .card-subtitle {
+    font-weight: 500;
+    font-size: 1rem;
+    opacity: 0.5;
+  }
+  .card.card-cascade i {
+    border-radius: 0.25rem;
+    box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+  }
+  .card.card-cascade i img {
+    width: 100%;
+  }
+  .card.card-cascade [class*=card-img-] {
+    border-radius: 0.4rem;
+    width:100%;
+  }
+  .card:hover{
+    transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+  }
+  .card.card-cascade.card-cascade-wider i {
+    transform: scale(1.07);
+    margin-bottom: 0.8rem;
+  }
+
+
+  /*
+  fade in
+  */
+.hidden {
+    visibility: hidden;
+}
+
+.fadeIn {
+    -webkit-animation: animat_show 0.8s;
+    animation: animat_show 0.8s;
+    visibility: visible !important;
+}
+
+@-webkit-keyframes animat_show{
+    0%{opacity:0}
+    100%{opacity:1}
+}

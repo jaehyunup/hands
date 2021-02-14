@@ -1,18 +1,31 @@
 import React from 'react';
+import '../../styles/mainpage.css';
 import {Card, CardColumns, CardImg, Col, Container, Image, Row} from 'react-bootstrap'
 import logo from '../../img/logo.png';
 import freeman from '../../img/freeman.png';
 import women from '../../img/women.png'
-import style from '../../styles/mainpage.css';
 import {Link} from "react-router-dom";
-
+import Signin from "../../account/SignIn"
+import "../../../styles/signin.css"
 
 class Main extends React.Component {
+    constructor(props) {
+    super(props);
+    this.state = {
+      modalFlag: false,
+        };
+    }
+
+    loginModalToggle = () => {
+        this.setState({ modalFlag: !this.state.modalFlag });
+    };
+      
     render() {
         return (
             <div>
-                <div className="container">
-                    <div className="row hero">
+                <Container fluid>
+                    <Signin modalIsOpen={this.state.modalFlag} close={this.closeModal} />
+                    <Row className="hero">
                         <div className="diagonal-hero-bg">
                             <div className="stars">
                                 <div className="small"/>
@@ -20,10 +33,11 @@ class Main extends React.Component {
                                 <div className="big"/>
                             </div>
                         </div>
-                    </div>
+                    </Row>
 
-                    <div className="row hello">
-                        <div className="illustration">
+                    <Row className="d-flex align-items-center vh-100">
+                        <Col md={6} lg={6} xs={12}>
+                            <div className="illustration">
                             <Image style={{
                                 display: 'inline-block',
                                 width: '350px',
@@ -62,29 +76,34 @@ class Main extends React.Component {
                                 <div class="head"></div>
                             </div>
                         </div>
-                        <div className="d-none d-md-block d-lg-block col-md-6">
-                        </div>
-                        <div className="col-md-6 col-xs-12">
+                        </Col>
+                        <Col md={6} lg={6} xs={12}>
                             <div className="mainTextDiv">
                                 <h1>우리 핸디들은</h1>
                                 <p className="textSlide"></p>
-                                <h1>용돈을 번답니다.</h1>
+                                <h1>용돈을 벌어가요</h1>
                                 <div className="text-bottom-button">
-                                    <button className="btn btn-lg mainjoinBtn mt-4 mx-2">가입하고 용돈벌기</button>
-                                    <button className="btn btn-lg mainjobBtn mt-4 mx-2">일거리 구경하기</button>
+                                    <button className="btn btn-lg mainjoinBtn mt-4 mx-1">가입하고 용돈벌기</button>
+                                    <button className="btn btn-lg mainjobBtn mt-4 mx-1">일거리 구경하기</button>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <Container fluid className="section1">
-                  <Row>
-                    <Col md={12}>
-                      <div class="section1TextDiv mt-5">
+                        </Col>
+                    </Row>
+                </Container>
+                <Container fluid>
+                  <Row className="d-flex align-items-center justify-content-center vh-100 section1">
+                    <Col md={12} lg={12}>
+                      <div class="section1TextDiv my-4 pt-2">
                           <h3>프로필을 통해 자신을 소개하고 연관된 소일거리를 찾아보세요.</h3>
                           <p>나와 연결된 사람, 관심사가 비슷한 사람과 거래하세요.</p>
                           <Link to="">내 프로필 작성하러 가기</Link>
                       </div>
+                    </Col>
+                    <Col md={3} lg={3}>
+                        
+                    </Col>
+                    <Col md={3} lg={3}>
+                        
                     </Col>
                   </Row>
                 </Container>

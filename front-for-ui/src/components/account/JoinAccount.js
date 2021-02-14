@@ -5,7 +5,6 @@ import { joinUser } from '../../actions/userAction'
 class JoinAccount extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       Email: '',
       Name:'',

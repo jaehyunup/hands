@@ -1,0 +1,108 @@
+.findjobroot{
+  font-family: "gmarket-700";
+
+}
+
+.joblist{
+  border:1px solid #f2f4f7;
+  background-color:#fcfcfc;
+  padding-left:1.2rem;
+  padding-right:1.2rem;
+  padding-top:0.4rem;
+  padding-bottom:0.4rem;
+  margin:4px;
+}
+
+.jobList > .article{
+  float:right;
+}
+.articleheader{
+  font-size:0.6rem;
+  font-family: 'gmarket-500';
+  color:#777;
+}
+.articlewriter{
+  position:relative;
+  float:right;
+  bottom:1.4rem;
+  right:0.4rem;
+}
+.articledata{
+  position:relative;
+  font-size:0.3rem;
+  font-family: 'eland-500';
+  color:#333;
+  float:right;
+  top:0;
+  right:0;
+}
+
+.articleHashTagDiv {
+  margin:0;
+  line-height: 10px;
+}
+.articleHashTagDiv > p {
+  display:inline-block;
+  margin-bottom:3px;
+  color:#fff;
+  font-size:0.5rem;
+  padding-top:0px;
+  padding-bottom:0px;
+  padding-right:5px;
+  padding-left:5px;
+  margin-right:2px;
+  font-family:'jalnan';
+  border-radius: 10px;
+}
+
+.articlewritercontents{
+  float:right;
+  margin-top:0.1rem;
+}
+.articlebody{
+  font-family: 'gmarket-500';
+  font-size:0.7rem;
+}
+
+.articlewritercontents > p{
+  font-size:0.8rem;
+  font-family: 'eland-500';
+  margin-top:1px;
+  margin-bottom: 1px;
+}
+
+.articlesubheader{
+font-family: 'gmarket-500';
+font-size:0.8rem;
+}
+
+h1,h2,h3,h4,h5{
+  font-family: "gmarket-700";
+}
+h6,h7,p{
+  font-family: "gmarket-300";
+}
+.container{
+  margin:0;
+  padding:0;
+}
+
+label.btn:not(.btn-flat) { 
+    background-color: #fff;
+    font-weight:700;
+    border:1px solid #000;
+    font-family: "eland-300";
+
+  }
+label.btn-flat{ 
+    margin-left:3px;
+    margin-right:3px;
+    background-color: #f2f4f7;
+    border:none;
+    font-weight:300;
+    font-family: "eland-300";
+}
+.slick-prev:before, .slick-next:before{
+  color:#000 !important;
+}
+
