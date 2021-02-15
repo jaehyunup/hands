@@ -66,7 +66,7 @@
             	getMessage: function() {
             	console.log("Call"+this.roomId);
                     axios.get('/chat/room/message/'+this.roomId).then(response => { 
-                    		alert("call");
+                    		alert("call!!");
                     		this.messages = response.data; 
                     	}).catch(response => {alert("fail")});
                 },
