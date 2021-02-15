@@ -15,3 +15,7 @@ export const CHANGEPASSWORD = 'CHANGE_PASSWORD'
 export const TOGLELOGIN = 'TOGLE_LOGIN'
 //팔로우 조회
 export const FINDFOLLOW = 'FIND_FOLLOW'
+//주소넘기기
+export const CURRENTLOCATION = 'CURRENT_LOCATION'
+//
+export const MAPJOBLIST = 'MAP_JOBLIST'
