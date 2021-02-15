@@ -11,13 +11,16 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.bangkoklab.FollowHandy.dto.Handy;
+import com.bangkoklab.FollowHandy.dto.Profile;
+import com.bangkoklab.FollowHandy.mapper.FindProfileMapper;
 import com.bangkoklab.FollowHandy.service.FollowService;
 
 @Service
 public class FollowServiceImpl implements FollowService {
 	
 	private static final String FOLLOW_HANDY = "FOLLOW_HANDY";
-	
+	@Autowired
+	FindProfileMapper mapper;
 	@Autowired
 	RedisTemplate<String, Object> redisTemplate;
 	private HashOperations<String, String, List<Handy>> opsHashHandy;
@@ -81,6 +84,12 @@ public class FollowServiceImpl implements FollowService {
 		}
 		return false;
 		
+	}
+
+	@Override
+	public Profile findProfile(String followId) throws Exception {
+		System.out.println(followId+" test");
+		return mapper.findProfile(followId);
 	}
 
 }
