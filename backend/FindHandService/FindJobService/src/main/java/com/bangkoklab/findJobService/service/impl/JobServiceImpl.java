@@ -80,6 +80,12 @@ public class JobServiceImpl implements JobService{
 		return Findmapper.findJobsById(jobId);
 	}
 
+	@Override
+	public List<Job> findByUuid(String jobUserUUid) throws Exception {
+		// TODO Auto-generated method stub
+		return Findmapper.findByUuid(jobUserUUid);
+	}
+
 	
 
 }

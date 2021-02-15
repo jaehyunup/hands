@@ -11,6 +11,7 @@ public interface JobService {
 	void deletOverDayJob() throws Exception;
 	List<Job> findJobs() throws Exception;
 	List<Job> findByCategoryJobs(String category) throws Exception;
+	List<Job> findByUuid(String jobUserUUid) throws Exception;
 	List<Job> findByDong(String dong) throws Exception;
 	List<Job> downCredit() throws Exception;
 	List<Job> upCredit() throws Exception;
