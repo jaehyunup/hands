@@ -25,7 +25,7 @@ public class FindFollowHandyTest extends ControllerTest {
 	@DisplayName("팔로우 하는 사람 모두 찾기")
 	public void FindFollowHandy() throws Exception{
 		Handy handy = new Handy();
-		handy.setMyId("run6722@naver.com");
+		handy.setMyId("run@naver.com");
 		String content = objectMapper.writeValueAsString(handy);
 		
 		mockMvc.perform(
