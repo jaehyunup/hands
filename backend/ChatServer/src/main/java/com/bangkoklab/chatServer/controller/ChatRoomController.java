@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import com.bangkoklab.chatServer.data.ChatMessage;
 import com.bangkoklab.chatServer.data.ChatRoom;
+import com.bangkoklab.chatServer.data.chatData;
+import com.bangkoklab.chatServer.data.chatRoomInfo;
 import com.bangkoklab.chatServer.data.repository.ChatRoomRepository;
 
 import java.util.HashMap;
@@ -36,11 +38,18 @@ public class ChatRoomController {
     public List<ChatRoom> room() {
         return chatRoomRepository.findAllRoom();
     }
+    
+    @GetMapping("/roomsById")
+    @ResponseBody
+    public List<chatRoomInfo> roomsById(@RequestParam String myUuid) {
+        System.out.println(myUuid);
+    	return chatRoomRepository.myRoom(myUuid);
+    }
 
     @PostMapping("/room")
     @ResponseBody
-    public ChatRoom createRoom(@RequestParam String roomName) {
-        return chatRoomRepository.createChatRoom(roomName);
+    public ChatRoom createRoom(@RequestBody chatData chatdata) {
+        return chatRoomRepository.createChatRoom(chatdata);
     }
 
     @GetMapping("/room/enter/{roomId}")
@@ -51,12 +60,11 @@ public class ChatRoomController {
     
     @DeleteMapping("/room/delete")
     @ResponseBody
-    ResponseEntity<Map<String, Object>> deleteRoom(@RequestParam String roomId){
+    ResponseEntity<Map<String, Object>> deleteRoom(@RequestBody chatRoomInfo chatInfo){
     	Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
-		System.out.println(roomId);
 		try {
-			chatRoomRepository.deleteRoom(roomId);
+			chatRoomRepository.deleteRoom(chatInfo);
 			resultMap.put("message", "success");
 			status = HttpStatus.OK;
 		} catch (Exception e) {
