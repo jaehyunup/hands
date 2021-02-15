@@ -5,7 +5,7 @@
 <mapper namespace="com.bangkoklab.FollowHandy.mapper.FindProfileMapper">
 	<select id="findProfile" parameterType="String" resultType="Profile">
 		select 
-			address,email,gender,name,nickname,phone
+			email,name,nickname,phone
 		from
 			user_profile 
 		where 

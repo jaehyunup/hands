@@ -54,9 +54,9 @@ public class FollowController {
 			HandyInfo handyinfo = new HandyInfo();
 			handyinfo.setMyId(temp.getMyId());
 			handyinfo.setFollowId(temp.getFollowId());
-			handyinfo.setAddress(p.getAddress());
+	
 			handyinfo.setEmail(p.getEmail());
-			handyinfo.setGender(p.getGender());
+			
 			handyinfo.setName(p.getName());
 			handyinfo.setNickname(p.getNickname());
 			ListHandy.add(handyinfo);
