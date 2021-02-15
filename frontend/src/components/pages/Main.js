@@ -5,19 +5,36 @@ import Signin from "../account/SignIn"
 import { Col, Container, Image, Row} from 'react-bootstrap'
 import "../../styles/mainpage.css"
 import MainHeader from "../header/MainHeader"
+import '../../styles/signin.css'
+
 class Main extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+        loginModalFlag:false
     }
+  }
+  
+  modalToggle = () =>{
+      this.setState({
+          loginModalFlag:!this.state.loginModalFlag
+      })
+  }
+
+  loginModalOn = () =>{
+      this.setState({
+          loginModalFlag:true
+      })
   }
 
   render() {
     return (
       <>
-        <MainHeader></MainHeader>
+        <MainHeader modalToggleFunc={this.modalToggle}></MainHeader>
+        <Container fluid >
+            <Signin loginModalFlag={this.state.loginModalFlag} onLoginModal={this.loginModalOn} loginModalToggleHandler={this.modalToggle}/>
+        </Container>
         <Container fluid>
-                    <Signin modalIsOpen={this.state.modalFlag} close={this.closeModal} />
                     <Row className="hero">
                         <div className="diagonal-hero-bg">
                             <div className="stars">
@@ -82,8 +99,8 @@ class Main extends React.Component {
                             </div>
                         </Col>
                     </Row>
-                </Container>
-                <Container fluid>
+        </Container>
+        <Container fluid>
                   <Row className="d-flex align-items-center justify-content-center vh-100 section1">
                     <Col md={12} lg={12}>
                       <div class="section1TextDiv my-4 pt-2">

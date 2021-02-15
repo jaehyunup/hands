@@ -4,6 +4,14 @@ import { Link } from "react-router-dom";
 import "../../styles/mainheader.css"
 
 class MainHeader extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+        loginModalFlag:false
+    }
+  }
+
+
   render() {
     return (
     <>
@@ -20,7 +28,7 @@ class MainHeader extends React.Component {
           </Nav.Link>
         </Nav>
         <Nav className="sub-nav py-2">
-          <Button className="loginText" onClick={this.openModal}>로그인</Button>
+          <Button className="loginText" onClick={this.props.modalToggleFunc}>로그인</Button>
           <Button className="joinBtn mx-2">회원가입</Button>
         </Nav>
       </Navbar.Collapse>
