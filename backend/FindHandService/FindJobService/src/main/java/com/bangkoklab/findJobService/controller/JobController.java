@@ -58,7 +58,7 @@ public class JobController {
 
 				long calDate = secondTime.getTime() - firstTime.getTime();
 				long calDays = calDate / (24 * 60 * 60 * 1000);
-				if(calDays >= totalSearch.getDday()) {
+				if(calDays <= totalSearch.getDday()) {
 					job.setDday(calDays);
 					System.out.println(calDays+" 1 "+totalSearch.getDday());
 					System.out.println(totalSearch.getCategory());
