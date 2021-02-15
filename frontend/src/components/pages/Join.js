@@ -98,16 +98,12 @@ class Join extends React.Component {
                   </div>
                   <input id="passwordConfirmation" type="text" name="passwordConfirmation" placeholder="비밀번호 확인" class="form-control bg-white border-left-0 border-md"/>
                 </div>
-                <div class="form-group col-lg-6 mx-auto mb-0">
+                <div class="form-group col-lg-12 mx-auto mb-0">
                   <a href="#" class="btn joinbtn btn-block py-2">
                     <span class="font-weight-bold">가입하기</span>
                   </a>
                 </div>
-                <div class="form-group col-lg-6 mx-auto mb-0">
-                  <a href="#" class="btn passbtn btn-block py-2">
-                    <span class="font-weight-bold">비밀번호 찾기</span>
-                  </a>
-                </div>
+               
       
       
                 <div class="form-group col-lg-12 mx-auto d-flex align-items-center my-4">
