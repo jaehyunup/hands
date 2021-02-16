@@ -86,6 +86,11 @@ public class JobServiceImpl implements JobService{
 		return Findmapper.findByUuid(jobUserUUid);
 	}
 
+	@Override
+	public void updateJobStatus(Job job) throws Exception {
+		mapper.updateJobStatus(job);
+	}
+
 	
 
 }

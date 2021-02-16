@@ -8,6 +8,7 @@ public interface JobService {
 	void insertJob(Job job) throws Exception;
 	void deleteJob(Job job) throws Exception;
 	void updateJob(Job job) throws Exception;
+	void updateJobStatus(Job job) throws Exception;
 	void deletOverDayJob() throws Exception;
 	List<Job> findJobs() throws Exception;
 	List<Job> findByCategoryJobs(String category) throws Exception;

@@ -27,7 +27,7 @@ public class updateJobTest extends ControllerTest {
 	@DisplayName("일거리 게시글 수정")
 	public void insertHandDealTest() throws Exception {
 		Job hand = new Job();
-		hand.setJobId("777");
+		hand.setJobId("1d24a0da-a8ba-43b4-bf06-a2c9959cfb29");
 		hand.setJobUserUUid("542ef396c97b49299fed7719db2bcb48");
 		hand.setCategoryId("배달");
 		hand.setContent("택배 수령해서 내장고에 보관해주세요");
@@ -40,12 +40,12 @@ public class updateJobTest extends ControllerTest {
 		hand.setJobCredit("3000");
 		hand.setWorkingDate("2021-01-25");
 		hand.setWorkingAddress("언양 진장길");
-		hand.setStatus("거래중");
+		hand.setStatus("거래 끝!!!!!!");
 		hand.setJobName("택배 보관");
 		String content = objectMapper.writeValueAsString(hand);
 		
 		mockMvc.perform(
-				put("/Jobs/updateJob")
+				put("/Jobs/updateJobStatus")
 				.content(content)
 				.contentType(MediaType.APPLICATION_JSON)
 				).andDo(print())

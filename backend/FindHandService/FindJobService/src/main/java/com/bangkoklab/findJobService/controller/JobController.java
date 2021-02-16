@@ -355,5 +355,22 @@ public class JobController {
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
-
+	
+	// 일거리 수정
+		@PutMapping("/updateJobStatus")
+		public ResponseEntity<Map<String, Object>> updateJobStatus(@RequestBody Job job) {
+			Map<String, Object> resultMap = new HashMap<>();
+			HttpStatus status = null;
+			System.out.println(job.getJobId());
+			try {
+				service.updateJobStatus(job);
+				resultMap.put("message", "success");
+				status = HttpStatus.OK;
+			} catch (Exception e) {
+				e.printStackTrace();
+				resultMap.put("message", "fail");
+				status = HttpStatus.ACCEPTED;
+			}
+			return new ResponseEntity<Map<String, Object>>(resultMap, status);
+		}
 }
