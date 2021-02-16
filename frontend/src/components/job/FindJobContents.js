@@ -7,9 +7,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import AvTimerIcon from '@material-ui/icons/AvTimer';
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
 import DateRangeIcon from '@material-ui/icons/DateRange';
-<<<<<<< frontend/src/components/job/FindJobContents.js
 import { withRouter } from 'react-router';
-
 import { connect } from 'react-redux';
 import { mapJoblist } from '../../actions';
 
@@ -153,12 +151,10 @@ class FindJobContents extends React.Component {
         this.props.joblistpass(this.state.outputJobList);
     }
 
->>>>>>> frontend/src/components/job/FindJobContents.js
     render() {
         const {outputJobList} = this.state;
         console.log("render", this.props.currentlocation);
         return (
-            <>
              <Container fluid className={"px-5 py-1 vh-100"}>
                  <Row dFlex alignItemsStart>
                     <Col md={12} lg={12} className="px-0 mx-0 mt-0">
@@ -228,27 +224,13 @@ class FindJobContents extends React.Component {
 
                         <Row>
                             <Col md={12} lg={12} className={"mt-4 px-4"} style={{maxHeight:"30rem",overflow:"scroll"}}>
-                               {outputJobList.map( (job, index) => {
+                                {outputJobList.map( (job, index) => {
                                    return(
                                         <div className={"row d-flex joblist align-items-center"}>
                                             <div className={"col-md-2 col-sm-2 ml-0 pl-1"}>
                                                 <img width={"60"} height={"60"} alt={"jobImage"} src={"https://source.unsplash.com/random"}/>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div className={"col-md-1 col-sm-2 mr-auto justify-content-right"}>
-                                        <Button variant="outline-primary" style={{height:"40%",fontSize:"0.2rem"}} onClick={this.clickInfo}>정보</Button>{' '}
-                                        <Button variant="outline-info" className={"mt-2"} style={{height:"40%",fontSize:"0.2rem"}}>위치</Button>
-
-                                    </div>
-                                    <div className={"col-md-3 col-sm-3"}>
-                                        <div className={"articledata"}>
-                                                <div className={"job-date"}>
-                                                    <DateRangeIcon style={{fontSize: "1rem"}}></DateRangeIcon> 2021.02.25
-                                                </div>
-                                                <div className={"job-hour"}>
-                                                    <HourglassEmptyIcon style={{fontSize: "1rem"}}></HourglassEmptyIcon> 2시간 근무
-
+                                  
                                             <div className={"col-md-6 col-sm-6"}>
                                                 <div className={"article"}>
                                                     <div>
@@ -265,7 +247,7 @@ class FindJobContents extends React.Component {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className={"col-md-1 col-sm-2 mr-auto justify-content-right"}>
+                                                <div className={"col-md-1 col-sm-2 mr-auto justify-content-right"}>
                                                 <Button variant="outline-primary" style={{height:"40%",fontSize:"0.2rem"}}>정보</Button>{' '}
                                                 <Button variant="outline-info" className={"mt-2"} style={{height:"40%",fontSize:"0.2rem"}}>위치</Button>
                                             </div>
@@ -286,11 +268,8 @@ class FindJobContents extends React.Component {
                                                 </div>
                                             </div>
                                         </div>
-                                    )//end return
+                                    )
                                 })}
-
-                                
-                                
 
                             </Col>
                         </Row>
@@ -298,20 +277,16 @@ class FindJobContents extends React.Component {
                  </Row>
             
              </Container>
-            </>
         )
     };
-};
+}
 
-
-//동검색 input 받아옴
 const mapStateToProps = (state) => {
     return {
       currentlocation: state.currentlocation
   }
 }
 
-//지도에 뿌릴 주소값 가진 결과list 보내줌
 const mapDispatchToProps  = (dispatch) => {
     return {
         joblistpass: (list) => { dispatch(mapJoblist(list)) }
@@ -319,6 +294,6 @@ const mapDispatchToProps  = (dispatch) => {
 }
 
 
-FindJobContents = connect(mapStateToProps ,mapDispatchToProps) (FindJobContents);
 
+FindJobContents = connect(mapStateToProps ,mapDispatchToProps) (FindJobContents);
 export default withRouter(FindJobContents);

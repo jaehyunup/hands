@@ -16,7 +16,7 @@ import {
   import SubjectIcon from '@material-ui/icons/Subject';
   import AddAlarmIcon from '@material-ui/icons/AddAlarm';
   import WatchLaterIcon from '@material-ui/icons/WatchLater';
-
+  import axios from 'axios';
   import EqualizerIcon from '@material-ui/icons/Equalizer';
   import LocationOnIcon from '@material-ui/icons/LocationOn';
   import ClearIcon from '@material-ui/icons/Clear';
@@ -54,7 +54,17 @@ class JobDetail extends React.Component {
   followUser = (e)=>{
     console.log(this.state.jobId)
   }
+  getJobDetailData = () =>{
+    axios.get("http://i4d101.p.ssafy.io:8080/job/jobInfo?jobId="+this.state.jobId)
+    .then(response => {
+       console.log(response)
+    })
+    .catch(e => {
+        console.error(e);
+    })
+  }
   componentDidMount() {
+    this.getJobDetailData()
     const script = document.createElement("script");
     script.async = true;
     script.src =
