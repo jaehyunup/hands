@@ -1,6 +1,10 @@
 import React from 'react';
 import DaumPostcode from 'react-daum-postcode';
 import axios from 'axios';
+import { Row,Col,Tabs,Tab, Container } from 'react-bootstrap';
+import '../../styles/mypage.css'
+import {TextField,Avatar,Button} from '@material-ui/core';
+import MonetizationOnRoundedIcon from '@material-ui/icons/MonetizationOnRounded';
 
 class JobCreate extends React.Component {
     constructor(props){
@@ -11,7 +15,7 @@ class JobCreate extends React.Component {
             categoryId : '전체', //ui만들고 value값 받아오기
             content : '',
             workingHour : '',
-            jobCredit : '',
+            jobCredit : 0,
             workingDate : '',
             workingAddress : '',
             status : '거래전',
@@ -48,6 +52,7 @@ class JobCreate extends React.Component {
             fullAddress: AllAddress,
             zoneCode : zoneCodes
         })
+        this.toggleDaumDiv()
     }
 
     handleInput = (e) => {
@@ -59,11 +64,21 @@ class JobCreate extends React.Component {
     
     handleWorkingAddress = async() => {
         await this.handleAddress();
-        console.log("찐주소 : " + this.fullAddress + this.detailAddress);
         this.setState({
             workingAddress : this.fullAddress + this.detailAddress
         })
     }
+
+
+	toggleDaumDiv = () => {
+        this.setState({
+          isdaumpost : !this.state.isdaumpost
+        })
+  }
+    createJobHandler = () => {
+        console.log("날라감")
+    }
+
 
     handleSubmit = async (event) => {
         alert("axios!!");
@@ -109,44 +124,112 @@ class JobCreate extends React.Component {
         }
 
         return(
-            <form onSubmit={this.handleSubmit}>
-                
-                <input placeholder="게시글 제목" value={jobName} onChange={(e) => this.setState({jobName: e.target.value})} />
-            
-                <select value={categoryId} onChange={(e) => this.setState({categoryId: e.target.value})}></select>
 
-                <textarea cols="50" rows="10" placeholder="내용을 입력하세요" value={content} onChange={(e) => this.setState({content: e.target.value})}></textarea>
-                
-                <label>크레딧 : <input type="number" value={jobCredit} onChange={(e) => this.setState({jobCredit: e.target.value})}/></label>
-                
-                <label>일하는 시간 : <input type="number" value={workingHour} onChange={(e) => this.setState({workingHour: e.target.value})}/></label>
+            <>
+            	<Container style={{paddingLeft:"10%",paddingRight:"10%"}}>
+							<Row style={{paddingTop:"3rem",paddingBottom:"3rem",paddingRight:"5rem",paddingLeft:"5rem"}}>
+								<p className={"tabInnerDivHeader"}>일거리 작성</p>
+								<Col className={"tabInnerDiv p-2"} md={12} lg={12}>
+									
+									    <div class="input-group col-sm-12 col-mg-12 col-lg-12 my-4 px-5">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text px-4 border-md border-right-0 account-input-text">
+                                                제목
+                                                </span>
+                                            </div>
+									    	<input id="input-jobName" type="text" name="jobName" value={this.state.jobName} placeholder="" class="form-control  border-left-0 border-md"/>
+										</div>
+							
+										<div class="input-group col-lg-12 mb-4 px-5">
+                                            <div class="input-group-prepend">
+                                                <span class="account-input-text input-group-text px-3 border-md border-right-0">
+                                                카테고리
+                                                </span>
+                                            </div>
+                                            <select id="input-category" type="text" name="category"  value={this.state.category} class="form-control  border-md border-left-0">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+										</div>
+									
 
-                <label>일하는 날짜 : <input type="date" value={workingDate} onChange={(e) => this.setState({workingDate: e.target.value})}/></label>
 
-                <div>
-                    <div className="zipCode">{zoneCode}</div>
-                    <input type="button" onClick={this.handleOpenPost} value="우편번호 찾기"/>
-                    {
-                        isdaumpost 
-                        ? <DaumPostcode
-                            onComplete={this.handleAddress}
-                            autoResize
-                            autoClose
-                            width={600}
-                            height={450}
-                            style={postCodeStyle}
-                            isdaumpost={isdaumpost}
-                            />
-                        : null
-                    }
-                    <div className="address">{fullAddress}</div>
-                      <div className="addressBox">
-                          <input type="text" value={detailAddress} name="address" onChange={this.handleInput}/>
-                      </div>
-                </div>
-                <button type="submit">생성하기</button>
+                                        <div class="input-group col-lg-12 mb-4 px-5">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text px-3 border-md border-right-0 account-input-text">
+                                                활동지역
+                                                </span>
+                                            </div>
+                                            <input id="input-address" type="text" name="address" value={this.state.fullAddress} onFocus={this.toggleDaumDiv} placeholder="" class="form-control bg-white border-md border-left-0"/>
+                                            {
+                                                (this.state.isdaumpost ? 
+                                                    <>
+                                                    <Button variant="contained" color="primary"  onClick={this.toggleDaumDiv}>취소</Button>
+                                                    <DaumPostcode
+                                                        className={"mt-5"}
+                                                        onComplete={this.handleAddress}
+                                                        autoResize
+                                                        autoClose
+                                                        width={600}
+                                                        height={450}
+                                                        style={postCodeStyle}
+                                                        isdaumpost={this.state.isdaumpost}
+                                                    />
+                                                    </>
+                                                : null)
+                                            }
+										</div>
+                                        
 
-            </form>
+                                        <div class="input-group col-lg-12 mb-4 px-5">
+                                            <div class="input-group-prepend">
+                                                <span class="account-input-text input-group-text px-4 border-md border-right-0">
+                                                내용
+                                                </span>
+                                            </div>
+                                            <textarea id="input-contents" rows={"10"} name="content"  value={this.state.content} class="form-control bg-white border-md border-left-0"/>
+										</div>
+
+                                            
+
+                                        <div class="input-group col-sm-12 col-mg-12 col-lg-12 my-4 px-5">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text px-4 border-md border-right-0 account-input-text">
+                                                시작일
+                                                </span>
+                                            </div>
+									    	<input id="input-startdate" type="date" name="credit" value={this.state.workingDate} onChange={(e) => this.setState({workingDate: e.target.value})} class="form-control  border-left-0 border-md"/>
+										</div>
+
+                                        <div class="input-group col-sm-12 col-mg-12 col-lg-12 my-4 px-5">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text px-4 border-md border-right-0 account-input-text">
+                                                크레딧
+                                                </span>
+                                            </div>
+									    	<input id="input-credit" type="number" name="credit" value={this.state.jobCredit} onChange={(e) => this.setState({jobCredit: e.target.value})} class="form-control  border-left-0 border-md"/>
+										</div>
+                                        
+                                        <div class="input-group col-sm-12 col-mg-12 col-lg-12 my-4 px-5">
+                                            
+                                        <Button variant="contained" color="secondary" className={"mx-2"} onClick={this.createJobHandler}>작성</Button>
+                                        <Button variant="contained" color="primary"  onClick={ ()=>this.props.history.goBack()}>취소</Button>
+
+                                        </div>
+                                        
+
+        
+
+
+                                    </Col>
+							</Row>
+						</Container>
+
+         
+            </>
         );
     }
 }

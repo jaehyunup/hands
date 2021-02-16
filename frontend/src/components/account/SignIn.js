@@ -28,6 +28,18 @@ class SignIn extends Component {
   preventHandler = (e) =>{
     e.stopPropagation();
   }
+  componentDidMount(){
+    console.log(document.getElementById("root"))
+    var root=document.getElementById("root")
+    root.addEventListener('scroll touchmove mousewheel', function(e){
+      var x=window.scrollX;
+      var y=window.scrollY;
+      window.onscroll=function(){window.scrollTo(x, y);};
+      return false;
+    });
+  }
+
+
   loginClickHandler = () => {
     const { userId, password } = this.state;
     fetch("http://10.58.2.17:8000/auth/login", {
@@ -49,7 +61,7 @@ class SignIn extends Component {
     return (
       <>
         { loginModalFlag ? (  
-          <Row className={"d-flex vh-100 loginModalRoot mt-5"} onClick={loginModalToggleHandler}>
+          <Row id={"lm"} className={"d-flex vh-100 loginModalRoot mt-5"} onClick={loginModalToggleHandler}>
             <Col md={{offset:4,span:4}} sm={{offset:4,span:4}} className={"d-flex align-items-center justify-content-center"} onClick={this.preventHandler}>
                 <Row className={"loginModalBox d-flex align-items-center justify-content-center"} >
                   <Image width={"30%"} style={{contentAlign:"center"}} className={"my-2 mb-3"} src={logo}></Image>

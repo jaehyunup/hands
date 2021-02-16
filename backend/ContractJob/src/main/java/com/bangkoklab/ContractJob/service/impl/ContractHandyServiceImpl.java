@@ -95,12 +95,31 @@ public class ContractHandyServiceImpl implements ContractHandyService {
 
 	@Override
 	public List<Contract> FindHandyContract(Contract contract) throws Exception {
-		return opsHashContract.get(REQUEST_HANDY, contract.getContractJobId());
+		System.out.println(contract.getHandy());
+		List<Contract> tmp = opsHashContract.get(REQUEST_HANDY, contract.getContractJobId());
+		List<Contract> list = new ArrayList<Contract>();
+		for(int i =0;i<tmp.size();i++) {
+			Contract tmp_contract = tmp.get(i);
+			if(tmp_contract.getHandy().equals(contract.getHandy())) {
+				list.add(tmp_contract);
+			}
+		}
+		return list;
 	}
 	
 	@Override
 	public List<Contract> FindHandyGetContract(Contract contract) throws Exception {
-		return opsHashContract.get(REQUEST_HANDER, contract.getContractJobId());
+		System.out.println(contract.getHandy());
+		List<Contract> tmp = opsHashContract.get(REQUEST_HANDER, contract.getContractJobId());
+		List<Contract> list = new ArrayList<Contract>();
+		for(int i =0;i<tmp.size();i++) {
+			Contract tmp_contract = tmp.get(i);
+			if(tmp_contract.getHandy().equals(contract.getHandy())) {
+				list.add(tmp_contract);
+			}
+		}
+		return list;
+		
 	}
 
 	@Override
@@ -144,11 +163,13 @@ public class ContractHandyServiceImpl implements ContractHandyService {
 		String delId = contract.getHander();
 		String deljob = contract.getContractJobId();
 		List<Contract> job = new ArrayList<Contract>();
+		System.out.println(delId+" "+deljob);
 		job = opsHashContract.get(REQUEST_HANDER, contract.getContractJobId());
 		List<Contract> id = opsHashContract.get(HANDY_GET, contract.getHandy());
 		List<Contract> get = opsHashContract.get(HANDER_SEND, contract.getHander());
 
 		for (int i = 0; i < job.size(); i++) {
+			System.out.println("del!!!!!!!!!!!!");
 			if (job.get(i).getHander().equals(delId) && job.get(i).getContractJobId().equals(deljob)) {
 				job.remove(i);
 				opsHashContract.put(REQUEST_HANDER, contract.getContractJobId(), job);

@@ -92,6 +92,15 @@
 			job_id = #{jobId}
 	</update>
 	
+	
+	<update id="updateJobStatus">
+		UPDATE 
+			job 
+		SET
+			status = #{status}
+		WHERE
+			job_id = #{jobId}
+	</update>
 	<select id="findProfile" parameterType="String" resultType="Profile">
 		select 
 			address,email,gender,name,nickname,phone

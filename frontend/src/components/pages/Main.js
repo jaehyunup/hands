@@ -20,7 +20,7 @@ class Main extends React.Component {
           loginModalFlag:!this.state.loginModalFlag
       })
   }
-
+  
   loginModalOn = () =>{
       this.setState({
           loginModalFlag:true
