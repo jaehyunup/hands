@@ -163,11 +163,13 @@ public class ContractHandyServiceImpl implements ContractHandyService {
 		String delId = contract.getHander();
 		String deljob = contract.getContractJobId();
 		List<Contract> job = new ArrayList<Contract>();
+		System.out.println(delId+" "+deljob);
 		job = opsHashContract.get(REQUEST_HANDER, contract.getContractJobId());
 		List<Contract> id = opsHashContract.get(HANDY_GET, contract.getHandy());
 		List<Contract> get = opsHashContract.get(HANDER_SEND, contract.getHander());
 
 		for (int i = 0; i < job.size(); i++) {
+			System.out.println("del!!!!!!!!!!!!");
 			if (job.get(i).getHander().equals(delId) && job.get(i).getContractJobId().equals(deljob)) {
 				job.remove(i);
 				opsHashContract.put(REQUEST_HANDER, contract.getContractJobId(), job);
