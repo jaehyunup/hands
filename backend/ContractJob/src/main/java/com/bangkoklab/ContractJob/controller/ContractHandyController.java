@@ -69,6 +69,7 @@ public class ContractHandyController {
 	// 특정 게시글에서 요청한 모든 거래 조회
 		@PostMapping("/findHandyGetReqByCon")
 		public ResponseEntity<List<Contract>> FindHandyGetContract(@RequestBody Contract contract) throws Exception{
+			System.out.println(contract.getHandy());
 			return new ResponseEntity<List<Contract>>(Handyservice.FindHandyGetContract(contract),HttpStatus.OK);
 		}
 	

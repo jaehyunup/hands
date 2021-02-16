@@ -95,12 +95,31 @@ public class ContractHandyServiceImpl implements ContractHandyService {
 
 	@Override
 	public List<Contract> FindHandyContract(Contract contract) throws Exception {
-		return opsHashContract.get(REQUEST_HANDY, contract.getContractJobId());
+		System.out.println(contract.getHandy());
+		List<Contract> tmp = opsHashContract.get(REQUEST_HANDY, contract.getContractJobId());
+		List<Contract> list = new ArrayList<Contract>();
+		for(int i =0;i<tmp.size();i++) {
+			Contract tmp_contract = tmp.get(i);
+			if(tmp_contract.getHandy().equals(contract.getHandy())) {
+				list.add(tmp_contract);
+			}
+		}
+		return list;
 	}
 	
 	@Override
 	public List<Contract> FindHandyGetContract(Contract contract) throws Exception {
-		return opsHashContract.get(REQUEST_HANDER, contract.getContractJobId());
+		System.out.println(contract.getHandy());
+		List<Contract> tmp = opsHashContract.get(REQUEST_HANDER, contract.getContractJobId());
+		List<Contract> list = new ArrayList<Contract>();
+		for(int i =0;i<tmp.size();i++) {
+			Contract tmp_contract = tmp.get(i);
+			if(tmp_contract.getHandy().equals(contract.getHandy())) {
+				list.add(tmp_contract);
+			}
+		}
+		return list;
+		
 	}
 
 	@Override
