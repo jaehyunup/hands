@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bangkoklab.FollowHandy.mapper.FindProfileMapper">
+	<select id="findProfile" parameterType="String" resultType="Profile">
+		select 
+			email,name,nickname,phone
+		from
+			user_profile 
+		where 
+			profile_id = (select profile_id from authentication where user_id =#{followId})
+	</select>
+</mapper>

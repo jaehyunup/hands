@@ -15,7 +15,18 @@ spring:
   redis:  
     host: i4d101.p.ssafy.io
     port: 6379
-      
+  datasource:
+    url: jdbc:mariadb://i4d101.p.ssafy.io:3306/hands
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: hands
+    password: goswmelql
+  mvc:
+    static-path-pattern: /resources/**
+
+mybatis:
+  type-aliases-package: com.bangkoklab.FollowHandy.dto
+  mapper-locations: mapper/*.xml
+
 eureka:
   client:
     register-with-eureka: true

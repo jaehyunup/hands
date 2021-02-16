@@ -50,6 +50,15 @@
 		category_id  = #{category} 
 	</select>
 	
+	
+	<select id="findByUuid" parameterType="String" resultMap="jobResult">
+	SELECT 
+		* 
+	FROM 
+		job
+	WHERE 
+		job_user_uuid  = #{jobUserUUid} 
+	</select>
 	<!-- 동별검색  -->
 	<select id="findByDong" resultMap="jobResult">
 		SELECT 

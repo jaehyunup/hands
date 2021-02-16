@@ -35,7 +35,6 @@ class MapContent extends Component {
     }
     setCenter(latitue,longitude) {
       // 이동할 위도 경도 위치를 생성합니다 
-      console.log("dnlrudeh")
       var moveLatLon = window.kakao.maps.LatLng(latitue, longitude);
       // 지도 중심을 부드럽게 이동시킵니다
       // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다

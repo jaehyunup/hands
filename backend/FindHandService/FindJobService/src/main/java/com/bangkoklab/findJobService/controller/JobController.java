@@ -58,7 +58,7 @@ public class JobController {
 
 				long calDate = secondTime.getTime() - firstTime.getTime();
 				long calDays = calDate / (24 * 60 * 60 * 1000);
-				if(calDays >= totalSearch.getDday()) {
+				if(calDays <= totalSearch.getDday()) {
 					job.setDday(calDays);
 					System.out.println(calDays+" 1 "+totalSearch.getDday());
 					System.out.println(totalSearch.getCategory());
@@ -198,6 +198,27 @@ public class JobController {
 		return new ResponseEntity<List<Job>>(temp, HttpStatus.OK);
 	}
 
+	
+	@GetMapping("/findJobsByUuid")
+	public ResponseEntity<List<Job>> findByUuiod(@RequestParam String jobUserUUid) throws Exception {	
+		List<Job> temp = service.findByUuid(jobUserUUid);
+		for (int i = 0; i < temp.size(); i++) {
+			String workDay = temp.get(i).getWorkingDate().replace("-", "");
+			SimpleDateFormat today = new SimpleDateFormat("yyyyMMdd");
+			Date time = new Date();
+			String nowDay = today.format(time);
+
+			Date firstTime = today.parse(nowDay);
+			Date secondTime = today.parse(workDay);
+
+			long calDate = secondTime.getTime() - firstTime.getTime();
+			long calDays = calDate / (24 * 60 * 60 * 1000);
+			temp.get(i).setDday(calDays);
+		}
+		return new ResponseEntity<List<Job>>(temp, HttpStatus.OK);
+	}
+	
+	
 	// 크레딧 기준 정렬
 	@GetMapping("/SortByCredit")
 	public ResponseEntity<List<Job>> downCredit(@RequestParam String order) throws Exception {
@@ -334,5 +355,22 @@ public class JobController {
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
-
+	
+	// 일거리 수정
+		@PutMapping("/updateJobStatus")
+		public ResponseEntity<Map<String, Object>> updateJobStatus(@RequestBody Job job) {
+			Map<String, Object> resultMap = new HashMap<>();
+			HttpStatus status = null;
+			System.out.println(job.getJobId());
+			try {
+				service.updateJobStatus(job);
+				resultMap.put("message", "success");
+				status = HttpStatus.OK;
+			} catch (Exception e) {
+				e.printStackTrace();
+				resultMap.put("message", "fail");
+				status = HttpStatus.ACCEPTED;
+			}
+			return new ResponseEntity<Map<String, Object>>(resultMap, status);
+		}
 }

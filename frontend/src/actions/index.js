@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import {USERLOGIN, USERLOGOUT, UPDATEPROFILE, CHECKPROFILE, TOGGLEHANDY,CHANGEPASSWORD, FINDFOLLOW } from './actionType'
+import {USERLOGIN, USERLOGOUT, UPDATEPROFILE, CHECKPROFILE, TOGGLEHANDY,CHANGEPASSWORD, FINDFOLLOW, CURRENTLOCATION, MAPJOBLIST } from './actionType'
 import {TOGLELOGIN} from './actionType'
 
 //로그인
@@ -82,6 +82,18 @@ export async function findfollow(findfollowInfo, logintoken) {
   })
   return { type : FINDFOLLOW, payload : _data}
 }
+//현재주소 넘기기
+export async function currentlocation(address) {
+  console.log("address:" , address);
+  return { type : CURRENTLOCATION, payload: address}
+}
+
+//jobList 지도에 넘기기
+export async function mapJoblist(list) {
+  console.log("mapJoblist:" , list);
+  return { type : MAPJOBLIST, payload: list}
+}
+
 //안씀
 export function toglelogin () {
   return {
