@@ -6,7 +6,6 @@ class FindHandy extends React.Component {
   render() {
     return (
       <div>
-        <div>JobCreate</div>
         <Route path="/createjob" component={JobCreate}></Route>
       </div>
     )

@@ -1,0 +1,26 @@
+.profileModalRoot {
+background-color: rgba(0,0,0,0.5);
+}
+.profileModalBox {
+    width:50%;
+    max-height: 90%;
+    overflow:scroll;
+    background-color: white;
+    box-sizing: border-box;
+    padding: 20px;
+    background: #fff;
+    border-radius: 20px;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+.profileModalBox::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
+
+.reviewRow{
+    margin-top:5px;
+    margin-bottom:5px;
+    padding-top:1rem;
+    padding-bottom:1rem;
+    border-radius:10px;
+}

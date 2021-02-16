@@ -7,7 +7,7 @@ import AccountProfile from '../Profile/AccountProfile'
 import UpdateProfile from '../Profile/UpdateProfile'
 import { checkprofile, findfollow} from '../../actions';
 import ChangePassword from '../Profile/ChangePassword'
-
+import User from '../../components/Profile/User'
 class Profile extends React.Component {
   constructor(props) {
     super(props);
@@ -18,20 +18,14 @@ class Profile extends React.Component {
     // 로그인하지않은상태로 혹여나 접근한다면
     // 로그인페이지로 이동
 
-    if (!this.props.logintoken) {
-      this.props.history.push('/login')
-      return
-    }
+   
 
   }
   
   render() {
     return (
       <div>
-        <div>Profile</div>
-        <Route exact path="/profile" component={AccountProfile}/>
-        <Route path="/profile/update" component={UpdateProfile}/>
-        <Route path="/profile/changepassword" component={ChangePassword}></Route>
+        <User></User>
       </div>
     )
   }

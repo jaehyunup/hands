@@ -6,6 +6,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import AvTimerIcon from '@material-ui/icons/AvTimer';
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
 import DateRangeIcon from '@material-ui/icons/DateRange';
+import { withRouter } from 'react-router';
 
 class FindJobContents extends React.Component {
     constructor(props) {
@@ -45,6 +46,9 @@ class FindJobContents extends React.Component {
         this.setState({
             maxCredit: e.target.value
         });
+    }
+    clickInfo = (e)=>{
+        this.props.history.push('/job/2343')
     }
   
     render() {
@@ -134,7 +138,7 @@ class FindJobContents extends React.Component {
                                         </div>
                                     </div>
                                     <div className={"col-md-1 col-sm-2 mr-auto justify-content-right"}>
-                                        <Button variant="outline-primary" style={{height:"40%",fontSize:"0.2rem"}}>정보</Button>{' '}
+                                        <Button variant="outline-primary" style={{height:"40%",fontSize:"0.2rem"}} onClick={this.clickInfo}>정보</Button>{' '}
                                         <Button variant="outline-info" className={"mt-2"} style={{height:"40%",fontSize:"0.2rem"}}>위치</Button>
 
                                     </div>
@@ -170,4 +174,4 @@ class FindJobContents extends React.Component {
         )
     };
 };
-export default FindJobContents;
+export default withRouter(FindJobContents);
