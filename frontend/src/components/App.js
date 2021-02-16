@@ -11,7 +11,7 @@ import FindHandy from './pages/FindHandy'
 import FindJob from './pages/FindJob'
 import CreateJob from './pages/CreateJob'
 import Profile from './pages/Profile'
-import Chat from './pages/Chat'
+import ChatContents from './chats/ChatContents'
 
 class App extends Component {
   render() {
@@ -24,7 +24,7 @@ class App extends Component {
         <Route path="/createjob" component={CreateJob}/>
         <Route path="/findhandy" component={FindHandy}/>
         <Route path="/profile" component={Profile}/>
-        <Route path="/chat" component={Chat}/>
+        <Route path="/chat" component={ChatContents}/>
       </div>
     );
   }

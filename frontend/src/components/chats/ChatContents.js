@@ -15,6 +15,9 @@ import Fab from '@material-ui/core/Fab';
 import SendIcon from '@material-ui/icons/Send';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import SockJS from 'sockjs-client';
+import Stomp from 'stompjs';
+
 
 const classes = {
     table: {
@@ -35,64 +38,100 @@ const classes = {
       overflowY: 'auto'
     }
 }
+ 
 
 class ChatContents extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            
+            stompClient:null,
+
+            socketJsRef:null,
+            clientConnected:false,
+            roomid : '262137c8-adb0-4537-b2ca-771f4002c46c', //props로 들어올 데이터
+            room : {},
+            sender : 'b161a98072b34e0fbdf5bdcad0fe99f0',
+            myMessage : '테스트메시지입니다',
+            roomAllmessages : []
         };
+        //this.getMessages();
+    }
+
+    componentDidMount() {
+        //this.getMessages();
+               
+        this.setState({
+            socketJsRef: new SockJS("http://i4d101.p.ssafy.io:8080/chat/ws-stomp")
+        },(e)=>{
+            console.log(e);
+            this.setState({
+                // stompClient:Stomp.over(this.state.SockJsRef)
+            })
+        })
+
+      
+    }
+    
+    // getMessages = async() => {
+    //     console.log("call "+this.roomid);
+    //     await axios
+    //     .get("http://i4d101.p.ssafy.io:8080/chat/chat/room/enter/"+this.roomid)
+    //     .then(res => {
+    //         alert("call");
+    //         this.setState({messages : res.data});
+    //     })
+    //     .catch(e => {alert("fail")});
+    // }
+
+    sendMessage = () => {
+            this.state.stompClient.connect({},()=>{
+                this.state.stompClient.subscribe('/sub/chat/room/'+this.state.roomid,(data)=>{
+                    JSON.parse(data.body);
+                    console.log(data.body)
+            });
+        });
+
+    }
+
+    // recvMessage = (recv) => {
+    //     this.messages.unshift({ //배열값 앞에 추가
+    //         type: recv.type,
+    //         sender: recv.type === 'ENTER'
+    //                     ?'[알림]'
+    //                     :recv.sender,
+    //         message: recv.message
+    //     })
+    // }
+
+    handleKeyPress = (e) => {
+        if(e.key === 'Enter'){
+            this.sendMessage();
+        }
     }
 
     render(){
         return(
-            <Grid item xs={9}>
-                <List className={classes.messageArea}>
-                    <ListItem key="1">
-                        <Grid container>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" primary="Hey man, What's up ?"></ListItemText>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" secondary="09:30"></ListItemText>
-                            </Grid>
-                        </Grid>
-                    </ListItem>
-                    <ListItem key="2">
-                        <Grid container>
-                            <Grid item xs={12}>
-                                <ListItemText align="left" primary="Hey, Iam Good! What about you ?"></ListItemText>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <ListItemText align="left" secondary="09:31"></ListItemText>
-                            </Grid>
-                        </Grid>
-                    </ListItem>
-                    <ListItem key="3">
-                        <Grid container>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" primary="Cool. i am good, let's catch up!"></ListItemText>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" secondary="10:30"></ListItemText>
-                            </Grid>
-                        </Grid>
-                    </ListItem>
-                </List>
-                <Divider />
-                <Grid container style={{padding: '20px'}}>
-                    <Grid item xs={11}>
-                        <TextField id="outlined-basic-email" label="Type Something" fullWidth />
-                    </Grid>
-                    <Grid xs={1} align="right">
-                        <Fab color="primary" aria-label="add"><SendIcon /></Fab>
-                    </Grid>
-                </Grid>
-            </Grid>
-        )
-    }
-}
-export default ChatContents;
-
+                <div class="container" id="app">
+                    {/* <div>
+                        <h2>{this.room.roomName}</h2>
+                    </div> */}
 
                 
+
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text">내용</label>
+                        </div>
+                        <input type="text" class="form-control" value={this.message} onKeyPress={this.handleKeyPress} />
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button" onClick={this.sendMessage}>보내기</button>
+                        </div>
+                    </div>
+                    <ul class="list-group">
+                       
+                        
+                    </ul>
+                </div>
+        )
+    }
+} export default ChatContents;
