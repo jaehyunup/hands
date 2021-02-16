@@ -27,7 +27,7 @@ public class FindHandygetTest extends ControllerTest {
 		Contract contract = new Contract();
 		contract.setContractJobId("777");
 		contract.setHandy("run6722");
-		contract.setHander("MOUSE21");
+		contract.setHander("MOUSE2");
 		String content = objectMapper.writeValueAsString(contract);
 		mockMvc.perform(
 				post("/findHandyGet")
