@@ -56,16 +56,27 @@ class ChatContents extends React.Component {
   }
 
   componentDidMount() {
-    //this.getMessages();
+    var lsock = new SockJS('http://i4d101.p.ssafy.io:8080/chat/websocket');
+    let lstompClient = Stomp.over(lsock);
 
     this.setState(
       {
-        socketJsRef: new SockJS('http://i4d101.p.ssafy.io:8080/chat/ws-stomp'),
+        socketJsRef: lsock,
+        stompClient: lstompClient,
       },
-      (e) => {
-        console.log(e);
-        this.setState({
-          stompClient: (Stomp.Client = Stomp.over(this.state.SockJsRef)),
+      () => {
+        console.log(this.state.socketJsRef);
+        console.log(this.state.stompClient);
+        var client = this.state.stompClient;
+        this.state.socketJsRef.onopen = function () {
+          console.log('open');
+        };
+        this.state.stompClient.connect({}, function (frame) {
+          console.log('Connected: ' + frame);
+          client.subscribe('/topic/public', function (greeting) {
+            console.log(greeting);
+            //you can execute any function here
+          });
         });
       }
     );

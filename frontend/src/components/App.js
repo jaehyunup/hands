@@ -14,6 +14,8 @@ import MyPage from './pages/MyPage';
 import JobDetail from './job/JobDetail';
 import CreateReview from './review/ReviewCreate';
 
+import ChatContents from './chats/ChatContents';
+
 class App extends Component {
   render() {
     return (
