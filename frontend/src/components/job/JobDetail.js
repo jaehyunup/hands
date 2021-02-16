@@ -31,12 +31,14 @@ class JobDetail extends React.Component {
     constructor(props){
         super(props);
         this.state = { 
+            geocoder:null,
             jobId: props.match.params.jobId,
             contents:'불가피한 사정으로 잠깐 산책시켜주실 분을 구합니다.',
             category:'펫',
             workingHour: "15",
             jobCredit: "3000",
             workingDate: "2021-02-28",
+            jobUserUuid:'',
             workingAddress: "경산북도 구미 진평동",
             status: "거래전",
             jobName: "저희집 강아지를 산책시켜주세요",
@@ -47,32 +49,55 @@ class JobDetail extends React.Component {
                 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
                 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e'
             ],
-            jobDetailMapObj:null
+            jobDetailMapObj:null,
+            reviewData:''
         }
 
     }
   followUser = (e)=>{
     console.log(this.state.jobId)
   }
-  getJobDetailData = () =>{
-    axios.get("http://i4d101.p.ssafy.io:8080/job/jobInfo?jobId="+this.state.jobId)
-    .then(response => {
-       console.log(response)
-    })
-    .catch(e => {
-        console.error(e);
-    })
+  getJobDetailData = async () =>{
+    return await axios.get("http://i4d101.p.ssafy.io:8080/job/jobInfo?jobId="+this.state.jobId)
+  }
+  getUserReviewData = async () => {
+      return await axios.get("http://i4d101.p.ssafy.io:8080/review/review/userUuid?userUuid="+"b161a98072b34e0fbdf5bdcad0fe99f0")
   }
   componentDidMount() {
-    this.getJobDetailData()
+    this.getJobDetailData().then(response => {
+        this.setState({
+            contents:response.data.content,
+            category:response.data.categoryId,
+            workingHour: response.data.workingHour,
+            jobCredit:response.data.jobCredit,
+            workingDate: response.data.workingData,
+            workingAddress:response.data.workingAddress,
+            status: response.data.status,
+            jobName: response.data.jobName,
+            userNickname:response.data.userNickname,
+            jobUserUuid:response.data.jobUserUUid,
+        })
+        this.getUserReviewData().then(response => {
+           // this.setState({reviewData:response.data})
+           this.setState({reviewData:""})
+            
+        }).catch(e=>{
+            console.log("리뷰데이터가 존재하지 않습니다")
+        })
+    })
+    .catch(e => {
+        console.error("일거리 정보를 가져오는데 문제가 발생");
+    })
+
+
     const script = document.createElement("script");
     script.async = true;
     script.src =
-      "https://dapi.kakao.com/v2/maps/sdk.js?appkey=e0b3ed37d07b95d74f607c9851ae3474&autoload=false";
+      "https://dapi.kakao.com/v2/maps/sdk.js?appkey=e0b3ed37d07b95d74f607c9851ae3474&autoload=false&libraries=services";
     document.head.appendChild(script);
 
     script.onload = () => {
-      window.kakao.maps.load(() => {
+      window.kakao.maps.load( async () => {
         let container = document.getElementById("jobdetailmap");
         let options = {
           center: new window.kakao.maps.LatLng(37.506502, 127.053617),
@@ -81,8 +106,40 @@ class JobDetail extends React.Component {
         this.setState({
           jobDetailMapObj : new window.kakao.maps.Map(container, options)
         })
+        this.setState({
+            geocoder: new window.kakao.maps.services.Geocoder()
+        })
+        this.state.geocoder.addressSearch(this.state.workingAddress, (result, status) =>{
+        
+            // 정상적으로 검색이 완료됐으면 
+             if (status === window.kakao.maps.services.Status.OK) {
+        
+                var coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
+        
+                var imageSrc = 'https://img.icons8.com/fluent/96/000000/marker-storm.png', // 마커이미지의 주소입니다    
+                imageSize = new window.kakao.maps.Size(64, 69), // 마커이미지의 크기입니다
+                imageOption = {offset: new window.kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+                  
+                // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+                var markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption)
+
+                // 결과값으로 받은 위치를 마커로 표시합니다
+                var marker = new window.kakao.maps.Marker({
+                    map: this.state.jobDetailMapObj,
+                    position: coords,
+                    image : markerImage,
+                });
+                // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                this.state.jobDetailMapObj.setCenter(coords);
+                this.state.jobDetailMapObj.setLevel(3);
+
+            } 
+        });    
+
       });
     }; 
+
+    
   }
 
   creatAvatar(){
@@ -91,7 +148,7 @@ class JobDetail extends React.Component {
   moveBack=()=>{
     this.props.history.goBack()
   }
-
+  
 
   render(){
     return (
