@@ -19,3 +19,5 @@ export const FINDFOLLOW = 'FIND_FOLLOW'
 export const CURRENTLOCATION = 'CURRENT_LOCATION'
 //
 export const MAPJOBLIST = 'MAP_JOBLIST'
+
+export const CHATROOM = 'CHAT_ROOM'

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import {USERLOGIN, USERLOGOUT, UPDATEPROFILE, CHECKPROFILE, TOGGLEHANDY,CHANGEPASSWORD, FINDFOLLOW, CURRENTLOCATION, MAPJOBLIST } from './actionType'
+import {USERLOGIN, USERLOGOUT, UPDATEPROFILE, CHECKPROFILE, TOGGLEHANDY,CHANGEPASSWORD, FINDFOLLOW, CURRENTLOCATION, MAPJOBLIST, CHATROOM} from './actionType'
 import {TOGLELOGIN} from './actionType'
 
 //로그인
@@ -92,6 +92,11 @@ export async function currentlocation(address) {
 export async function mapJoblist(list) {
   console.log("mapJoblist:" , list);
   return { type : MAPJOBLIST, payload: list}
+}
+
+export async function chatRoom(roomid){
+  console.log("채팅내용불러올chatRoom : ", roomid);
+  return { type : CHATROOM, payload: roomid}
 }
 
 //안씀
