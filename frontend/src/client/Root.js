@@ -8,7 +8,11 @@ import userApp from '../reducers'
 import promiseMiddlerware from "redux-promise";
 import reduxThunk from "redux-thunk";
 import { persistStore } from "redux-persist";
+import { createBrowserHistory } from 'history';
 import { PersistGate } from "redux-persist/integration/react";
+
+const history = createBrowserHistory(); //히스토리 객체 반환
+
 
 const createStoreWidthMiddleware = applyMiddleware(
   promiseMiddlerware,
@@ -16,7 +20,7 @@ const createStoreWidthMiddleware = applyMiddleware(
 )(createStore);
 
 const Root = () => (
-  <BrowserRouter>
+  <BrowserRouter history={history}>
     <Provider store={createStoreWidthMiddleware(
     userApp,
     // 리듀서를 생성후 넣어준다
@@ -25,7 +29,7 @@ const Root = () => (
     window.__REDUX_DEVTOOLS_EXTENSION__ &&
       window.__REDUX_DEVTOOLS_EXTENSION__()
   )}>
-      <App/>
+       <App/>
     </Provider>
   </BrowserRouter>
 );
