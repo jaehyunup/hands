@@ -221,11 +221,4 @@ class FindJobList extends React.Component {
                             dday={job.dday} /> )
                         })
                     }
-                    <ul>{jobList}</ul>
-                </div>
-            </div>
-        );
-    }
-}
-
-export default FindJobList;
+      

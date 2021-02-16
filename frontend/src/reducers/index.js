@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-import {USERLOGIN, USERLOGOUT, CHECKPROFILE, UPDATEPROFILE, FINDFOLLOW} from '../actions/actionType'
+import {USERLOGIN, USERLOGOUT, CHECKPROFILE, UPDATEPROFILE, FINDFOLLOW, CURRENTLOCATION, MAPJOBLIST} from '../actions/actionType'
 import {TOGLELOGIN} from '../actions/actionType'
 
 const persistConfig = {
@@ -15,6 +15,7 @@ const persistConfig = {
 }
 
 const userApp = (state = {}, action) => {
+  console.log(action)
   switch(action.type){
     case USERLOGIN:
       return {...state, logined: action.payload, token:action.token, follows:[]}
@@ -27,6 +28,10 @@ const userApp = (state = {}, action) => {
       return {...state,  token:action.token }
     case FINDFOLLOW:
       return {...state, follows:action.payload }
+    case CURRENTLOCATION:
+      return {...state, currentlocation: action.payload }
+    case MAPJOBLIST:
+      return {...state, mapjoblist: action.payload }
     default:
       return state;
   }

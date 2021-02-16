@@ -31,7 +31,7 @@ class JobCreate extends React.Component {
     }
 
     handleAddress = (data) => {
-        let AllAddress = data.address;
+        let AllAddress = data.jibunAddress;
         let extraAddress = '';
         let zoneCodes = data.zonecode;
         
