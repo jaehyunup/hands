@@ -32,7 +32,7 @@ class JobDetail extends React.Component {
         super(props);
         this.state = { 
             geocoder:null,
-            jobId: "1d24a0da-a8ba-43b4-bf06-a2c9959cfb29",//props.match.params.jobId,
+            jobId: this.props.match.params.jobId,
             contents:'불가피한 사정으로 잠깐 산책시켜주실 분을 구합니다.',
             category:'펫',
             workingHour: "15",
