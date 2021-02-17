@@ -17,6 +17,7 @@ class MypageComp extends React.Component {
         super(props);
         this.state = {
             key: 'home',
+
             userId:'',
             nickname:'',
             phone:'',
@@ -28,76 +29,80 @@ class MypageComp extends React.Component {
             isdaumpost:false,
             isPhoneClick:false,
             isNickNameClick:false,
+            isCreditClick:false,
+            is_CreditClick:false,
             changedNickname:'',
             changePhone:'',
+            changedCredit:'',
+            changed_Credit:'',
             jobs:'',
             avatarurl:"https://avatars.dicebear.com/4.5/api/male/"+Math.floor(Math.random() * 500)+".svg",
-            tableRow:[],
-			currentJobId:0,
+            tableRow:[]
+
         };
         
     }
     async componentDidMount() {
-    //     const logintoken = this.props.logintoken
-    // 	const myId = this.props.id
+        const logintoken = this.props.logintoken
+    const myId = this.props.id
 
-    // // profile정보 바로 조회
-    //     this.props.checkprofile(logintoken)
+    // profile정보 바로 조회
+        this.props.checkprofile(logintoken)
         
-    //     this.setState({
-    //         userId:this.props.id,
-    //         nickname:this.props.nickname,
-    //         phone:this.props.phone,
-    //         address:this.props.address,
-    //     })
+        this.setState({
+            userId:this.props.id,
+            nickname:this.props.nickname,
+            phone:this.props.phone,
+            address:this.props.address,
+        })
 
-    //     //credit조회 axios
-    //     axios.get(`http://i4d101.p.ssafy.io:8080/credit/${this.props.userUuid}`, {headers:{
-    //         'Content-Type': 'application/json',
-    //         'X-AUTH-TOKEN': logintoken
-    //     }})
-    //     .then(res => {
-    //         this.setState({
-    //             holdingcredit:res.data.credit
-    //         })
-    //         console.log("credit 조회")
-    //     })
+        //credit조회 axios
+        axios.get(`http://i4d101.p.ssafy.io:8080/credit/${this.props.userUuid}`, {headers:{
+            'Content-Type': 'application/json',
+            'X-AUTH-TOKEN': logintoken
+        }})
+        .then(res => {
+            this.setState({
+                holdingcredit:res.data.credit
+            })
+            console.log("credit 조회")
+        })
 
-    //     //키워드 조회 axios
-    //     axios.get(`http://i4d101.p.ssafy.io:8080/keyword/user/keywords?`,{params: {
-    //         userUuid: this.props.userUuid
-    //     }},{headers:{
-    //         'Content-Type': 'application/json',
-    //     }})
-    //     .then(res=> {
-    //         this.setState({
-    //             keywords: res.data.keywords
-    //         })
-    //     })
-    //     .catch(err => {
-    //         console.log(err)
-    //     })
+        //키워드 조회 axios
+        axios.get(`http://i4d101.p.ssafy.io:8080/keyword/user/keywords?`,{params: {
+            userUuid: this.props.userUuid
+        }},{headers:{
+            'Content-Type': 'application/json',
+        }})
+        .then(res=> {
+            this.setState({
+                keywords: res.data.keywords
+            })
+        })
+        .catch(err => {
+            console.log(err)
+        })
 
-    //     //follow조회 
-    //     const findfollowinfo = {
-    //         myId:myId
-    //     }
-    //     if (findfollowinfo && logintoken) {
-    //         this.props.findfollow(findfollowinfo, logintoken)
-    //     }
+        //follow조회 
+        const findfollowinfo = {
+            myId:myId
+        }
+        if (findfollowinfo && logintoken) {
+            this.props.findfollow(findfollowinfo, logintoken)
+        }
 
-    //     //일거리 조회
-    //     axios.get("http://i4d101.p.ssafy.io:8080/job/findJobsByUuid?", {
-    //         params : {
-    //             jobUserUUid:"af0ba8e1ed614e809d967c718f11913f"
-    //         }
-    //     },{headers:{
-    //         'Content-Type': 'application/json',
-    //     }})
-    //     .then(res => {
-    //         console.log(res.data)
-    //         this.makeRows(res.data)
-    //     })
+        //일거리 조회
+        axios.get("http://i4d101.p.ssafy.io:8080/job/findJobsByUuid?", {
+            params : {
+                jobUserUUid:"af0ba8e1ed614e809d967c718f11913f"
+            }
+        },{headers:{
+            'Content-Type': 'application/json',
+        }})
+        .then(res => {
+            console.log(res.data)
+            this.makeRows(res.data)
+        })
     }
 
 
@@ -148,6 +153,18 @@ class MypageComp extends React.Component {
             isPhoneClick : false
           })
     }
+    creditClick= () =>{
+        this.setState({
+            isCreditClick : !this.state.isCreditClick,
+            is_CreditClick : false
+          })
+    }
+    credit_Click= () =>{
+        this.setState({
+            isCreditClick: false,
+            is_CreditClick : !this.state.is_CreditClick
+          })
+    }
 
     toggleDaumDiv = () => {
           this.setState({
@@ -170,16 +187,27 @@ class MypageComp extends React.Component {
             changePhone:e.target.value
         })
     }
-
+    CreditChangeHandler = (e) =>{
+        this.setState({
+            changedCredit:e.target.value
+        })
+    }
+    Credit_ChangeHandler = (e) =>{
+        this.setState({
+            changed_Credit:e.target.value
+        })
+    }
 
 
 
     joinOut = () => {
         // 회원탈퇴로직
     }
+
     Addcredit = () => {
         alert("현재 크레딧 충전이 불가능합니다. 고객센터에 문의해주세요")
     }
+
     dateFormat2YYYMMDDHHMMSS =(dateString)=>{
         var a = new Date(dateString)
         var year = a.getFullYear();
@@ -190,9 +218,20 @@ class MypageComp extends React.Component {
         var time = year + '-' + month + '-' + date + ' ' + hour + ':' + min
         return time;
     }
+
     deleteJob =(e)=>{
         console.log(e.currentTarget.value)
-        
+        const body = {
+            jobId : e.target.value
+        }
+        axios.delete("http://i4d101.p.ssafy.io:8080/job/deleteJob", {
+            data: JSON.stringify(body),
+            headers:{
+                'Content-Type': 'application/json',
+                'X-AUTH-TOKEN': this.props.logintoken
+            }
+        })
+
         // delete 요청 바로날리기
     }
 
@@ -205,7 +244,6 @@ class MypageComp extends React.Component {
     insertReview = (e)=>{
         console.log(e.currentTarget.value)
     }
-
 
   //변수제어 함수
   onKeywordHandler = e => {this.setState({keyword:e.target.value})}
@@ -251,38 +289,7 @@ class MypageComp extends React.Component {
     //     })
     // }
 
-    //credit충전 함수
-    onAddcredit = e => {
-        e.preventDefault()
-        const inputInfo = {
-            userUuid:this.props.userUuid,
-            value:this.state.addcredit
-        }
 
-        //credit충전 axios
-        axios.put("http://i4d101.p.ssafy.io:8080/credit", JSON.stringify(inputInfo), {headers:{
-            'Content-Type': 'application/json'
-        }})
-        .then(res => {
-            //credit 조회(갱신) axios
-            axios.get(`http://i4d101.p.ssafy.io:8080/credit/${this.props.userUuid}`, {headers:{
-                'Content-Type': 'application/json',
-                'X-AUTH-TOKEN': this.props.logintoken
-            }})
-            .then(res => {
-                this.setState({
-                    holdingcredit:res.data.credit
-                })
-            })
-            this.setState({
-                addcredit:''
-            })
-        })
-        .catch(err => {
-            console.log('크레딧 충전 실패')
-            console.log(err)
-        })
-    }
 
     //키워드 리스트 출력 함수
     keywordList = () => {
@@ -495,503 +502,463 @@ class MypageComp extends React.Component {
             })
         }
     }
-	// 선택한 Job row id의 요청된 사람들 가져오기
-	getJobContractQueue = () =>{
 
-	}
+  //credit충전 함수
+  changeCredit = e => {
+    e.preventDefault()
+    const inputInfo = {
+      userUuid:this.props.userUuid,
+      value:this.state.changedCredit
+    }
+        console.log(inputInfo)
 
-  // //credit충전 함수
-  // onAddcredit = e => {
-  //   e.preventDefault()
-  //   const inputInfo = {
-  //     userUuid:this.props.userUuid,
-  //     value:this.state.addcredit
-  //   }
+    //credit충전 axios
+    axios.put("http://i4d101.p.ssafy.io:8080/credit", JSON.stringify(inputInfo), {headers:{
+      'Content-Type': 'application/json'
+    }})
+    .then(res => {
+      //credit 조회(갱신) axios
+      axios.get(`http://i4d101.p.ssafy.io:8080/credit/${this.props.userUuid}`, {headers:{
+        'Content-Type': 'application/json',
+        'X-AUTH-TOKEN': this.props.logintoken
+      }})
+      .then(res => {
+        this.setState({
+          holdingcredit:res.data.credit,
+                    changedCredit:'',
+        })
+      })
+      this.setState({
+        addcredit:''
+      })
+    })
+    .catch(err => {
+      console.log('크레딧 충전 실패')
+      console.log(err)
+    })
+  }
 
-  //   //credit충전 axios
-  //   axios.put("http://i4d101.p.ssafy.io:8080/credit", JSON.stringify(inputInfo), {headers:{
-  //     'Content-Type': 'application/json'
-  //   }})
-  //   .then(res => {
-  //     //credit 조회(갱신) axios
-  //     axios.get(`http://i4d101.p.ssafy.io:8080/credit/${this.props.userUuid}`, {headers:{
-  //       'Content-Type': 'application/json',
-  //       'X-AUTH-TOKEN': this.props.logintoken
-  //     }})
-  //     .then(res => {
-  //       this.setState({
-  //         holdingcredit:res.data.credit
-  //       })
-  //     })
-  //     this.setState({
-  //       addcredit:''
-  //     })
-  //   })
-  //   .catch(err => {
-  //     console.log('크레딧 충전 실패')
-  //     console.log(err)
-  //   })
-  // }
+    //credit 환전
+  change_Credit = e => {
+    e.preventDefault()
+    const inputInfo = {
+      userUuid:this.props.userUuid,
+      value:-this.state.changed_Credit
+    }
 
-  render() {
-	const rows = this.state.jobs
-     /*
-	const test_rows = [
-		{
-			id:"1",
-			categoryId:"1",
-			jobName:"test1",
-			jobCredit:"test1",
-			status:"test1",
-			jobRegdate:"test1"
-		},
-		{
-			idx:"2",
-			categoryId:"2",
-			jobName:"test2",
-			jobCredit:"test2",
-			status:"test2",
-			jobRegdate:"test2"
-		}
-	]*/
-/*
-	const test_contarct_rows = [
-		{
-            idx:0,
-            contractJobId:"2984129481248",
-			userNickName:"test1",
-            status:"거래 요청"
-		},
-		{
-            idx:1,
-            contractJobId:"f9ig9i39rv9i3r3",
-			userNickName:"test2",
-            status:"거래 요청"
-		}
-	]
-    */
+    //credit충전 axios
+    axios.put("http://i4d101.p.ssafy.io:8080/credit", JSON.stringify(inputInfo), {headers:{
+      'Content-Type': 'application/json'
+    }})
+    .then(res => {
+      //credit 조회(갱신) axios
+      axios.get(`http://i4d101.p.ssafy.io:8080/credit/${this.props.userUuid}`, {headers:{
+        'Content-Type': 'application/json',
+        'X-AUTH-TOKEN': this.props.logintoken
+      }})
+      .then(res => {
+        this.setState({
+          holdingcredit:res.data.credit,
+                    changed_Credit:''
+        })
+      })
+      this.setState({
+        addcredit:''
+      })
+    })
+    .catch(err => {
+      console.log('크레딧 환전 실패')
+      console.log(err)
+    })
+}
+render() {
+    
+    // const rows = this.state.jobs
+    
+    const columns = [ // 열 정의(하나의 인덱스는 하나의 열을 대변)
+        { field: 'id',headerName:"번호",width:100},
+        { field: 'categoryId', headerName: '카테고리', width: 120 },
+        {
+            field: 'jobName',
+            headerName: '이름',
+            description: '게시글이름을 링크로 변환',
+            width: 350,
+            renderCell: (params) =>{
+                var ji=params.getValue('id');
+                return (
+                        <Link to={"/job/detail/"+ji}>
+                            {params.getValue('jobName')}
+                        </Link>
+                        )
+            },
+          },
+        { field: 'jobCredit', headerName: '가격', width: 90},
+        { field: 'status',sortable:true, headerName: '거래상태', width: 120},
+        {
+          field: 'jobRegDate',
+          headerName: '시간',
+          description: '게시 시간을 yy-mm-dd hh:mm형태로 변환',
+          sortable:true,
+          sortingOrder:'desc',
+          width: 150,
+          valueGetter: (params) =>{
+              return this.dateFormat2YYYMMDDHHMMSS(params.getValue('jobRegdate'))
+              }
+        },
+        {
+            field: 'etc',
+            headerName:'관리',
+            description:'버튼이 나열될 행',
+            width:200,
+            renderCell: (params) =>{
+                        return(
+                            <>
+                                <Link to={"/updatejob/"+params.getValue('id')}>
+                                <Button
+                                variant="contained"
+                                color="secondary"
+                                size="small"
+                                style={{marginRight:"4px"}}
+                                value={params.getValue('id')}
+                                // onClick={this.moveUpdatePage}
+                                
+                                >
+                                수정
+                                </Button>
+                                    </Link>
+                                <Button
+                                variant="contained"
+                                color="default"
+                                size="small"
+                                style={{marginLeft:"2px",marginRight:"2px"}}
+                                value={params.getValue('id')}
+                                onClick={this.deleteJob}
+                                >
+                                삭제
+                                </Button>
+                            </>
+                        )
+                }
+            },
+            {
+                field: 'etc2',
+                headerName:'리뷰작성',
+                description:'리뷰는 거래완료이후 작성 가능합니다',
+                width:120,
+                renderCell: (params) =>{
+                            return(
+                                <>
+                                    <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    size="small"
+                                    style={{backgroundColor:"#FF7000",marginRight:"2px"}}
+                                    value={params.getValue('id')}
+                                    onClick={this.insertReview}
+                                    >
+                                    리뷰작성
+                                    </Button>
+                                </>
+                            )
+                }
+        }
+    ]
+    
+    const postCodeStyle = {
+        position: "absolute",
+        top: 0,
+        zIndex: "100",
+        border: "1px solid #000000",
+        overflow: "hidden"
+    }
 
-	/*거래 요청 된 사람 목록 리스트용 칼럼
-	const contractQueueColumn = [ 
-		{ field: 'id',headerName:"번호",width:100},
-        { field: 'contractJobId',headerName:"일거리 ID",width:100},
-		{
-			field: 'userNickname',
-			headerName: '요청 유저',
-			description: '거래요청유저',
-			width: 200,
-			renderCell: (params) =>{
-				var userNickName=params.getValue('userNickName');
-				return (
-						<Link to={"/profile"+userNickName}>
-							{params.getValue('userNickName')}
-						</Link>
-						)
-			},
-		},
-		{ field: 'status', headerName: '상태', width: 120},
-		{
-			field: 'etc',
-			headerName:'관리',
-			description:'버튼이 나열될 행',
-			width:200,
-			renderCell: (params) =>{
-						return(
-							<>
-								<Button
-								variant="contained"
-								color="secondary"
-								size="small"
-								style={{marginRight:"4px"}}
-								value={params.getValue('contractJobId')}
-								>
-								수락
-								</Button>
+    return (
+    <>
+    <MainHeader></MainHeader>
+    <Container fluid className={"mt-5 px-5"}>
+    <Row style={{marginTop:"6rem"}}>    
+        <Col md={12} style={{paddingTop:"3rem;"}}>
+            <Tabs fill
+                id="controlled-tab-example"
+                activeKey={this.state.key}
+                className={"rounded-nav my-2 py-3"}
+                style={{paddingLeft:"10%",paddingRight:"10%"}}
+                onSelect={key => this.setState({ key })}
+            >
+                <Tab className={"rounded-nav my-2"} style={{borderColor:'#dee2e6'}}eventKey="home" title="계정 관리">
+                    <Container style={{paddingLeft:"10%",paddingRight:"10%"}}>
+                        <Row style={{paddingTop:"3rem",paddingBottom:"3rem",paddingRight:"5rem",paddingLeft:"5rem"}}>
+                            <p className={"tabInnerDivHeader"}>내 프로필</p>
+                            <Col className={"tabInnerDiv p-2"} md={12} lg={12}>
+                                <div class="input-group col-sm-12 col-mg-12 col-lg-12 my-4 px-5 justify-content-center">
+                                <Avatar src={this.state.avatarurl} 
+                                        alt={"아바타"} style={{boxShadow:"1px 1px 4px 4px #000",border:'2px solid rgba(63,81,181,0.4)',width: '100px', height:'100px',verticalAlign: 'middle'}}/>
+                                </div>
+                                <div class="input-group col-sm-12 col-mg-12 col-lg-12 my-4 px-5">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-white px-4 border-md border-right-0 account-input-text">
+                                        아이디
+                                        </span>
+                                    </div>
+                                    <input id="username" type="text" name="username" value={this.props.id} placeholder="" class="form-control bg-white border-left-0 border-md" disabled/>
+                                    </div>
+                        
+                                    <div class="input-group col-lg-12 mb-4 px-5">
+                                    <div class="input-group-prepend">
+                                        <span class="account-input-text input-group-text bg-white px-4 border-md border-right-0">
+                                        닉네임
+                                        </span>
+                                    </div>
+                                    <input id="nickname" type="text" name="nickname"  value={this.props.nickname} class="form-control bg-white border-md border-left-0" disabled/>
+                                    <Button variant="contained" color="primary" onClick={this.toggleNickNameClick}>
+                                        {
+                                            (this.state.isNickNameClick) ? <span>취소</span> : <span>수정</span>
+                                        }
+                                        </Button>
+                                
+                                    </div>
+                                    {
+                                        (this.state.isNickNameClick ? 
+                                            <div
+                                                className={"py-3 mb-3 align-item-center justify-content-center"}
+                                                style={{backgroundColor:"#f2f4f7"}}
+                                            >
+                                                <div class="input-group col-lg-6 offset-md-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="account-input-text input-group-text bg-white px-4 border-md border-right-0">
+                                                        변경할닉네임
+                                                        </span>
+                                                    </div>
+                                                    <input id="changedNickname" type="text" name="changedNickname"  
+                                                        value={this.state.changedNickname} onChange={this.nickNameChangeHandler} class="form-control bg-white border-md border-left-0"/>
+                                                    <Button variant="contained" color="secondary" onClick={this.changeNickname}>확인</Button>
 
-								<Button
-								variant="contained"
-								color="default"
-								size="small"
-								style={{marginLeft:"2px",marginRight:"2px"}}
-								value={params.getValue('contractJobId')}
-								onClick={this.deleteJob}
-								>
-								거부
-								</Button>
-							</>
-						)
-				}
-			}
-	]*/
+                                                </div>
+                                            </div>
+                                        : null)
+                                    }
+                        
+                                
+                                    <div class="input-group col-lg-12 mb-4 px-5">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-white px-4 border-md border-right-0 account-input-text">
+                                        연락처
+                                        </span>
+                                    </div>
 
-	const columns = [ // 열 정의(하나의 인덱스는 하나의 열을 대변)
-		{ field: 'id',headerName:"번호",width:100},
-		{ field: 'categoryId', headerName: '카테고리', width: 120 },
-		{
-			field: 'jobName',
-			headerName: '이름',
-			description: '게시글이름을 링크로 변환',
-			width: 350,
-			renderCell: (params) =>{
-				var ji=params.getValue('id');
-				return (
-						<Link to={"/job/detail/"+ji}>
-							{params.getValue('jobName')}
-						</Link>
-						)
-			},
-		  },
-		{ field: 'jobCredit', headerName: '가격', width: 90},
-		{ field: 'status',sortable:true, headerName: '거래상태', width: 120},
-		{
-		  field: 'jobRegDate',
-		  headerName: '시간',
-		  description: '게시 시간을 yy-mm-dd hh:mm형태로 변환',
-		  sortable:true,
-		  sortingOrder:'desc',
-		  width: 150,
-		  valueGetter: (params) =>{
-			  return this.dateFormat2YYYMMDDHHMMSS(params.getValue('jobRegdate'))
-			  }
-		},
-		{
-			field: 'etc',
-			headerName:'관리',
-			description:'버튼이 나열될 행',
-			width:200,
-			renderCell: (params) =>{
-						return(
-							<>
-								<Link to={"/updatejob/"+params.getValue('id')}>
-								<Button
-								variant="contained"
-								color="secondary"
-								size="small"
-								style={{marginRight:"4px"}}
-								value={params.getValue('id')}
-								// onClick={this.moveUpdatePage}
-								
-								>
-								수정
-								</Button>
-									</Link>
-								<Button
-								variant="contained"
-								color="default"
-								size="small"
-								style={{marginLeft:"2px",marginRight:"2px"}}
-								value={params.getValue('id')}
-								onClick={this.deleteJob}
-								>
-								삭제
-								</Button>
-							</>
-						)
-				}
-			},
-			{
-				field: 'etc2',
-				headerName:'리뷰작성',
-				description:'리뷰는 거래완료이후 작성 가능합니다',
-				width:120,
-				renderCell: (params) =>{
-							return(
-								<>
-									<Button
-									variant="contained"
-									color="secondary"
-									size="small"
-									style={{backgroundColor:"#FF7000",marginRight:"2px"}}
-									value={params.getValue('id')}
-									onClick={this.insertReview}
-									>
-									리뷰작성
-									</Button>
-								</>
-							)
-				}
-		}
-	]
+                                    <input id="phone" type="tel" name="phone" value={this.props.phone} placeholder="" class="form-control bg-white border-md border-left-0" disabled/>
+                                    <Button variant="contained" color="primary" onClick={this.togglePhoneClick}>
+                                    {
+                                            (this.state.isPhoneClick) ? <span>취소</span> : <span>수정</span>
+                                        }
+                                        </Button>
+                                    </div>
+                                    {
+                                        (this.state.isPhoneClick ? 
+                                            <div
+                                                className={"py-3 mb-3 align-item-center justify-content-center"}
+                                                style={{backgroundColor:"#f2f4f7"}}
+                                            >
+                                                <div class="input-group col-lg-6 offset-md-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="account-input-text input-group-text bg-white px-4 border-md border-right-0">
+                                                        전화번호
+                                                        </span>
+                                                    </div>
+                                                    <input id="changedNickname" type="text" name="changedNickname"  
+                                                        value={this.state.changePhone} onChange={this.phoneChangeHandler} class="form-control bg-white border-md border-left-0"/>
+                                                    <Button variant="contained" color="secondary" onClick={this.changePhone}>확인</Button>
 
-	
-	const postCodeStyle = {
-		position: "absolute",
-		top: 0,
-		zIndex: "100",
-		border: "1px solid #000000",
-		overflow: "hidden"
-	}
+                                                </div>
+                                            </div>
+                                        : null)
+                                    }
+                                    <div class="input-group col-lg-12 mb-4 px-5">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-white px-3 border-md border-right-0 account-input-text">
+                                        활동지역
+                                        </span>
+                                    </div>
+                                    <input id="address" type="text" name="address" value={this.props.address} placeholder="" class="form-control bg-white border-md border-left-0" disabled/>
+                                    <Button variant="contained" color="primary"  onClick={this.toggleDaumDiv}>주소변경</Button>
+                                    {
+                                        (this.state.isdaumpost ? 
+                                            <DaumPostcode
+                                                className={"mt-5"}
+                                                onComplete={this.handleAddress}
+                                                autoResize
+                                                autoClose
+                                                width={600}
+                                                height={450}
+                                                style={postCodeStyle}
+                                                isdaumpost={this.state.isdaumpost}
+                                            />
+                                        : null)
+                                    }
+                                    </div>
+                            </Col>
 
-	return (
-	<>
-	<MainHeader></MainHeader>
-	<Container fluid className={"mt-5 px-5"}>
-	<Row style={{marginTop:"6rem"}}>    
-		<Col md={12} style={{paddingTop:"3rem;"}}>
-			<Tabs fill
-				id="controlled-tab-example"
-				activeKey={this.state.key}
-				className={"rounded-nav my-2 py-3"}
-				style={{paddingLeft:"10%",paddingRight:"10%"}}
-				onSelect={key => this.setState({ key })}
-			>
-				<Tab className={"rounded-nav my-2"} style={{borderColor:'#dee2e6'}}eventKey="home" title="계정 관리">
-					<Container style={{paddingLeft:"10%",paddingRight:"10%"}}>
-						<Row style={{paddingTop:"3rem",paddingBottom:"3rem",paddingRight:"5rem",paddingLeft:"5rem"}}>
-							<p className={"tabInnerDivHeader"}>내 프로필</p>
-							<Col className={"tabInnerDiv p-2"} md={12} lg={12}>
-								<div class="input-group col-sm-12 col-mg-12 col-lg-12 my-4 px-5 justify-content-center">
-								<Avatar src={this.state.avatarurl} 
-										alt={"아바타"} style={{boxShadow:"1px 1px 4px 4px #000",border:'2px solid rgba(63,81,181,0.4)',width: '100px', height:'100px',verticalAlign: 'middle'}}/>
-								</div>
-								<div class="input-group col-sm-12 col-mg-12 col-lg-12 my-4 px-5">
-									<div class="input-group-prepend">
-										<span class="input-group-text bg-white px-4 border-md border-right-0 account-input-text">
-										아이디
-										</span>
-									</div>
-									<input id="username" type="text" name="username" value={this.props.id} placeholder="" class="form-control bg-white border-left-0 border-md" disabled/>
-									</div>
-						
-									<div class="input-group col-lg-12 mb-4 px-5">
-									<div class="input-group-prepend">
-										<span class="account-input-text input-group-text bg-white px-4 border-md border-right-0">
-										닉네임
-										</span>
-									</div>
-									<input id="nickname" type="text" name="nickname"  value={this.props.nickname} class="form-control bg-white border-md border-left-0" disabled/>
-									<Button variant="contained" color="primary" onClick={this.toggleNickNameClick}>
-										{
-											(this.state.isNickNameClick) ? <span>취소</span> : <span>수정</span>
-										}
-										</Button>
-								
-									</div>
-									{
-										(this.state.isNickNameClick ? 
-											<div
-												className={"py-3 mb-3 align-item-center justify-content-center"}
-												style={{backgroundColor:"#f2f4f7"}}
-											>
-												<div class="input-group col-lg-6 offset-md-3">
-													<div class="input-group-prepend">
-														<span class="account-input-text input-group-text bg-white px-4 border-md border-right-0">
-														변경할닉네임
-														</span>
-													</div>
-													<input id="changedNickname" type="text" name="changedNickname"  
-														value={this.state.changedNickname} onChange={this.nickNameChangeHandler} class="form-control bg-white border-md border-left-0"/>
-													<Button variant="contained" color="secondary" onClick={this.changeNickname}>확인</Button>
+                            <p className={"tabInnerDivHeader mt-5"}>내 키워드</p>
+                            <Col className={"tabInnerDiv p-2"} md={12} lg={12}>
+                                <div class="input-group col-sm-12 col-mg-12 col-lg-12 my-4 px-5 justify-content-center">
+                                    <span>{this.keywordList()}</span>
+                                </div>
+                                    <div class="input-group col-lg-12 mb-4 px-5">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-white px-4 border-md border-right-0 account-input-text">
+                                        키워드
+                                        </span>
+                                    </div>
+                                    <input id="addkeywords" type="text" name="keyword" value={this.state.keyword} placeholder="" class="form-control bg-white border-md border-left-0"
+                                    onChange={this.onKeywordHandler} onKeyPress={this.handleKeyPress}
+                                    />
+                                    <Button variant="contained" color="primary" onClick={this.handleKeyPress("Enter")}>수정</Button>
+                                    </div>
+                                    <div class="input-group col-sm-12 col-mg-12 col-lg-12 my-4 px-5 justify-content-center">
+                                    <p>키워드단어 클릭시 삭제.</p>
+                                </div>
+                            </Col>
 
-												</div>
-											</div>
-										: null)
-									}
-						
-								
-									<div class="input-group col-lg-12 mb-4 px-5">
-									<div class="input-group-prepend">
-										<span class="input-group-text bg-white px-4 border-md border-right-0 account-input-text">
-										연락처
-										</span>
-									</div>
+                            <p className={"mt-5 tabInnerDivHeader"}>내 크레딧</p>
+                            <Col className={"tabInnerDiv pb-3"} style={{textAlign:"right"}} md={12} lg={12}>
+                                <div class="d-flex justify-content-center align-item-center my-2 px-5">
+                                    <div class={"d-flex justify-content-center align-item-center pt-2"}>
+                                        <MonetizationOnRoundedIcon style={{marginTop:"2rem",fontSize:"3.4rem"}}/> <p style={{fontSize:"2rem",marginLeft:"15px",marginTop:"2.2rem",display:"inline-block"}}>{this.state.holdingcredit}</p>
+                                    </div>
+                                </div>
+                                <Button variant="contained" color="secondary" onClick={this.creditClick}>크레딧 충전</Button>
+                                <Button className={"mx-2"} variant="contained" color="link" onClick={this.credit_Click}>크레딧 환전</Button>
+                                {/* 크레딧 충전 */}
+                                {
+                                        (this.state.isCreditClick ? 
+                                            <div
+                                                className={"py-3 mb-3 align-item-center justify-content-center mt-2"}
+                                                style={{backgroundColor:"#f2f4f7"}}
+                                            >
+                                                <div class="input-group col-lg-6 offset-md-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="account-input-text input-group-text bg-white px-4 border-md border-right-0">
+                                                        크레딧
+                                                        </span>
+                                                    </div>
+                                                    <input id="changedCredit" type="text" name="changedCredit"  
+                                                        value={this.state.changedCredit} onChange={this.CreditChangeHandler} class="form-control bg-white border-md border-left-0"/>
+                                                    <Button variant="contained" color="secondary" onClick={this.changeCredit}>충전</Button>
 
-									<input id="phone" type="tel" name="phone" value={this.props.phone} placeholder="" class="form-control bg-white border-md border-left-0" disabled/>
-									<Button variant="contained" color="primary" onClick={this.togglePhoneClick}>
-									{
-											(this.state.isPhoneClick) ? <span>취소</span> : <span>수정</span>
-										}
-										</Button>
-									</div>
-									{
-										(this.state.isPhoneClick ? 
-											<div
-												className={"py-3 mb-3 align-item-center justify-content-center"}
-												style={{backgroundColor:"#f2f4f7"}}
-											>
-												<div class="input-group col-lg-6 offset-md-3">
-													<div class="input-group-prepend">
-														<span class="account-input-text input-group-text bg-white px-4 border-md border-right-0">
-														전화번호
-														</span>
-													</div>
-													<input id="changedNickname" type="text" name="changedNickname"  
-														value={this.state.changePhone} onChange={this.phoneChangeHandler} class="form-control bg-white border-md border-left-0"/>
-													<Button variant="contained" color="secondary" onClick={this.changePhone}>확인</Button>
+                                                </div>
+                                            </div>
+                                        : null)
+                                    }
+                                    {/* 크레딧 환전 */}
+                                    {
+                                        (this.state.is_CreditClick ? 
+                                            <div
+                                                className={"py-3 mb-3 align-item-center justify-content-center mt-2"}
+                                                style={{backgroundColor:"#f2f4f7"}}
+                                            >
+                                                <div class="input-group col-lg-6 offset-md-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="account-input-text input-group-text bg-white px-4 border-md border-right-0">
+                                                        크레딧
+                                                        </span>
+                                                    </div>
+                                                    <input id="changed_Credit" type="text" name="changed_Credit"  
+                                                        value={this.state.changed_Credit} onChange={this.Credit_ChangeHandler} class="form-control bg-white border-md border-left-0"/>
+                                                    <Button variant="contained" color="secondary" onClick={this.change_Credit}>환전</Button>
 
-												</div>
-											</div>
-										: null)
-									}
-									<div class="input-group col-lg-12 mb-4 px-5">
-									<div class="input-group-prepend">
-										<span class="input-group-text bg-white px-3 border-md border-right-0 account-input-text">
-										활동지역
-										</span>
-									</div>
-									<input id="address" type="text" name="address" value={this.props.address} placeholder="" class="form-control bg-white border-md border-left-0" disabled/>
-									<Button variant="contained" color="primary"  onClick={this.toggleDaumDiv}>주소변경</Button>
-									{
-										(this.state.isdaumpost ? 
-											<DaumPostcode
-												className={"mt-5"}
-												onComplete={this.handleAddress}
-												autoResize
-												autoClose
-												width={600}
-												height={450}
-												style={postCodeStyle}
-												isdaumpost={this.state.isdaumpost}
-											/>
-										: null)
-									}
-									</div>
-							</Col>
+                                                </div>
+                                            </div>
+                                        : null)
+                                    }
+                            </Col>
 
-							<p className={"tabInnerDivHeader mt-5"}>내 키워드</p>
-							<Col className={"tabInnerDiv p-2"} md={12} lg={12}>
-								<div class="input-group col-sm-12 col-mg-12 col-lg-12 my-4 px-5 justify-content-center">
-									<span>{this.keywordList()}</span>
-								</div>
-									<div class="input-group col-lg-12 mb-4 px-5">
-									<div class="input-group-prepend">
-										<span class="input-group-text bg-white px-4 border-md border-right-0 account-input-text">
-										키워드
-										</span>
-									</div>
-									<input id="addkeywords" type="text" name="keyword" value={this.state.keyword} placeholder="" class="form-control bg-white border-md border-left-0"
-									onChange={this.onKeywordHandler} onKeyPress={this.handleKeyPress}
-									/>
-									<Button variant="contained" color="primary" onClick={this.togglePhoneClick}>수정</Button>
-									</div>
-									<div class="input-group col-sm-12 col-mg-12 col-lg-12 my-4 px-5 justify-content-center">
-									<p>키워드단어 클릭시 삭제.</p>
-								</div>
-							</Col>
-
-							<p className={"mt-5 tabInnerDivHeader"}>내 크레딧</p>
-							<Col className={"tabInnerDiv pb-3"} style={{textAlign:"right"}} md={12} lg={12}>
-								<div class="d-flex justify-content-center align-item-center my-2 px-5">
-									<div class={"d-flex justify-content-center align-item-center pt-2"}>
-										<MonetizationOnRoundedIcon style={{marginTop:"2rem",fontSize:"3.4rem"}}/> <p style={{fontSize:"2rem",marginLeft:"15px",marginTop:"2.2rem",display:"inline-block"}}>{this.state.holdingcredit}</p>
-									</div>
-								</div>
-								<Button variant="contained" color="secondary" onClick={this.Addcredit}>크레딧 충전</Button>
-								<Button className={"mx-2"} variant="contained" color="link" onClick={this.Addcredit}>크레딧 환전</Button>
-
-							</Col>
-
-							<p className={"mt-5 tabInnerDivHeader"}>회원탈퇴신청</p>
-							<Col className={"tabInnerDiv "} md={12} lg={12}>
-								<div class="input-group justify-content-center align-item-center col-sm-12 col-mg-12 col-lg-12 my-2 px-5">
-									<p style={{marginTop:"12px"}}>회원탈퇴를 신청할 경우 다시 되돌릴 수 없습니다</p>
-									<Button style={{position:"absolute",right:70,top:6}} variant="contained" color="warning" onClick={this.onDeleteAccount}>회원탈퇴</Button>
-									</div>
-							</Col>
-						</Row>
-					</Container>
-				</Tab>
-				<Tab eventKey="profile" title="일거리 관리">
-					<Container fluid >
-					<Row style={{paddingTop:"3rem",paddingBottom:"3rem"}}>
-						<p className={"tabInnerDivHeader"}>내가 만든 일거리</p>
-						<Col className={"tabInnerDiv"} md={12} lg={12}>
-							<div className={"my-2"} style={{ height: 400, width: '100%' }}>
-								<DataGrid rows={rows} 
-										  columns={columns} 
-										 pageSize={5}
-										 onSelectionChange={(newSelection) => {
-											console.log(newSelection.rowIds[0])
-											this.setState({currentJobId:newSelection.rowIds[0]})
-											this.getJobContractQueue()
-											}
-										 } />
-							</div>
-						</Col>
-					</Row>
+                            <p className={"mt-5 tabInnerDivHeader"}>회원탈퇴신청</p>
+                            <Col className={"tabInnerDiv "} md={12} lg={12}>
+                                <div class="input-group justify-content-center align-item-center col-sm-12 col-mg-12 col-lg-12 my-2 px-5">
+                                    <p style={{marginTop:"12px"}}>회원탈퇴를 신청할 경우 다시 되돌릴 수 없습니다</p>
+                                    <Button style={{position:"absolute",right:70,top:6}} variant="contained" color="warning" onClick={this.onDeleteAccount}>회원탈퇴</Button>
+                                    </div>
+                            </Col>
+                        </Row>
+                    </Container>
+                </Tab>
+                <Tab eventKey="profile" title="일거리 관리">
+                    <Container fluid >
                     <Row style={{paddingTop:"3rem",paddingBottom:"3rem"}}>
-						<p className={"tabInnerDivHeader"}>내 일거리에 거래요청한 핸디</p>
-						<Col className={"tabInnerDiv"} md={12} lg={12}>
-							<div className={"my-2"} style={{ height: 400, width: '100%' }}>
-								<DataGrid rows={rows} 
-										  columns={columns} 
-										 pageSize={5}
-										 onSelectionChange={(newSelection) => {
-											}
-										 } />
-							</div>
-						</Col>
-					</Row>
+                        <p className={"tabInnerDivHeader"}>내가 만든 일거리</p>
+                        <Col className={"tabInnerDiv"} md={12} lg={12}>
+                            <div className={"my-2"} style={{ height: 400, width: '100%' }}>
+                                <DataGrid rows={this.state.tableRow} columns={columns} pageSize={5} />
+                            </div>
+                        </Col>
+                    </Row>
+                    </Container>
+                </Tab>
+                <Tab eventKey="contact" title="내 근무내역">
+                    <Container fluid>
 
-					</Container>
-				</Tab>
-				<Tab eventKey="contact" title="내 근무내역">
-					<Container fluid>
-
-						<Row style={{paddingTop:"3rem",paddingBottom:"3rem"}}>
-							<p className={"tabInnerDivHeader"}>내가 수행한 일거리</p>
-							<Col className={"tabInnerDiv p-2"} md={12} lg={12}>
-								<div className={"my-2"} style={{height: 400,width: '100%' }}>
-									<DataGrid rows={rows} columns={columns} pageSize={5} />
-								</div>
-							</Col>
-						</Row>
-
-					</Container>
-				</Tab>
-			</Tabs>
-		</Col>
-	</Row>
-		
-	</Container>  
-	</>
-	)
+                        <Row style={{paddingTop:"3rem",paddingBottom:"3rem"}}>
+                            <p className={"tabInnerDivHeader"}>내가 수행한 일거리</p>
+                            <Col className={"tabInnerDiv p-2"} md={12} lg={12}>
+                                <div className={"my-2"} style={{height: 400,width: '100%' }}>
+                                    <DataGrid rows={this.state.tableRow} columns={columns} pageSize={5} />
+                                </div>
+                            </Col>
+                        </Row>
+                    </Container>
+                </Tab>
+            </Tabs>
+        </Col>
+    </Row>
+        
+    </Container>  
+    </>
+    )
+    }
 }
 
-}
+const mapStateToProps = (state) => {
+// console.log(state)
+if (state.userProfile) 
+{
+return {
+  id:state.logined.id,
+  userUuid:state.logined.userUuid,
+  logintoken: state.token,
 
-// const mapStateToProps = (state) => {
-// // console.log(state)
-// if (state.userProfile) 
-// {
-// return {
-//   id:state.logined.id,
-//   userUuid:state.logined.userUuid,
-//   logintoken: state.token,
-//   profileId : state.logined.userProfile.profileId,
-//   email:state.logined.userProfile.email,
-//   name:state.logined.userProfile.name,
+  profileId : state.logined.userProfile.profileId,
+  email:state.logined.userProfile.email,
+  name:state.logined.userProfile.name,
   
-//   phone:state.userProfile.phone,
-//   address:state.userProfile.address,
-//   gender:state.userProfile.gender,
-//   description:state.userProfile.description,
-//   nickname:state.userProfile.nickname,
-//   type:state.type,
-//   follows:state.follows
-// }
-// }
-// else if (state.logined) {
-// 		return {
-// 		id:state.logined.id,
-// 		userUuid:state.logined.userUuid,
-// 		logintoken: state.token,
-// 		type:state.type,
-// 		}
-// 	}
-// }
+  phone:state.userProfile.phone,
+  address:state.userProfile.address,
+  gender:state.userProfile.gender,
+  description:state.userProfile.description,
+  nickname:state.userProfile.nickname,
+  type:state.type,
+  follows:state.follows
+}
+}
+else if (state.logined) {
+return {
+  id:state.logined.id,
+  userUuid:state.logined.userUuid,
+  logintoken: state.token,
+  type:state.type,
+}
+}
+}
 
-// const mapDispatchToProps  = (dispatch) => {
-// 	return {
-// 		findfollow: (followinfo,token) => {dispatch(findfollow(followinfo,token))
-// 		},
-		
-// 		checkprofile:(token_info) => {dispatch(checkprofile(token_info))
-// 		},
-// 		updateprofile:(userinfo,token_info) => {dispatch(updateprofile(userinfo,token_info))
-// 		}
-// 		}
-// }
-// MypageComp = connect(mapStateToProps,mapDispatchToProps) (MypageComp);
+const mapDispatchToProps  = (dispatch) => {
+return {
+findfollow: (followinfo,token) => {dispatch(findfollow(followinfo,token))
+},
+checkprofile:(token_info) => {dispatch(checkprofile(token_info))
+},
+    updateprofile:(userinfo,token_info) => {dispatch(updateprofile(userinfo,token_info))
+}
+}
+}
+MypageComp = connect(mapStateToProps,mapDispatchToProps) (MypageComp);
 
 export default MypageComp;

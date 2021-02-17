@@ -12,7 +12,7 @@ class JobCreate extends React.Component {
         super(props);
         this.state = {
             jobId : '',
-            jobUserUUid : this.props.logined.id,
+            jobUserUUid : '',
             jobName : '',
             categoryId : '전체',
             content : '',
@@ -121,22 +121,24 @@ class JobCreate extends React.Component {
             {headers:{
                 'Content-Type': 'application/json'
             }})
-        .then( async(res)=>{
-            console.log("잡서버 성공",res.data.message);
-            await this.setState({jobId : res.data.message});
-            axios.post(
-                'http://i4d101.p.ssafy.io:8080/keyword/job/keywords',
-                JSON.stringify(hashtag),
-                {headers:{
-                    'Content-Type': 'application/json'
-                }})
-                .then((response)=>{console.log(response)})
-                .catch((e)=>{console.log(e)});
-            this.props.history.push("/findjob");
-        })
-        .catch(error => {
-            alert(error)
-        })
+            .then( async(res)=>{
+                console.log(res)
+                await this.setState({jobId : res.data.message});
+                    axios.post(
+                            'http://i4d101.p.ssafy.io:8080/keyword/job/keywords',
+                             JSON.stringify(hashtag),
+                            {headers:{
+                                'Content-Type': 'application/json'
+                            }})
+                        .then((response)=>{
+                            console.log(response)
+                        })
+                        .catch((e)=>{console.log(e)});
+                    this.props.history.push("/findjob");
+            })
+            .catch(error => {
+                console(error)
+            })
     }
 
 
@@ -147,7 +149,7 @@ class JobCreate extends React.Component {
             return null
         }
         const keywordlist = keywords.map((keyword, index) =>
-            <span key={index} keyword={keyword} onClick={this.deleteKeyword}> {keyword}&nbsp;&nbsp;</span>)
+            <span key={index} keyword={keyword} value={keyword} onClick={this.deleteKeyword}> {keyword}&nbsp;&nbsp;</span>)
 
         return <div>{keywordlist}</div>
     }
@@ -155,36 +157,13 @@ class JobCreate extends React.Component {
     //키워드삭제 함수
     deleteKeyword =(e) => {
         e.preventDefault()
-        const inputInfo = {
-            userUuid:this.props.userUuid,
-            keywords:[ e.target.attributes[0].value ]
-        }
-
-        //키워드삭제 axios
-        axios.delete("http://i4d101.p.ssafy.io:8080/keyword/user/keywords",
-            {headers:{
-            'Content-Type': 'application/json'
-        },
-        data: JSON.stringify(inputInfo)
-        
-    })
-        .then(res => {
-            //키워드 조회(갱신) axios
-            axios.get(`http://i4d101.p.ssafy.io:8080/keyword/user/keywords?`,{params: {
-            userUuid: this.props.userUuid
-            }},{headers:{
-                'Content-Type': 'application/json',
-            }})
-            .then(res=> {
-                this.setState({
-                    keywords: res.data.keywords
-                })
-            })
-            .catch(err => {
-            })
-            })
-        .catch(err => {
+        var cur_keywords=this.state.keywords
+        cur_keywords.splice(cur_keywords.indexOf(e.target.value),1);
+        this.setState({
+            keywords:cur_keywords
         })
+
+      
     }
 
   //키워드추가 함수
@@ -194,6 +173,7 @@ class JobCreate extends React.Component {
       userUuid: this.props.userUuid,
       keywords: [this.state.keyword]
     }
+    console.log(inputInfo)
     //공백일경우 추가x
     if (!this.state.keyword) {
       return
@@ -227,10 +207,19 @@ class JobCreate extends React.Component {
   // enter키로 키워드 추가
   handleKeyPress = e => {
     if (e.key === 'Enter') {
-      this.onAddKeyword(e)
+        var preKeywords=this.state.keywords;
+        preKeywords.push(this.state.keyword);
+        this.setState({
+            keywords:preKeywords,
+            keyword:'',
+        })
     }
   }
-
+  changeKeyword = e=>{
+      this.setState({
+          keyword:e.target.value
+      })
+  }
     
     render() { 
         const postCodeStyle = {
@@ -348,17 +337,6 @@ class JobCreate extends React.Component {
                                         
                                         
 
-                                        <div class="input-group col-sm-12 col-mg-12 col-lg-12 my-4 px-5">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text px-4 border-md border-right-0 account-input-text">
-                                                태그 입력
-                                                </span>
-                                            </div>
-                                  <input id="input-jobName" type="text" name="jobName" placeholder="" class="form-control  border-left-0 border-md" onKeyPress={this.insertTag} />
-                              </div>
-
-
-
                                         <div class="input-group col-sm-12 col-mg-12 col-lg-12 my-4 px-5 justify-content-center">
                                             <span>{this.keywordList()}</span>
                                         </div>
@@ -369,7 +347,7 @@ class JobCreate extends React.Component {
                                                 </span>
                                             </div>
                                             <input id="addkeywords" type="text" name="keyword" value={this.state.keyword} placeholder="" class="form-control bg-white border-md border-left-0"
-                                            onChange={ (e) =>this.setState({keyword:e.target.value})} onKeyPress={this.handleKeyPress}
+                                            onKeyPress={this.handleKeyPress} onChange={this.changeKeyword}
                                             />
                                             </div>
                                             <div class="input-group col-sm-12 col-mg-12 col-lg-12 my-4 px-5 justify-content-center">

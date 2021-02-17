@@ -72,7 +72,7 @@ class JobDetail extends React.Component {
     this.getJobDetailData().then(response => {
         this.setState({
             contents:response.data.content,
-            category:response.data.categoryId,
+            category:response.data.cadtegoryId,
             workingHour: response.data.workingHour,
             jobCredit:response.data.jobCredit,
             workingDate: response.data.workingData,
