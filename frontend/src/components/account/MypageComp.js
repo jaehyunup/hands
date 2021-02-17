@@ -534,8 +534,8 @@ class MypageComp extends React.Component {
   // }
 
   render() {
-    
-	// const rows = this.state.jobs
+	const rows = this.state.jobs
+     /*
 	const test_rows = [
 		{
 			id:"1",
@@ -553,8 +553,8 @@ class MypageComp extends React.Component {
 			status:"test2",
 			jobRegdate:"test2"
 		}
-	]
-
+	]*/
+/*
 	const test_contarct_rows = [
 		{
             idx:0,
@@ -569,7 +569,9 @@ class MypageComp extends React.Component {
             status:"거래 요청"
 		}
 	]
-	// 거래 요청 된 사람 목록 리스트용 칼럼
+    */
+
+	/*거래 요청 된 사람 목록 리스트용 칼럼
 	const contractQueueColumn = [ 
 		{ field: 'id',headerName:"번호",width:100},
         { field: 'contractJobId',headerName:"일거리 ID",width:100},
@@ -620,7 +622,7 @@ class MypageComp extends React.Component {
 						)
 				}
 			}
-	]
+	]*/
 
 	const columns = [ // 열 정의(하나의 인덱스는 하나의 열을 대변)
 		{ field: 'id',headerName:"번호",width:100},
@@ -895,7 +897,7 @@ class MypageComp extends React.Component {
 						<p className={"tabInnerDivHeader"}>내가 만든 일거리</p>
 						<Col className={"tabInnerDiv"} md={12} lg={12}>
 							<div className={"my-2"} style={{ height: 400, width: '100%' }}>
-								<DataGrid rows={test_rows} 
+								<DataGrid rows={rows} 
 										  columns={columns} 
 										 pageSize={5}
 										 onSelectionChange={(newSelection) => {
@@ -911,8 +913,8 @@ class MypageComp extends React.Component {
 						<p className={"tabInnerDivHeader"}>내 일거리에 거래요청한 핸디</p>
 						<Col className={"tabInnerDiv"} md={12} lg={12}>
 							<div className={"my-2"} style={{ height: 400, width: '100%' }}>
-								<DataGrid rows={test_contarct_rows} 
-										  columns={contractQueueColumn} 
+								<DataGrid rows={rows} 
+										  columns={columns} 
 										 pageSize={5}
 										 onSelectionChange={(newSelection) => {
 											}
@@ -930,7 +932,7 @@ class MypageComp extends React.Component {
 							<p className={"tabInnerDivHeader"}>내가 수행한 일거리</p>
 							<Col className={"tabInnerDiv p-2"} md={12} lg={12}>
 								<div className={"my-2"} style={{height: 400,width: '100%' }}>
-									<DataGrid rows={this.state.tableRow} columns={columns} pageSize={5} />
+									<DataGrid rows={rows} columns={columns} pageSize={5} />
 								</div>
 							</Col>
 						</Row>
