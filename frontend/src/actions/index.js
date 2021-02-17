@@ -9,10 +9,10 @@ export async function login (user_info) {
   {headers:{
     'Content-Type': 'application/json'
   }})
-  .then(res => [res.data, res.headers["x-auth-token"]])
+  .then(res => [res.data, res.headers["x-auth-token"], res.data.userProfile.type])
   .catch(err=> ['',''])
 
-  return { type: USERLOGIN, payload:_data[0], token:_data[1]}
+  return { type: USERLOGIN, payload:_data[0], token:_data[1], usertype:_data[2]}
 }
 
 //프로필 조회

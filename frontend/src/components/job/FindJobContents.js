@@ -76,18 +76,18 @@ class FindJobContents extends React.Component {
   
 
     loadList = async () => {
+
         this.setState({
             dong : this.props.currentlocation
         });
-        console.log("전체 리스트 출력");
+        
         const body = {
-            dong : this.props.currentlocation,
+            dong : this.props.currentlocation+" "+this.props.currentlocation+" "+this.props.currentlocation,
             category: this.state.category,
             minCredit: this.state.minCredit,
             maxCredit: this.state.maxCredit,
             dday: this.initDday()
         }
-        console.log(body);
         axios
         .post("http://i4d101.p.ssafy.io:8080/job/totalSearch",JSON.stringify(body),
         {headers:{
@@ -95,6 +95,7 @@ class FindJobContents extends React.Component {
         }})
         .then(res => {
             console.log(res);
+            
             this.setState({
                 jobList : res.data,
                 outputJobList : res.data,
@@ -104,7 +105,6 @@ class FindJobContents extends React.Component {
                 axios
                 .get("http://i4d101.p.ssafy.io:8080/keyword/job/keywords?jobId="+jobid)
                 .then(response => {
-
                     for(var i = 0; i < this.state.jobList.length; i++) {
                         if(this.state.jobList[i].jobId === response.data.jobId) {
                             var obj = this.state.jobList[i];
@@ -117,8 +117,6 @@ class FindJobContents extends React.Component {
                             break;
                         }
                     }
-                    console.log(this.state.jobList);
-
                 })
                 .catch(e => {
                     console.error(e);
@@ -149,6 +147,10 @@ class FindJobContents extends React.Component {
             this.loadList();
         }
         this.props.joblistpass(this.state.outputJobList);
+    }
+
+    moveJobDetail = (e) =>{
+        this.props.history.push("/job/"+e.currentTarget.value)
     }
 
     render() {
@@ -248,7 +250,7 @@ class FindJobContents extends React.Component {
                                                 </div>
                                             </div>
                                                 <div className={"col-md-1 col-sm-2 mr-auto justify-content-right"}>
-                                                <Button variant="outline-primary" style={{height:"40%",fontSize:"0.2rem"}}>정보</Button>{' '}
+                                                <Button variant="outline-primary" style={{height:"40%",fontSize:"0.2rem"}} value={job.jobId} onClick={this.moveJobDetail}>정보</Button>
                                                 <Button variant="outline-info" className={"mt-2"} style={{height:"40%",fontSize:"0.2rem"}}>위치</Button>
                                             </div>
                                             <div className={"col-md-3 col-sm-3"}>

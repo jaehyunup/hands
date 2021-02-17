@@ -20,9 +20,23 @@ import {
   import ClearIcon from '@material-ui/icons/Clear';
 import {Row,Col,Container} from 'react-bootstrap'
 import '../../styles/profilemodal.css'
+import axios from 'axios';
+
 
 export default class User extends React.Component {
   state = {
+    userProfileData:{
+        "profileId": 0,
+        "userUuid": "",
+        "email": "",
+        "name": "",
+        "phone": "",
+        "address": "",
+        "gender": "",
+        "description": "",
+        "nickname": "",
+        "type": 1
+    },
     user: [],
     location: [],
     urls:[
@@ -34,6 +48,25 @@ export default class User extends React.Component {
   creatAvatar(){
       return "https://avatars.dicebear.com/4.5/api/male/"+Math.floor(Math.random() * 500)+".svg"
   }
+  getUserDetail = async () =>{
+    return await axios.get("http://i4d101.p.ssafy.io:8080/auth/profile/"+this.props.match.params.userNickName)
+  }
+
+  followHandler = (e) =>{
+      console.log(e.currentTarget.value)
+  }
+
+  componentDidMount() {
+    this.getUserDetail().then(response => {
+        this.setState({
+            userProfileData:response.data
+        })
+    })
+    .catch(e => {
+        console.error("유저 정보를 가져오는데 문제가 발생");
+    })
+  }
+
   render(){
     return (
         <div className={"d-flex vh-100 profileModalRoot align-items-center justify-content-center"}>
@@ -51,7 +84,7 @@ export default class User extends React.Component {
                 </div>
                 <div>
                 <h4 style={{margin: '20px'}}>
-                구미왕자
+                    {this.state.userProfileData.nickname}
                 </h4>
             </div>
             <div style={{position: 'absolute', left: 200}}>
@@ -59,7 +92,7 @@ export default class User extends React.Component {
                 variant="contained"
                 aria-label="full-width contained secondary button group"
                 >
-                <Button variant="contained" color="primary">팔로우</Button>
+                <Button variant="contained" color="primary" value={this.state.userProfileData.email} onClick={this.followHandler} >팔로우</Button>
                 </ButtonGroup>
             </div>
             </div>
@@ -67,7 +100,7 @@ export default class User extends React.Component {
             <h4 style={{margin: '20px'}}>
             유저 소개
             </h4>
-            <p style={{margin: '20px'}}>안녕하세요 저는 구미왕자입니다. 성실하게 일하겠습니다.</p>
+            <p style={{margin: '20px'}}>{this.state.userProfileData.description}</p>
 
             <Grid container spacing={2}>
             <Grid item xs>
@@ -100,7 +133,7 @@ export default class User extends React.Component {
                     </ListItemIcon>
                     <ListItemText
                     primary="활동지역"
-                    secondary="경상북도 구미시 황상동"
+                    secondary={this.state.userProfileData.address}
                     />
                 </ListItem>
                 <ListItem>
@@ -109,7 +142,7 @@ export default class User extends React.Component {
                     </ListItemIcon>
                     <ListItemText
                     primary="이메일"
-                    secondary="pjh3909@gmail.com"
+                    secondary={this.state.userProfileData.email}
                     />
                 </ListItem>
                 </List>
