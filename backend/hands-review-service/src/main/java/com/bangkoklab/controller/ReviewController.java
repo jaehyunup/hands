@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -81,10 +82,11 @@ public class ReviewController {
 	 * @description review, urls, imgs 저장
 	 **/
 	@PostMapping("/review")
-	public ResponseEntity<?> insertReview(Input input, @RequestParam List<String> urls) {
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	public ResponseEntity<?> insertReview(Input input, @RequestParam(required = false) List<String> urls) {
 
 		MultiValueMap<String, String> header = new LinkedMultiValueMap<>();
-
+		System.out.println(input);
 		if (reviewService.isReviewDuplicated(input) != 0) {
 			header.add("message", "review already existed");
 			return new ResponseEntity<>(header, HttpStatus.CONFLICT);

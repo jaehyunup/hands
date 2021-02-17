@@ -31,7 +31,7 @@ public class ImgServiceImpl implements ImgService {
 	// 윈도우
 //	private final String ROOT_PATH = "http://localhost:8001/review/image/";
 	// 리눅스
-	private final String ROOT_PATH = "http://i4d101.p.ssafy:8080/review/image/";
+	private final String ROOT_PATH = "http://i4d101.p.ssafy.io:8080/review/image/";
 	
 	@Autowired
 	ReviewImgMapper reviewImgMapper;

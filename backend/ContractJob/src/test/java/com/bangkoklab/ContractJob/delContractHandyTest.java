@@ -26,9 +26,9 @@ public class delContractHandyTest extends ControllerTest {
 	@DisplayName("핸디 거래 요청 취소하기")
 	public void requestToHandy() throws Exception {
 		Contract contract = new Contract();
-		contract.setContractJobId("111");
-		contract.setHandy("run6722");
-		contract.setHander("MOUSE1");
+		contract.setContractJobId("777");
+		contract.setHandy("elvhfm");
+		contract.setHander("MOUSE2");
 		String content = objectMapper.writeValueAsString(contract);
 		mockMvc.perform(
 				delete("/delContractHandy")

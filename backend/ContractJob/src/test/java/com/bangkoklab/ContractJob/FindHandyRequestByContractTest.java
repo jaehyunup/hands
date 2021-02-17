@@ -25,7 +25,8 @@ public class FindHandyRequestByContractTest extends ControllerTest {
 	@DisplayName("핸더에게 요청하기")
 	public void requestToHandy() throws Exception {
 		Contract contract = new Contract();
-		contract.setContractJobId("111");
+		contract.setContractJobId("333");
+		contract.setHandy("elvhfm");
 		String content = objectMapper.writeValueAsString(contract);
 		mockMvc.perform(
 				post("/findHandyReqByCon")
