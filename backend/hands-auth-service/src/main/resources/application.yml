@@ -22,6 +22,7 @@ spring:
 
 
 
+
 # eureka client settings
 eureka:
   instance:
@@ -33,3 +34,6 @@ eureka:
       defaultZone : http://i4d101.p.ssafy.io:8761/eureka
 
 
+
+
+#

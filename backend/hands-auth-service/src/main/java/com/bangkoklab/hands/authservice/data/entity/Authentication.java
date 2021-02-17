@@ -1,6 +1,7 @@
 package com.bangkoklab.hands.authservice.data.entity;
 
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 @Table
 public class Authentication implements UserDetails {
     @Id
+    @Length(max = 191)
     private String userUuid;
     @Column(unique = true)
     private String userId;

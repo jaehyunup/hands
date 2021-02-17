@@ -27,6 +27,19 @@ public class ProfileServiceImpl implements ProfileService {
         return profileRepository.findByProfileId(authenticationRepository.findByUserUuid(userUuid).getUserProfile().getProfileId());
     }
 
+
+    /**
+    * @methodName selectProfileByUserNickname
+    * @author parkjaehyun
+    * @return com.bangkoklab.hands.authservice.data.entity.UserProfile
+    * @description 닉네임
+    **/
+    @Override
+    public UserProfile selectProfileByUserNickname(String nickname) {
+        return profileRepository.findByNickname(nickname);
+    }
+
+
     /**
     * @methodName selectAnotherProfile
     * @author parkjaehyun
