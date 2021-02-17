@@ -56,7 +56,7 @@ class ChatContents extends React.Component {
   }
 
   componentDidMount() {
-    var lsock = new SockJS('http://i4d101.p.ssafy.io:8080/chat/websocket');
+    var lsock = new SockJS('http://localhost:8050/websocket');
     let lstompClient = Stomp.over(lsock);
 
     this.setState(
@@ -94,12 +94,7 @@ class ChatContents extends React.Component {
   // }
 
   sendMessage = () => {
-    this.state.stompClient.connect({}, () => {
-      this.state.stompClient.subscribe('/sub/chat/room/' + this.state.roomid, (data) => {
-        JSON.parse(data.body);
-        console.log(data.body);
-      });
-    });
+    this.state.stompClient.send('/hello', {}, JSON.stringify('{a:b}'));
   };
 
   // recvMessage = (recv) => {
