@@ -18,14 +18,14 @@ const userApp = (state = {}, action) => {
   console.log(action)
   switch(action.type){
     case USERLOGIN:
-      return {...state, logined: action.payload, token:action.token, follows:[]}
+      return {...state, logined: action.payload, token:action.token, type:action.usertype}
     case USERLOGOUT:
       return {...state, logined: null, token:null}
     case CHECKPROFILE:
-      return {...state, logined: action.payload, token:action.token}
+      return {...state, userProfile: action.payload, type:action.payload.type}
     case UPDATEPROFILE:
       console.log(action)
-      return {...state,  token:action.token }
+      return {...state, userProfile: action.payload, token:action.token }
     case FINDFOLLOW:
       return {...state, follows:action.payload }
     case CURRENTLOCATION:

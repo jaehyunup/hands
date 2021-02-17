@@ -12,7 +12,7 @@ class JobCreate extends React.Component {
         super(props);
         this.state = {
             jobId : '',
-            jobUserUUid : 'af0ba8e1ed614e809d967c718f11913f', //this.props.logined.id
+            jobUserUUid : this.props.logined.id,
             jobName : '',
             categoryId : '전체',
             content : '',
@@ -26,6 +26,7 @@ class JobCreate extends React.Component {
             detailAddress : '',
             zoneCode : '',
             keywords : [],
+            keyword :'',
         };
 
     }
@@ -137,6 +138,99 @@ class JobCreate extends React.Component {
             alert(error)
         })
     }
+
+
+     //키워드 리스트 출력 함수
+     keywordList = () => {
+        const keywords = this.state.keywords
+        if (!keywords) {
+            return null
+        }
+        const keywordlist = keywords.map((keyword, index) =>
+            <span key={index} keyword={keyword} onClick={this.deleteKeyword}> {keyword}&nbsp;&nbsp;</span>)
+
+        return <div>{keywordlist}</div>
+    }
+
+    //키워드삭제 함수
+    deleteKeyword =(e) => {
+        e.preventDefault()
+        const inputInfo = {
+            userUuid:this.props.userUuid,
+            keywords:[ e.target.attributes[0].value ]
+        }
+
+        //키워드삭제 axios
+        axios.delete("http://i4d101.p.ssafy.io:8080/keyword/user/keywords",
+            {headers:{
+            'Content-Type': 'application/json'
+        },
+        data: JSON.stringify(inputInfo)
+        
+    })
+        .then(res => {
+            //키워드 조회(갱신) axios
+            axios.get(`http://i4d101.p.ssafy.io:8080/keyword/user/keywords?`,{params: {
+            userUuid: this.props.userUuid
+            }},{headers:{
+                'Content-Type': 'application/json',
+            }})
+            .then(res=> {
+                this.setState({
+                    keywords: res.data.keywords
+                })
+            })
+            .catch(err => {
+            })
+            })
+        .catch(err => {
+        })
+    }
+
+  //키워드추가 함수
+  onAddKeyword = e => {
+    e.preventDefault()
+    const inputInfo = {
+      userUuid: this.props.userUuid,
+      keywords: [this.state.keyword]
+    }
+    //공백일경우 추가x
+    if (!this.state.keyword) {
+      return
+    }
+
+    //키워드 추가 axios
+    axios.post("http://i4d101.p.ssafy.io:8080/keyword/user/keywords", JSON.stringify(inputInfo),{headers:{
+      'Content-Type': 'application/json'
+    }})
+    .then(res => {
+      //키워드 조회(갱신) axios
+      axios.get(`http://i4d101.p.ssafy.io:8080/keyword/user/keywords?`,{params: {
+        userUuid: this.props.userUuid
+      }},{headers:{
+        'Content-Type': 'application/json',
+      }})
+      .then(res=> {
+        this.setState({
+          keywords: res.data.keywords
+        })
+      })
+      .catch(err => {
+        console.log(err)
+      })
+      this.setState({
+        keyword:'',
+      })
+    })
+    }
+
+  // enter키로 키워드 추가
+  handleKeyPress = e => {
+    if (e.key === 'Enter') {
+      this.onAddKeyword(e)
+    }
+  }
+
     
     render() { 
         const postCodeStyle = {
@@ -263,22 +357,24 @@ class JobCreate extends React.Component {
                                   <input id="input-jobName" type="text" name="jobName" placeholder="" class="form-control  border-left-0 border-md" onKeyPress={this.insertTag} />
                               </div>
 
-                                        <div class="input-group col-sm-12 col-mg-12 col-lg-12 my-4 px-5">
+
+
+                                        <div class="input-group col-sm-12 col-mg-12 col-lg-12 my-4 px-5 justify-content-center">
+                                            <span>{this.keywordList()}</span>
+                                        </div>
+                                            <div class="input-group col-lg-12 mb-4 px-5">
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text px-4 border-md border-right-0 account-input-text">
-                                                등록된 태그
+                                                <span class="input-group-text bg-white px-4 border-md border-right-0 account-input-text">
+                                                키워드
                                                 </span>
                                             </div>
-                                  <span id="input-jobName" class="form-control border-left-0 border-md" >
-                                                {
-                                                    keywords.map(  (tag, idx) => {
-                                                        return (
-                                                            <button>{tag}</button>
-                                                        )
-                                                    })
-                                                }
-                                            </span>
-                              </div>
+                                            <input id="addkeywords" type="text" name="keyword" value={this.state.keyword} placeholder="" class="form-control bg-white border-md border-left-0"
+                                            onChange={ (e) =>this.setState({keyword:e.target.value})} onKeyPress={this.handleKeyPress}
+                                            />
+                                            </div>
+                                            <div class="input-group col-sm-12 col-mg-12 col-lg-12 my-4 px-5 justify-content-center">
+                                            <p>키워드 클릭시 삭제</p>
+                                        </div>
 
         
                                         
@@ -294,30 +390,42 @@ class JobCreate extends React.Component {
                      </Row>
                   </Container>
 
-         
+
             </>
         );
     } 
 }
+const mapStateToProps = (state) => {
+    // console.log(state)
+    if (state.userProfile) 
+    {
+      return {
+        id:state.logined.id,
+        userUuid:state.logined.userUuid,
+        logintoken: state.token,
+  
+        profileId : state.logined.userProfile.profileId,
+        email:state.logined.userProfile.email,
+        name:state.logined.userProfile.name,
+        
+        phone:state.userProfile.phone,
+        address:state.userProfile.address,
+        gender:state.userProfile.gender,
+        description:state.userProfile.description,
+        nickname:state.userProfile.nickname,
+        type:state.type,
+        follows:state.follows
+      }
+    }
+    else if (state.logined) {
+      return {
+        id:state.logined.id,
+        userUuid:state.logined.userUuid,
+        logintoken: state.token,
+        type:state.type,
+      }
+    }
+}
 
-//userlogin 로그인데이터 받아오기
-// const mapStateToProps = (state) => {
-//     if (state.userProfile) {
-//         return (
-//             userProfile:state.userProfile,
-//             logined:state.logined
-//         )
-//     }
-//     else if (state.logined) {
-//         return (
-//             logined:state.logined
-//         )
-
-//     }
-//     return {
-//       logined: state.logined
-      
-//   }
-// }
-// JobCreate = connect(mapStateToProps) (JobCreate);
+JobCreate = connect(mapStateToProps) (JobCreate);
 export default JobCreate;

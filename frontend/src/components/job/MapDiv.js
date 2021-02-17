@@ -78,6 +78,7 @@ class MapDiv extends React.Component {
     this.props.currentaddresspass();
   }
 
+  
   render() {
     return (
       <>

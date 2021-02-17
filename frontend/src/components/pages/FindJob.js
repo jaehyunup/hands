@@ -26,7 +26,9 @@ class FindJob extends React.Component {
     handleChange(event) {
         this.setState({category: event.target.value});
     }
-
+    searchHook = () =>{
+      
+    }
   render (){
     return (
     <>
@@ -37,11 +39,11 @@ class FindJob extends React.Component {
               <Row>
                   <Col md={6} lg={6}>
                     <Row className={"mapRow"}>
-                        <Map></Map>
+                        <Map searchHook={this.searchHook}></Map>
                     </Row>
                   </Col>
                   <Col md={6} lg={6} className={"px-0"}>
-                       <FindJobContents></FindJobContents>
+                       <FindJobContents searchHook={this.searchHook}></FindJobContents>
                   </Col>
               </Row>
              

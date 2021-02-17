@@ -17,8 +17,6 @@ class ReviewCreate extends React.Component {
         };
     }
 
-    
-    
     render() {
         return(
 

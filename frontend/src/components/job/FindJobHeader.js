@@ -11,8 +11,10 @@ class FindJobHeader extends React.Component {
         return(
             <>
     <Navbar collapseOnSelect className="py-3" expand="sm">
-      <Navbar.Brand href="#home">
-      <Image width={90} src={logo}></Image>
+      <Navbar.Brand>
+        <Link to="/home">
+          <Image width={90} src={logo}></Image>
+        </Link>
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
