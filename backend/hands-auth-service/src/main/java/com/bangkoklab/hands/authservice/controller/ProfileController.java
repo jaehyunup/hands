@@ -75,6 +75,20 @@ public class ProfileController {
         }
     }
 
+    @PostMapping("/uuid/{userUuid}")
+    public ResponseEntity<?> getAnotherProfileByUuid(@PathVariable("userUuid") String userUuid) {
+        Authentication auth=new Authentication();
+        MultiValueMap<String, String> header = new LinkedMultiValueMap<>();
+        UserProfile pr=null;
+        try {
+            return new ResponseEntity<>(authService.findUserByUserUuid(userUuid).getUserProfile(),header, HttpStatus.OK);
+        }catch(Exception e){
+            header.add("message","오류가 발생했습니다.");
+            return new ResponseEntity<>(header, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
     /**
     * @methodName updateProfile
     * @author parkjaehyun

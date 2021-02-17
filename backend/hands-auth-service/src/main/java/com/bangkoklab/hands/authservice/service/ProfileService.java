@@ -11,6 +11,7 @@ import java.util.List;
 * @description 프로필 관련 서비스
 **/
 public interface ProfileService {
+    UserProfile selectProfileByUserNickname(String nickname);
     // 프로필 조회(
     UserProfile selectProfileByUserUuid(String userUuid);
     // 다른사람의 프로필 조회
