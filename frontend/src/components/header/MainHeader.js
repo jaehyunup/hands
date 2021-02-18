@@ -51,13 +51,14 @@ class MainHeader extends React.Component {
               <Link to="/findjob">일거리찾기</Link>
           </Nav.Link>
           <Nav.Link>
-            <Link to="/findhandy">우리동네 핸디찾기</Link>
+            <Link to="/chat">메신저</Link>
           </Nav.Link>
           {
           this.props.logintoken &&
           <Nav.Link>
             <Link to="/mypage">마이페이지</Link>
           </Nav.Link>
+
           }
         </Nav>
         <Nav className="sub-nav py-2">

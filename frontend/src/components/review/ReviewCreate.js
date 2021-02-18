@@ -3,20 +3,27 @@ import axios from 'axios';
 import { Row,Col,Tabs,Tab, Container } from 'react-bootstrap';
 import '../../styles/mypage.css'
 import {Avatar,Button} from '@material-ui/core';
+import { connect } from 'react-redux';
 
 class ReviewCreate extends React.Component {
     constructor(props){
+        
         super(props);
         this.state = {
-            userUuid: '31b6c1ea100e4934b3969af8b49ed370',//this.props.logied.userUuid,
-            contractId : 12,//this.props.contractId,
+            userUuid: '',
+            contractId : props.match.params.contractId,
             reviewContent: '',
             score: null,
             imgs : undefined,
             avatarurl:"https://avatars.dicebear.com/4.5/api/male/"+Math.floor(Math.random() * 500)+".svg"
         };
     }
+    componentDidMount() {
+        this.setState({
+            userUuid:this.props.userUuid
 
+        })
+    }
     createJobHandler = async (e) => {
         e.preventDefault();
         console.log(this.state);
@@ -28,11 +35,11 @@ class ReviewCreate extends React.Component {
         }
         console.log(formData);
         await formData.append("userUuid",this.state.userUuid);
-        await formData.append("reviewContent",this.state.content);
+        await formData.append("reviewContent",this.state.reviewContent);
         await formData.append("score",this.state.score);
         await formData.append("contractId",this.state.contractId);
         axios
-        .post('http://172.30.1.51:8001/review/review/', formData, {headers : {'Content-Type' : 'multipart/form-data'}})
+        .post('http://i4d101.p.ssafy.io:8080/review/review/', formData, {headers : {'Content-Type' : 'multipart/form-data'}})
         .then(res => console.log(res))
         .catch(e=>alert(e))
     }
@@ -44,7 +51,7 @@ class ReviewCreate extends React.Component {
     }
     handleContent = (e) => {
         this.setState({
-            content : e.target.value
+            reviewContent : e.target.value
         })
     }
     render() {
@@ -64,7 +71,7 @@ class ReviewCreate extends React.Component {
                                                 </div>
                                                 <div>
                                                     <h4 style={{margin: '20px'}}>
-                                                    구미왕자<p style={{marginTop:"10px"}}>"저랑 거래하니까 어떠신가요?"</p>             
+                                                    거래 후기를 작성해주세요!<p style={{marginTop:"10px"}}>여러분의 솔직한 후기가 서비스 질을 향상시킵니다.</p>             
                                                     </h4>
                                                 </div>
                                             </div>
@@ -96,7 +103,7 @@ class ReviewCreate extends React.Component {
                                                 내용
                                                 </span>
                                             </div>
-                                            <textarea id="input-contents" rows={"10"} name="content"  value={this.state.content} class="form-control bg-white border-md border-left-0" onChange={this.handleContent}/>
+                                            <textarea id="input-contents" rows={"10"} name="content"  value={this.state.reviewContent} class="form-control bg-white border-md border-left-0" onChange={this.handleContent}/>
                               </div>
 
                                             
@@ -126,5 +133,37 @@ class ReviewCreate extends React.Component {
         );
     }
 }
-
+const mapStateToProps = (state) => {
+    // console.log(state)
+    if (state.userProfile) 
+    {
+    return {
+      id:state.logined.id,
+      userUuid:state.logined.userUuid,
+      logintoken: state.token,
+    
+      profileId : state.logined.userProfile.profileId,
+      email:state.logined.userProfile.email,
+      name:state.logined.userProfile.name,
+      
+      phone:state.userProfile.phone,
+      address:state.userProfile.address,
+      gender:state.userProfile.gender,
+      description:state.userProfile.description,
+      nickname:state.userProfile.nickname,
+      type:state.type,
+      follows:state.follows
+    }
+    }
+    else if (state.logined) {
+    return {
+      id:state.logined.id,
+      userUuid:state.logined.userUuid,
+      logintoken: state.token,
+      type:state.type,
+    }
+    }
+    }
+  
+    ReviewCreate = connect(mapStateToProps) (ReviewCreate);
 export default ReviewCreate;

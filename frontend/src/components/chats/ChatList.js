@@ -63,14 +63,15 @@ class ChatList extends React.Component{
     }
 
     listClick = (e) => {
-        console.log("list클릭!",e.target);
+        console.log("list클릭!",e);
         //roomid 넘겨주기
-        // this.props.chatroompass();
+        this.props.chatroompass(e.target.id);
         
     }
 
     render(){
         const {chatList} = this.state; 
+        console.log(this.props);
         return(
             <Grid item xs={3} className={classes.borderRight500}>
                 <List>
@@ -78,7 +79,7 @@ class ChatList extends React.Component{
                         <ListItemIcon>
                         <Avatar alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/1.jpg" />
                         </ListItemIcon>
-                        <ListItemText primary={this.props.logined.userProfile.name}></ListItemText>
+                        <ListItemText primary={this.props.profile.name}></ListItemText>
                     </ListItem>
                 </List>
                 <Divider />
@@ -87,13 +88,8 @@ class ChatList extends React.Component{
                 </Grid>
                 <Divider />
                 <List >
-                    {chatList.map( chat => {return(
-                        <ListItem button key="RemySharp" onClick={this.listClick} hidden={chat.roomid}>
-                            <ListItemIcon>
-                                <Avatar alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/1.jpg" />
-                            </ListItemIcon>
-                            <ListItemText primary={chat.roomName}></ListItemText>
-                        </ListItem>
+                    {chatList.map( (chat, index) => {return(
+                        <div><div onClick={this.listClick} class="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button" tabindex="0" role="button" aria-disabled="false"><div class="MuiListItemIcon-root"><div class="MuiAvatar-root MuiAvatar-circle"><img alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/1.jpg" class="MuiAvatar-img"/></div></div><div class="MuiListItemText-root"><span id={chat.roomId} sclass="MuiTypography-root MuiListItemText-primary MuiTypography-body1 MuiTypography-displayBlock">{chat.roomName}</span></div><span class="MuiTouchRipple-root"></span></div></div>
                     )})}
                 </List>
             </Grid>
@@ -104,7 +100,8 @@ class ChatList extends React.Component{
 //userlogin 로그인데이터 받아오기
 const mapStateToProps = (state) => {
     return {
-      logined: state.logined
+      logined: state.logined,
+      profile: state.logined.userProfile
   }
 }
 

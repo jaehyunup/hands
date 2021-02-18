@@ -8,6 +8,7 @@ import {DataGrid} from '@material-ui/data-grid';
 import { connect } from 'react-redux';
 import { checkprofile, findfollow, updateprofile} from '../../actions';
 import axios from 'axios'
+import { withRouter } from 'react-router';
 
 import DaumPostcode from 'react-daum-postcode';
 import MonetizationOnRoundedIcon from '@material-ui/icons/MonetizationOnRounded';
@@ -17,7 +18,6 @@ class MypageComp extends React.Component {
         super(props);
         this.state = {
             key: 'home',
-
             userId:'',
             nickname:'',
             phone:'',
@@ -37,16 +37,22 @@ class MypageComp extends React.Component {
             changed_Credit:'',
             jobs:'',
             avatarurl:"https://avatars.dicebear.com/4.5/api/male/"+Math.floor(Math.random() * 500)+".svg",
-            tableRow:[]
+            tableRow:[],
+            jobContractRows:[],
+            contractAcceptData:null,
+
+            HandytableRow:[],
+            is_findContract:false,
+            findContractInfo:{}
 
         };
         
     }
     async componentDidMount() {
         const logintoken = this.props.logintoken
-    const myId = this.props.id
+        const myId = this.props.id
 
-    // profile정보 바로 조회
+        // profile정보 바로 조회
         this.props.checkprofile(logintoken)
         
         this.setState({
@@ -91,17 +97,58 @@ class MypageComp extends React.Component {
             this.props.findfollow(findfollowinfo, logintoken)
         }
 
-        //일거리 조회
+        //내가 만든 일거리 조회
         axios.get("http://i4d101.p.ssafy.io:8080/job/findJobsByUuid?", {
             params : {
-                jobUserUUid:"af0ba8e1ed614e809d967c718f11913f"
+                jobUserUUid:this.props.userUuid
             }
         },{headers:{
             'Content-Type': 'application/json',
         }})
         .then(res => {
-            console.log(res.data)
             this.makeRows(res.data)
+        })
+
+
+        ////////내 근무내역
+        const body = {
+            handy:this.props.userUuid,
+        }
+        const _data = await axios.post("http://i4d101.p.ssafy.io:8080/contract/selectHandy",
+        JSON.stringify(body),
+        {headers:{
+            'Content-Type': 'application/json',
+            'X-AUTH-TOKEN': this.props.logintoken
+        }})
+        .then(res => res.data)
+        console.log("_data : ",_data)
+
+        let findrow = []
+        for (let i=0;i<_data.length;i++) {
+            console.log(`_data:${i}`,_data[i])
+            const onerow = await axios.get(`http://i4d101.p.ssafy.io:8080/job/jobInfo?jobId=${_data[i].contractJobId}`,{headers:{
+                'Content-Type': 'application/json',
+                'X-AUTH-TOKEN': logintoken
+              }})
+              .then(res => res.data)
+            console.log('onerow: ',onerow)
+            const jobInfo = {
+                id: i,
+                categoryId:onerow.categoryId,
+                jobName:onerow.jobName,
+                jobCredit:onerow.jobCredit,
+                status:_data[i].contractStatus,
+                jobRegDate:onerow.jobRegdate,
+                contractId: _data[i].contractId,
+                contractJobId: _data[i].contractJobId,
+                hander: _data[i].hander,
+                handy: _data[i].handy,
+                contractStatus: _data[i].contractStatus
+            }
+            findrow.push(jobInfo)
+        }
+        this.setState({
+            HandytableRow:findrow
         })
     }
 
@@ -243,6 +290,9 @@ class MypageComp extends React.Component {
     }
     insertReview = (e)=>{
         console.log(e.currentTarget.value)
+        this.props.history.push('/review/'+e.currentTarget.value)
+
+       // /review/:contractId
     }
 
   //변수제어 함수
@@ -571,10 +621,225 @@ class MypageComp extends React.Component {
       console.log(err)
     })
 }
+
+
+//////////글에대한 핸더의 거래 요청 관리
+makeContractRow = async (selectJobUuid) =>{
+    const inputInfo={
+        contractJobId:selectJobUuid
+    }
+    var contractRowArr=[]
+    const _data = await axios.post("http://i4d101.p.ssafy.io:8080/contract/select", JSON.stringify(inputInfo),{headers:{
+        'Content-Type': 'application/json',
+        'X-AUTH-TOKEN': this.props.logintoken
+    }})
+    console.log("컨트랙트 불러왔음")
+    console.log(_data.data)
+    
+    for(var i=0;i<_data.data.length;i++){
+        const rowProfileData=await axios.post(`http://i4d101.p.ssafy.io:8080/auth/profile/uuid/`+_data.data[i].handy,
+            { headers:{
+                'Content-Type': 'application/json',
+                 'X-AUTH-TOKEN': this.props.logintoken
+                }
+            })
+            console.log(rowProfileData)
+            var contractRowData={
+                id:i,
+                "contractId": _data.data[i].contractId,
+                "nickname": rowProfileData.data.nickname,
+                "contractStatus": _data.data[i].contractStatus,
+                "contractJobId": _data.data[i].contractJobId,
+                "hander": _data.data[i].hander,
+                "handy": _data.data[i].handy,
+            }
+            contractRowArr.push(contractRowData)
+    }
+    this.setState({
+        jobContractRows:contractRowArr
+    }
+    )
+    console.log(contractRowArr)
+    
+}
+
+contractAcceptHandler = (contractJobId,handyUuid,contractId,handerUuid) =>{
+    const data={
+        contractJobId:contractJobId,
+        handy:handyUuid,
+        "contractId":contractId,
+        "hander":handerUuid,
+        
+    }
+    console.log("이거확인해라이쌰ㅐㅑ더랴덜")
+    console.log(data)
+    axios.post("http://i4d101.p.ssafy.io:8080/contract/accept", JSON.stringify(data),
+    {headers:{
+        'Content-Type': 'application/json',
+        'X-AUTH-TOKEN': this.props.logintoken
+    }}).then((res)=>{
+        console.log(res)
+    })
+
+    const jobstatusdata={
+        contractJobId:contractJobId,
+        status:"거래중"
+    }
+    axios.put("http://i4d101.p.ssafy.io:8080/job/updateJobStatus", JSON.stringify(jobstatusdata),
+    {headers:{
+        'Content-Type': 'application/json',
+        'X-AUTH-TOKEN': this.props.logintoken
+    }}).then((res)=>{
+        console.log(res)
+    })
+    
+
+}
+
+////////// 핸더의 글관리 끝 
+
+////내 근무내역 수정
+FindHandy = () => {
+    const body = {
+        handy:this.props.userUuid,
+    }
+    axios.post("http://i4d101.p.ssafy.io:8080/contract/selectHandy",
+    JSON.stringify(body),
+    {headers:{
+        'Content-Type': 'application/json',
+        'X-AUTH-TOKEN': this.props.logintoken
+    }})
+    .then(res => {
+        console.log(res)
+    })
+
+
+}
+
+// 손ㄷㅇ민씨 거래내역 토글
+ToggleIsFindContract = (e) => {
+    const contractJobId = e.currentTarget.value
+    this.setFindContract(contractJobId)
+    this.setState({
+        is_findContract:!this.state.is_findContract
+    })
+}
+
+//거래내역 데이터넣기
+setFindContract = async (jid) => {
+    const jobId = jid
+    const _data = await axios.get(`http://i4d101.p.ssafy.io:8080/job/jobInfo?jobId=${jobId}`, {headers:{
+        'Content-Type': 'application/json',
+        'X-AUTH-TOKEN': this.props.logintoken
+    }} )
+    console.log('findConstractdata: ',_data.data)
+    this.setState({
+        findContractInfo:_data.data
+    })
+
+}
+
+
 render() {
+    const HandytableRow = this.state.HandytableRow
+    // 일거리 요청 테이블 행
+    const jobContractColumn = [ 
+        { field: 'id',headerName:"순서",width:100},
+        { field: 'contractStatus', headerName: '요청상태', width: 120 },
+        { field: 'nickname',
+            headerName: '요청한 핸디',
+            description: '게시글에 요청한 핸디',
+            width: 350,
+            renderCell: (params) =>{
+                <Link to={"/profile/"+params.getValue('nickname') }>
+                            {params.getValue('nickname')}
+                </Link>
+            },
+        },
+        { field: 'etc1',
+            headerName: '메뉴',
+            description: '게시글에 요청한 핸디',
+            width: 200,
+            renderCell: (params) =>{
+                if(params.getValue('contractStatus')==("거래전")){
+                    return (
+                        <Button
+                        variant="contained"
+                        color="secondary"
+                        size="small"
+                        style={{marginRight:"4px"}}
+                        onClick={(e)=>{
+                            this.setState({
+                            contractAcceptData:{
+                                contractJobId: params.getValue('contractJobId'),
+                                handy:params.getValue('handy')
+                            }
+                            })                            
+                            this.contractAcceptHandler(params.getValue('contractJobId'),
+                            params.getValue('handy'),params.getValue('contractId'),params.getValue('hander'));
+                        }}>
+                        수락
+                        </Button>
+                    )
+                }else if(params.getValue('contractStatus')==("거래중")) {
+                    return (
+                        <Link to={"/contract/"+params.getValue('contractJobId')}>
+                            <Button
+                            variant="contained"
+                            color="secondary"
+                            size="small"
+                            style={{marginRight:"4px"}}
+                            >
+                            거래 정보 보기
+                            </Button>
+                        </Link>
+                        
+                    )
+                }else if(params.getValue('contractStatus')==("거래완료")){
+                    return (
+                            <Button
+                            variant="contained"
+                            color="secondary"
+                            size="small"
+                            style={{marginRight:"4px"}}
+                            onClick={(e)=>{
+                                /*
+                                거래 완료 상태 변경 메서드 (일거리와 contract 함께 axios 날려야함)
+                                */
+                            }}>
+                            거래완료
+                            </Button>
+                    )
+                }
+                
+            },
+          },
+          {
+            field: 'etc2',
+            headerName:'리뷰작성',
+            description:'리뷰는 거래완료이후 작성 가능합니다',
+            width:120,
+            renderCell: (params) =>{
+                        return(
+                            <>
+                                <Button
+                                variant="contained"
+                                color="secondary"
+                                size="small"
+                                style={{backgroundColor:"#FF7000",marginRight:"2px"}}
+                                value={params.getValue('contractId')}
+                                onClick={this.insertReview}
+                                >
+                                리뷰작성
+                                </Button>
+                            </>
+                        )
+            }
+     }
+    ]
+
     
-    // const rows = this.state.jobs
-    
+
     const columns = [ // 열 정의(하나의 인덱스는 하나의 열을 대변)
         { field: 'id',headerName:"번호",width:100},
         { field: 'categoryId', headerName: '카테고리', width: 120 },
@@ -640,6 +905,97 @@ render() {
                         )
                 }
             },
+            
+    ]
+    ////// 동민이형 칼럼
+    const columns_handy = [ // 열 정의(하나의 인덱스는 하나의 열을 대변)
+        { field: 'id',headerName:"번호",width:100},
+        { field: 'categoryId', headerName: '카테고리', width: 120 },
+        {
+            field: 'jobName',
+            headerName: '이름',
+            description: '게시글이름을 링크로 변환',
+            width: 350,
+            renderCell: (params) =>{
+                var ji=params.getValue('id');
+                return (
+                        <Link onClick={this.ToggleIsFindContract}>
+                            {params.getValue('jobName')}
+                        </Link>
+                        )
+            },
+          },
+        { field: 'jobCredit', headerName: '가격', width: 90},
+        { field: 'status',sortable:true, headerName: '거래상태', width: 120},
+        {
+          field: 'jobRegdate',
+          headerName: '시간',
+          description: '게시 시간을 yy-mm-dd hh:mm형태로 변환',
+          sortable:true,
+          sortingOrder:'desc',
+          width: 150,
+          valueGetter: (params) =>{
+              return this.dateFormat2YYYMMDDHHMMSS(params.getValue('jobRegDate'))
+              }
+        },
+        {
+            field: 'etc',
+            headerName:'관리',
+            description:'버튼이 나열될 행',
+            width:200,
+            renderCell: (params) =>{
+                        if (params.getValue('status')=="거래전") {
+
+                            return(
+                                
+                                <>
+                                <Link to={"/updatejob/"+params.getValue('id')}>
+                                <Button
+                                variant="contained"
+                                color="secondary"
+                                size="small"
+                                style={{marginRight:"4px"}}
+                                value={params.getValue('id')}
+                                // onClick={this.moveUpdatePage}
+                                
+                                >
+                                수정
+                                </Button>
+                                    </Link>
+                                <Button
+                                variant="contained"
+                                color="default"
+                                size="small"
+                                style={{marginLeft:"2px",marginRight:"2px"}}
+                                value={params.getValue('id')}
+                                onClick={this.deleteJob}
+                                >
+                                삭제
+                                </Button>
+                            </>
+                        )
+                        }
+                        else {
+                            return (
+
+                                <>
+                            <Link>
+                            <Button
+                            variant="contained"
+                            color="secondary"
+                            size="small"
+                            style={{marginRight:"4px"}}
+                            value={params.getValue('contractJobId')}
+                            onClick={this.ToggleIsFindContract}
+                            >
+                            거래상세
+                            </Button>
+                            </Link>
+                        </>
+                                )
+                        }
+                }
+            },
             {
                 field: 'etc2',
                 headerName:'리뷰작성',
@@ -663,6 +1019,7 @@ render() {
                 }
         }
     ]
+
     
     const postCodeStyle = {
         position: "absolute",
@@ -882,26 +1239,64 @@ render() {
                         </Row>
                     </Container>
                 </Tab>
+                
+                
+                
+                
+                
                 <Tab eventKey="profile" title="일거리 관리">
                     <Container fluid >
                     <Row style={{paddingTop:"3rem",paddingBottom:"3rem"}}>
                         <p className={"tabInnerDivHeader"}>내가 만든 일거리</p>
                         <Col className={"tabInnerDiv"} md={12} lg={12}>
                             <div className={"my-2"} style={{ height: 400, width: '100%' }}>
-                                <DataGrid rows={this.state.tableRow} columns={columns} pageSize={5} />
+                                <DataGrid rows={this.state.tableRow} 
+                                            columns={columns} pageSize={5} 
+                                            onSelectionChange={(newSelection) => {
+                                                    this.makeContractRow(newSelection.rowIds[0]);
+                                            }}
+                                />
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row style={{paddingTop:"3rem",paddingBottom:"3rem"}}>
+                        <p className={"tabInnerDivHeader"}>일거리 거래 요청</p>
+                        <Col className={"tabInnerDiv"} md={12} lg={12}>
+                            <div className={"my-2"} style={{ height: 400, width: '100%' }}>
+                                <DataGrid rows={this.state.jobContractRows} 
+                                            columns={jobContractColumn} pageSize={5} 
+                                />
                             </div>
                         </Col>
                     </Row>
                     </Container>
                 </Tab>
+
+                
+
+
                 <Tab eventKey="contact" title="내 근무내역">
                     <Container fluid>
-
+                        { this.state.is_findContract
+                         ?
+                            <Row style={{paddingTop:"3rem",paddingBottom:"3rem"}}>
+                                <p className={"tabInnerDivHeader"}>거래상세</p>
+                                <Col className={"tabInnerDiv p-2"} md={12} lg={12}>
+                                    <div className={"my-2"} style={{height: 400,width: '100%' }}>
+                                        <p>제목:{this.state.findContractInfo.jobName}</p>
+                                        <p>내용:{this.state.findContractInfo.content}</p>
+                                        <p>크레딧:{this.state.findContractInfo.jobCredit}</p>
+                                        <p>{this.state.findContractInfo.status}</p>
+                                    </div>
+                                </Col>
+                            </Row>
+                        : null
+                        }
                         <Row style={{paddingTop:"3rem",paddingBottom:"3rem"}}>
                             <p className={"tabInnerDivHeader"}>내가 수행한 일거리</p>
                             <Col className={"tabInnerDiv p-2"} md={12} lg={12}>
                                 <div className={"my-2"} style={{height: 400,width: '100%' }}>
-                                    <DataGrid rows={this.state.tableRow} columns={columns} pageSize={5} />
+                                    <DataGrid rows={this.state.HandytableRow} columns={columns_handy} pageSize={5} />
                                 </div>
                             </Col>
                         </Row>
@@ -960,5 +1355,4 @@ checkprofile:(token_info) => {dispatch(checkprofile(token_info))
 }
 }
 MypageComp = connect(mapStateToProps,mapDispatchToProps) (MypageComp);
-
-export default MypageComp;
+export default withRouter(MypageComp);

@@ -25,6 +25,7 @@ import {
   import SendIcon from '@material-ui/icons/Send';
   import ThumbsUpDownIcon from '@material-ui/icons/ThumbsUpDown';
 import {Row,Col,Container} from 'react-bootstrap'
+import { connect } from 'react-redux';
 import '../../styles/profilemodal.css'
 
 class JobDetail extends React.Component {
@@ -42,7 +43,7 @@ class JobDetail extends React.Component {
             workingAddress: "경산북도 구미 진평동",
             status: "거래전",
             jobName: "저희집 강아지를 산책시켜주세요",
-            userNickname:'손동민',
+            userNickname:'ddddd',
             dday: 12,
             urls:[
                 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
@@ -69,34 +70,34 @@ class JobDetail extends React.Component {
   }
   componentDidMount() {
     //job 상세정보 불러옴
-    this.getJobDetailData().then(response => {
+    this.getJobDetailData().then(async (response) => {
         this.setState({
             contents:response.data.content,
-            category:response.data.cadtegoryId,
+            category:response.data.categoryId,
             workingHour: response.data.workingHour,
             jobCredit:response.data.jobCredit,
-            workingDate: response.data.workingData,
+            workingDate: response.data.workingDate,
             workingAddress:response.data.workingAddress,
             status: response.data.status,
             jobName: response.data.jobName,
-            userNickname:response.data.userNickname,
             jobUserUuid:response.data.jobUserUUid,
-        })
-        this.getUserReviewData().then(async(response) => {
-            console.log(response.data);
-            await this.setState({reviewData: response.data});
-            this.getUserProfile().then(res => {
-                console.log(res.data);
-                this.setState({ reviewWriter: res.data.userNickname })
-            }).catch(e => {console.log("리뷰글 쓴사람 프로필 조회 에러")})
-        }).catch(e=>{
-            console.log("리뷰데이터가 존재하지 않습니다")
-        })
-    })
-    .catch(e => {
-        console.error("일거리 정보를 가져오는데 문제가 발생");
-    })
-
+            dday: response.data.dday,
+        });
+        await axios
+        .post("http://i4d101.p.ssafy.io:8080/auth/profile/uuid/"+this.state.jobUserUuid)
+        .then(async (res)=>{
+            console.log(res.data);
+            await this.setState({userNickname: res.data.nickname});
+            //useruuid로 리뷰데이터 가져오기
+            await this.getUserReviewData().then(
+                async(response) => {
+                    await this.setState({reviewData: response.data});
+                    this.getUserProfile().then(res => {
+                        this.setState({ reviewWriter: res.data.nickname })
+                        }).catch(e => {console.log("리뷰글 쓴사람 프로필 조회 에러")})
+            }).catch(e=>{console.log("리뷰데이터가 존재하지 않습니다")})
+        }).catch(e => {console.error("일거리 정보를 가져오는데 문제가 발생");})
+        }).catch(e => {console.log("job user id로 닉네임불러오기 에러")})
 
     //지도
     const script = document.createElement("script");
@@ -162,19 +163,20 @@ class JobDetail extends React.Component {
     .post(
         "http://i4d101.p.ssafy.io:8080/contract/insert",
         JSON.stringify({
-            contractJobId : this.state.contractJobId,
-            handy : this.state.handy,
-            hander : this.state.hander }),
+            contractJobId : this.state.jobId,
+            handy : this.props.logined.myUuid,
+            hander : this.state.jobUserUuid }),
         {headers:{
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'X-AUTH-TOKEN': this.props.logintoken
         }}
     )
-    .then(res => {alert("insert 성공")})
+    .then(res => {console.log(res.data)})
     .catch(e => {console.log(e)})
   }
-  pointTOstar = () =>{
+  pointTOstar = (score) =>{
       var star = '★★★★★';
-      switch(this.state.reviewData.score){
+      switch(score){
           case '0' : star = '☆☆☆☆☆'; return star;
           case '1' : star = '★☆☆☆☆'; return star;
           case '2' : star = '★★☆☆☆'; return star;
@@ -184,7 +186,18 @@ class JobDetail extends React.Component {
           default : return star;
       }
   }
+  chatInsert = async () => {
+      await axios
+      .post("http://i4d101.p.ssafy.io:8080/chat/chat/room", 
+      {roomName : this.state.jobName,
+        myUuid : this.props.logined.myUuid,
+        youUuid : this.state.jobUserUuid,
+        jobUuid : this.state.jobId
+        })
+      .then(res => {console.log("채팅방생성 완료",res); this.props.history.push("/chat")})
+      .catch(e => {console.log("채팅방생성 실패", e)})
 
+  }
   render(){
     return (
         <div className={"d-flex vh-100 profileModalRoot align-items-center justify-content-center"}>
@@ -203,10 +216,10 @@ class JobDetail extends React.Component {
                                     alt={"아바타"} style={{width: '30px',height:'30px', marginRight: 10, display: 'inline-block', verticalAlign: 'middle'}}/>
                                     </ListItemIcon>
                                     <ListItemText
-                                    primary={this.state.userNickname+" 핸더"}
+                                    primary={this.state.userNickname + "핸더"}
                                     secondary={Math.floor(Math.random() * (80+ 1))+"번의 거래이력"}
                                     />
-                    <Button startIcon={<SendIcon/>} className={"mx-3"} variant="contained" color="primary" onClick={this.Addcredit}>채팅</Button>
+                    <Button startIcon={<SendIcon/>} className={"mx-3"} variant="contained" color="primary" onClick={this.chatInsert}>채팅</Button>
                     <Button startIcon={<ThumbsUpDownIcon/>} className={"mr-3"} variant="contained" color="secondary" onClick={this.contractInsert}>거래신청</Button>
                     </ListItem>
                     
@@ -287,7 +300,9 @@ class JobDetail extends React.Component {
             </h4>
             <Container>
 
-            { this.state.reviewData.map( () => {return(
+            { //리뷰데이터 있는지없는지부터 판단
+            this.state.reviewData
+            ? this.state.reviewData.map( () => {return(
                 <>
                     <Row className={"reviewRow"}>
                         <Col md={12} lg={12}>
@@ -328,53 +343,25 @@ class JobDetail extends React.Component {
                     </Row>
                     <Divider/>
                 </>
-            )})}
+            )})
+            : <div>review data 없음</div>
+            }
 
 
-
-                <Row className={"reviewRow"}>
-                    <Col md={12} lg={12}>
-                        <Row className={"reviewUser"}>
-                        <ListItem>
-                            <ListItemIcon>
-                            <Avatar src={"https://avatars.dicebear.com/4.5/api/male/"+Math.floor(Math.random() * 500)+".svg"} 
-                            alt={"아바타"} style={{width: '30px',height:'30px', marginRight: 10, display: 'inline-block', verticalAlign: 'middle'}}/>
-                            </ListItemIcon>
-                            <ListItemText
-                            primary="구미공자"
-                            secondary="★☆☆☆☆"
-                            />
-                        </ListItem>
-                        </Row>
-                        <Row className={"px-4"}>
-                            <p>개별로임</p>
-                        </Row>
-                        <Row>
-                        <div className={"mx-4"} style={{display: 'flex',
-                                    flexWrap: 'wrap',
-                                    
-                                    justifyContent: 'space-around',
-                                    overflow: 'hidden'}}>
-                            <GridList cellHeight={100} style={{
-                                                            width: "100%",
-                                                            height: "8rem",
-                                                        }} cols={4}>
-                                            {this.state.urls.map((url) => (
-                                            <GridListTile key={url}>
-                                                <img src={url} alt={"img"} />
-                                            </GridListTile>
-                                            ))}
-                            </GridList>
-                        </div>
-
-                        </Row>
-                    </Col>
-                </Row>
-                <Divider/>
-                
             </Container>
         </div>
     </div>
     );
   }
-}export default withRouter(JobDetail)
+}
+const mapStateToProps = (state) => {
+    return {
+      logintoken: state.token,
+      logined : state.logined
+  }}
+  
+
+  
+JobDetail = connect(mapStateToProps) (JobDetail);
+
+export default withRouter(JobDetail)

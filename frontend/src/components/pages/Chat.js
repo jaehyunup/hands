@@ -15,9 +15,10 @@ import Fab from '@material-ui/core/Fab';
 import SendIcon from '@material-ui/icons/Send';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import ChatHeader from '../messenger/ChatHeader';
-import ChatList from '../messenger/ChatList';
-import ChatContents from '../messenger/ChatContents';
+import ChatHeader from '../chats/ChatHeader';
+import ChatList from '../chats/ChatList';
+import ChatContents from '../chats/ChatContents';
+import MainHeader from '../header/MainHeader';
 
 const classes = {
     table: {
@@ -44,7 +45,7 @@ class Chat extends react.Component{
     return (
         <div>
             <Grid container>
-                <ChatHeader />
+                {/* <MainHeader /> */}
             </Grid>
             <Grid container component={Paper} className={classes.chatSection}>
                 <ChatList />
