@@ -698,6 +698,7 @@ makeContractRow = async (selectJobUuid) =>{
 }
 
 contractAcceptHandler = async (contractJobId,handyUuid,contractId,handerUuid) =>{
+    
     const data={
         contractJobId:contractJobId,
         handy:handyUuid,
@@ -726,9 +727,7 @@ contractAcceptHandler = async (contractJobId,handyUuid,contractId,handerUuid) =>
     }}).then((res)=>{
         console.log(res)
     })
-    
-    this.makeContractRow(contractJobId)
-}
+    }
 
 ////////// 핸더의 글관리 끝 
 
@@ -757,6 +756,9 @@ ToggleIsFindContract = (e) => {
     this.setState({
         is_findContract:!this.state.is_findContract
     })
+
+
+
 }
 
 //거래내역 데이터넣기
@@ -785,13 +787,13 @@ successHandler = async (a,b) => {
                     'X-AUTH-TOKEN': this.props.logintoken
                 }}
                 ).then(res => {
-                    console.log("삭제완료 ",res)
+                    console.log("거래완료",res)
                 })
                 .catch(err => {
                     console.log(err)
                 })
     
-    this.makeContractRow(b)
+    // this.makeContractRow(b)
 
 }
 
@@ -824,8 +826,11 @@ render() {
                         size="small"
                         style={{marginRight:"4px"}}
                         onClick={(e)=>{
-                            // e.stopImmediatePropagation()
+                            // e.preventDefault()
+                            e.stopPropagation()
+                            // e.preventDefault()
                             // e.stopPropagation()
+                            
                             this.setState({
                             contractAcceptData:{
                                 contractJobId: params.getValue('contractJobId'),
@@ -923,7 +928,7 @@ render() {
             renderCell: (params) =>{
                 var ji=params.getValue('id');
                 return (
-                        <Link to={"/job/detail/"+ji}>
+                        <Link to={"/job/"+ji}>
                             {params.getValue('jobName')}
                         </Link>
                         )
@@ -1105,6 +1110,24 @@ render() {
     <>
     <MainHeader></MainHeader>
     <Container fluid className={"mt-5 px-5"}>
+
+
+    { this.state.is_findContract
+        ?
+        <Row style={{paddingTop:"3rem",paddingBottom:"3rem"}}>
+            <p className={"tabInnerDivHeader"}>거래상세</p>
+            <Col className={"tabInnerDiv p-2"} md={12} lg={12}>
+                <div className={"my-2"} style={{height: 400,width: '100%' }}>
+                    <p>제목:{this.state.findContractInfo.jobName}</p>
+                    <p>내용:{this.state.findContractInfo.content}</p>
+                    <p>크레딧:{this.state.findContractInfo.jobCredit}</p>
+                    <p>{this.state.findContractInfo.status}</p>
+                </div>
+            </Col>
+        </Row>
+    : null
+    }
+
     <Row style={{marginTop:"6rem"}}>    
         <Col md={12} style={{paddingTop:"3rem;"}}>
             <Tabs fill
@@ -1325,7 +1348,9 @@ render() {
                                 <DataGrid rows={this.state.tableRow} 
                                             columns={columns} pageSize={5} 
                                             onSelectionChange={(newSelection) => {
+                                                    
                                                     this.makeContractRow(newSelection.rowIds[0]);
+                                                    
                                             }}
                                             // apiRef=
                                 />
@@ -1350,7 +1375,7 @@ render() {
 
                 <Tab eventKey="contact" title="내 근무내역">
                     <Container fluid>
-                        { this.state.is_findContract
+                        {/* { this.state.is_findContract
                          ?
                             <Row style={{paddingTop:"3rem",paddingBottom:"3rem"}}>
                                 <p className={"tabInnerDivHeader"}>거래상세</p>
@@ -1364,7 +1389,7 @@ render() {
                                 </Col>
                             </Row>
                         : null
-                        }
+                        } */}
                         <Row style={{paddingTop:"3rem",paddingBottom:"3rem"}}>
                             <p className={"tabInnerDivHeader"}>내가 수행한 일거리</p>
                             <Col className={"tabInnerDiv p-2"} md={12} lg={12}>

@@ -72,6 +72,9 @@ class JobDetail extends React.Component {
   }
   componentDidMount() {
     //job 상세정보 불러옴
+    this.setState({
+        jobId: this.props.match.params.jobId,
+    })
     this.getJobDetailData()
     .then(async (response) => {
         await this.setState({
