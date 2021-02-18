@@ -55,12 +55,15 @@ class ChatContents extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.roomId !== prevProps.roomId) {
+    if (this.props.roomId !== prevProps.roomId) { //room 바꼇을때
+      this.connect();
       this.getMessages();
     }
   }
 
-  componentDidMount() {
+  
+
+  connect = () => {
     var lsock = new SockJS(this.state.HOST + 'ws-stomp/');
     var lstompClient = Stomp.over(lsock);
 

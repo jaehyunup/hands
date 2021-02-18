@@ -33,6 +33,7 @@ class JobDetail extends React.Component {
     constructor(props){
         super(props);
         this.state = { 
+            avatarurl:"https://avatars.dicebear.com/4.5/api/male/"+Math.floor(Math.random() * 500)+".svg",
             geocoder:null,
             jobId: this.props.match.params.jobId,
             contents:'불가피한 사정으로 잠깐 산책시켜주실 분을 구합니다.',
@@ -241,7 +242,7 @@ class JobDetail extends React.Component {
                     </h5>
                     <ListItem>
                                     <ListItemIcon>
-                                    <Avatar src={"https://avatars.dicebear.com/4.5/api/male/"+Math.floor(Math.random() * 500)+".svg"} 
+                                    <Avatar src={this.state.avatarurl} 
                                     alt={"아바타"} style={{width: '30px',height:'30px', marginRight: 10, display: 'inline-block', verticalAlign: 'middle'}}/>
                                     </ListItemIcon>
                                     <Link value={this.state.userNickname} ><span value={this.state.userNickname}>
@@ -251,8 +252,8 @@ class JobDetail extends React.Component {
                                         />
                                         </span>
                                     </Link>
-                    <Button startIcon={<SendIcon/>} className={"mx-3"} variant="contained" color="primary" onClick={this.chatInsert}>채팅</Button>
-                    <Button startIcon={<ThumbsUpDownIcon/>} className={"mr-3"} variant="contained" color="secondary" onClick={this.contractInsert}>거래신청</Button>
+                    <Button startIcon={<SendIcon/>} className={"mx-3 ml-5"} variant="contained" color="primary" onClick={this.chatInsert}><strong>채팅</strong></Button>
+                    <Button startIcon={<ThumbsUpDownIcon/>} className={"mr-3"} variant="contained" color="secondary" onClick={this.contractInsert}><strong>거래신청</strong></Button>
                     </ListItem>
                     
 
@@ -260,7 +261,7 @@ class JobDetail extends React.Component {
             </div>
             <Divider className={"my-3"}/>
             
-            <p style={{marginLeft:"20px",marginRight:"20px"}}>{this.state.contents}</p>
+            <p style={{marginLeft:"10px",marginRight:"20px",fontFamily:"gmarket-500"}}>{this.state.contents}</p>
 
             <Grid container spacing={2}>
             <Grid item xs>
@@ -376,7 +377,7 @@ class JobDetail extends React.Component {
                     <Divider/>
                 </>
             )})
-            : <div>review data 없음</div>
+            : <p style={{marginLeft:"10px",marginRight:"20px",fontFamily:"gmarket-500"}}>유저에게 작성된 리뷰가 없습니다</p>
             }
 
 

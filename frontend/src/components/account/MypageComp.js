@@ -9,10 +9,10 @@ import { connect } from 'react-redux';
 import { checkprofile, findfollow, updateprofile} from '../../actions';
 import axios from 'axios'
 import { withRouter } from 'react-router';
-
+import ClearIcon from '@material-ui/icons/Clear';
 import DaumPostcode from 'react-daum-postcode';
 import MonetizationOnRoundedIcon from '@material-ui/icons/MonetizationOnRounded';
-
+import AccessibilityIcon from '@material-ui/icons/Accessibility';
 class MypageComp extends React.Component {
     constructor(props) {
         super(props);
@@ -381,17 +381,41 @@ class MypageComp extends React.Component {
             return null
         }
         const keywordlist = keywords.map((keyword, index) =>
-            <span key={index} keyword={keyword} onClick={this.deleteKeyword}> {keyword}&nbsp;&nbsp;</span>)
+            <span className={"btn btn-md btn-info ml-2 mr-1 my-1"} style={{fontSize:"0.9rem",fontFamily:"samlib-basic"}} key={index} keyword={keyword} onClick={this.deleteKeyword}>{keyword}
+            <ClearIcon style={{fontSize:"12px",color:"red",marginLeft:"0.3rem"}}></ClearIcon></span>)
 
         return <div>{keywordlist}</div>
     }
 
+    //팔로우 리스트 출력 함수
+    followList = () => {
+        const follows = this.state.follows
+        if (!follows) {
+            return <div>팔로우된 유저가 없습니다</div>
+        }
+        const followsList = follows.map((follow, index) => 
+                <Link onClick={ (e)=>{
+                     this.props.history.push(`/profile/${follow.nickname}`)
+                }}>
+                <span className={"btn btn-md btn-info ml-2 mr-1 my-1"} style={{fontSize:"0.9rem",fontFamily:"samlib-basic"}} key={index} >
+                    <ClearIcon style={{fontSize:"12px",color:"red",marginLeft:"0.3rem"}}></ClearIcon>
+                    follow.nickname
+                </span>
+                </Link>
+                )
+
+            return <div>{followsList}</div>
+            
+    }
+    
+
     //키워드삭제 함수
     deleteKeyword =(e) => {
         e.preventDefault()
+
         const inputInfo = {
             userUuid:this.props.userUuid,
-            keywords:[ e.target.attributes[0].value ]
+            keywords:[ e.target.attributes[1].nodeValue ]
         }
 
         //키워드삭제 axios
@@ -802,11 +826,11 @@ render() {
     // 일거리 요청 테이블 행
     const jobContractColumn = [ 
         { field: 'id',headerName:"순서",width:100},
-        { field: 'contractStatus', headerName: '요청상태', width: 120 },
+        { field: 'contractStatus', headerName: '요청상태', width: 150 },
         { field: 'nickname',
             headerName: '요청한 핸디',
             description: '게시글에 요청한 핸디',
-            width: 350,
+            width: 250,
             renderCell: (params) =>{
                 <Link to={"/profile/"+params.getValue('nickname') }>
                             {params.getValue('nickname')}
@@ -816,7 +840,7 @@ render() {
         { field: 'etc1',
             headerName: '메뉴',
             description: '게시글에 요청한 핸디',
-            width: 200,
+            width: 250,
             renderCell: (params) =>{
                 if(params.getValue('contractStatus')==("거래전")){
                     return (
@@ -895,7 +919,7 @@ render() {
             field: 'etc2',
             headerName:'리뷰작성',
             description:'리뷰는 거래완료이후 작성 가능합니다',
-            width:120,
+            width:150,
             renderCell: (params) =>{
                         return(
                             <>
@@ -918,13 +942,12 @@ render() {
     
 
     const columns = [ // 열 정의(하나의 인덱스는 하나의 열을 대변)
-        { field: 'id',headerName:"번호",width:100},
         { field: 'categoryId', headerName: '카테고리', width: 120 },
         {
             field: 'jobName',
             headerName: '이름',
             description: '게시글이름을 링크로 변환',
-            width: 350,
+            width: 250,
             renderCell: (params) =>{
                 var ji=params.getValue('id');
                 return (
@@ -986,13 +1009,12 @@ render() {
     ]
     ////// 동민이형 칼럼
     const columns_handy = [ // 열 정의(하나의 인덱스는 하나의 열을 대변)
-        { field: 'id',headerName:"번호",width:100},
         { field: 'categoryId', headerName: '카테고리', width: 120 },
         {
             field: 'jobName',
             headerName: '이름',
             description: '게시글이름을 링크로 변환',
-            width: 350,
+            width: 250,
             renderCell: (params) =>{
                 var ji=params.getValue('id');
                 return (
@@ -1003,14 +1025,14 @@ render() {
             },
           },
         { field: 'jobCredit', headerName: '가격', width: 90},
-        { field: 'status',sortable:true, headerName: '거래상태', width: 120},
+        { field: 'status',sortable:true, headerName: '거래상태', width: 100},
         {
           field: 'jobRegdate',
           headerName: '시간',
           description: '게시 시간을 yy-mm-dd hh:mm형태로 변환',
           sortable:true,
           sortingOrder:'desc',
-          width: 150,
+          width: 130,
           valueGetter: (params) =>{
               return this.dateFormat2YYYMMDDHHMMSS(params.getValue('jobRegDate'))
               }
@@ -1019,7 +1041,7 @@ render() {
             field: 'etc',
             headerName:'관리',
             description:'버튼이 나열될 행',
-            width:200,
+            width:170,
             renderCell: (params) =>{
                         if (params.getValue('status')=="거래전") {
 
@@ -1136,8 +1158,9 @@ render() {
                 className={"rounded-nav my-2 py-3"}
                 style={{paddingLeft:"10%",paddingRight:"10%"}}
                 onSelect={key => this.setState({ key })}
+                
             >
-                <Tab className={"rounded-nav my-2"} style={{borderColor:'#dee2e6'}}eventKey="home" title="계정 관리">
+                <Tab className={"my-2"} icon={<AccessibilityIcon/>} style={{borderColor:'#dee2e6'}} eventKey="home" title="계정 관리">
                     <Container style={{paddingLeft:"10%",paddingRight:"10%"}}>
                         <Row style={{paddingTop:"3rem",paddingBottom:"3rem",paddingRight:"5rem",paddingLeft:"5rem"}}>
                             <p className={"tabInnerDivHeader"}>내 프로필</p>
@@ -1250,18 +1273,21 @@ render() {
                                     </div>
                             </Col>
 
-                            <p className={"tabInnerDivHeader mt-5"}>내 키워드</p>
+                            <p className={"tabInnerDivHeader mt-5"}>나의 키워드</p>
                             <Col className={"tabInnerDiv p-2"} md={12} lg={12}>
-                                <div class="input-group col-sm-12 col-mg-12 col-lg-12 my-4 px-5 justify-content-center">
+                                 <div class="input-group col-sm-12 col-mg-12 col-lg-12 my-4 px-5 justify-content-left">
+                                   내 관심 키워드 목록
+                                </div>
+                                <div class="input-group offset-md-1  col-md-10  py-2 mb-3 justify-content-center"
+                                    style={{borderRadius:"20px",backgroundColor:"#f2f4f7"}}>
                                     <span>{this.keywordList()}</span>
                                 </div>
                                     <div class="input-group col-lg-12 mb-4 px-5">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text bg-white px-4 border-md border-right-0 account-input-text">
-                                        키워드
+                                        <span class="input-group-text bg-white px-1 border-md border-right-0 account-input-text">
                                         </span>
                                     </div>
-                                    <input id="addkeywords" type="text" name="keyword" value={this.state.keyword} placeholder="" class="form-control bg-white border-md border-left-0"
+                                    <input id="addkeywords" type="text" name="keyword" value={this.state.keyword} placeholder="키워드를 입력하고 엔터를 누르세요" class="form-control bg-white border-md border-left-0"
                                     onChange={this.onKeywordHandler} onKeyPress={this.handleKeyPress}
                                     />
                                     <Button variant="contained" color="primary" onClick={this.handleKeyPress("Enter")}>수정</Button>
@@ -1269,6 +1295,17 @@ render() {
                                     <div class="input-group col-sm-12 col-mg-12 col-lg-12 my-4 px-5 justify-content-center">
                                     <p>키워드단어 클릭시 삭제.</p>
                                 </div>
+                            </Col>
+
+                            <p className={"tabInnerDivHeader mt-5"}>팔로우 관리</p>
+                            <Col className={"tabInnerDiv p-2"} md={12} lg={12}>
+                                 <div class="input-group col-sm-12 col-mg-12 col-lg-12 my-4 px-5 justify-content-left">
+                                   내가 팔로우한 유저
+                                </div>
+                                <div class="input-group offset-md-1  col-md-10  py-2 mb-3 justify-content-center"
+                                    style={{borderRadius:"20px",backgroundColor:"#f2f4f7"}}>
+                                    <span>{this.state.follows}</span>
+                               </div>
                             </Col>
 
                             <p className={"mt-5 tabInnerDivHeader"}>내 크레딧</p>
@@ -1328,7 +1365,7 @@ render() {
                             <Col className={"tabInnerDiv "} md={12} lg={12}>
                                 <div class="input-group justify-content-center align-item-center col-sm-12 col-mg-12 col-lg-12 my-2 px-5">
                                     <p style={{marginTop:"12px"}}>회원탈퇴를 신청할 경우 다시 되돌릴 수 없습니다</p>
-                                    <Button style={{position:"absolute",right:70,top:6}} variant="contained" color="warning" onClick={this.onDeleteAccount}>회원탈퇴</Button>
+                                    <Button style={{position:"absolute",right:30,top:6}} variant="contained" color="warning" onClick={this.onDeleteAccount}>회원탈퇴</Button>
                                     </div>
                             </Col>
                         </Row>
@@ -1369,9 +1406,6 @@ render() {
                     </Row>
                     </Container>
                 </Tab>
-
-                
-
 
                 <Tab eventKey="contact" title="내 근무내역">
                     <Container fluid>

@@ -45,20 +45,34 @@
     color: #fff;
 }
 .navbar-light .navbar-nav > .joinBtn {
-    background-color:#FF7000;
+    background-color:#A845ED;
     border-color:#fff;
     font-size:0.85rem;
+    font-family:'gmarket-700'
+
 }
 .navbar-light .navbar-nav > .joinBtn:hover {
-    background-color:#7548D6 !important;
+    background-color:#FF7000 !important;
     border-color:#fff;
     font-size:0.85rem;
+    font-family:'gmarket-700'
 
 }
 
-.loginText{
-    font-weight:400 !important;
+.navbar-light .navbar-nav > .loginBtn {
+    background-color:#4C45ED !important;
+    border-color:#fff;
+    font-size:0.85rem;
+    font-family:'gmarket-700'
 }
+.navbar-light .navbar-nav > .loginBtn:hover {
+    background-color:#FF7000 !important;
+    border-color:#fff;
+    font-size:0.85rem;
+    font-family:'gmarket-700'
+}
+
+
 .sub-nav > .nav-link{
     font-size:0.85rem;
 }

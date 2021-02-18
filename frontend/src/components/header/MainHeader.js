@@ -64,7 +64,7 @@ class MainHeader extends React.Component {
         <Nav className="sub-nav py-2">
           {
             !this.props.logintoken && 
-            <Button className="loginText" onClick={this.props.modalToggleFunc}>로그인</Button>
+            <Button className="loginBtn" onClick={this.props.modalToggleFunc}>로그인</Button>
           }
           {
             !this.props.logintoken && 
@@ -73,7 +73,7 @@ class MainHeader extends React.Component {
           }
           {
             this.props.logintoken && 
-            <Button onClick={this.onLogOut}>로그아웃</Button>
+            <Button className="loginBtn" onClick={this.onLogOut}>로그아웃</Button>
           } 
         </Nav>
       </Navbar.Collapse>

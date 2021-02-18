@@ -5,6 +5,7 @@ import { Row,Col,Tabs,Tab, Container } from 'react-bootstrap';
 import '../../styles/mypage.css'
 import {TextField,Avatar,Button} from '@material-ui/core';
 import MonetizationOnRoundedIcon from '@material-ui/icons/MonetizationOnRounded';
+import ClearIcon from '@material-ui/icons/Clear';
 
 class JobUpdate extends React.Component {
     constructor(props){
@@ -61,7 +62,21 @@ class JobUpdate extends React.Component {
         "userPhone": _data.userPhone,
 
       })
-    }
+       
+        //키워드 조회(갱신) axios
+
+        axios.get("http://i4d101.p.ssafy.io:8080/keyword/job/keywords?jobId="+this.state.jobId) 
+        .then(res=> {
+          this.setState({
+            keywords: res.data.keywords
+          })
+        }).catch(err => {
+          console.log(err)
+        })
+        this.setState({
+          keyword:'',
+        })
+      }
 
     handleOpenPost = () => {
       console.log('hello');
@@ -231,9 +246,11 @@ updateJobHandler = async e => {
         return null
     }
     const keywordlist = keywords.map((keyword, index) =>
-        <span key={index} keyword={keyword} value={keyword} onClick={this.deleteKeyword}> {keyword}&nbsp;&nbsp;</span>)
+        <span className={"btn btn-md btn-info ml-2 mr-1 my-1"} style={{fontSize:"0.9rem",fontFamily:"samlib-basic"}} key={index} keyword={keyword} onClick={this.deleteKeyword}>{keyword}
+        <ClearIcon style={{fontSize:"12px",color:"red",marginLeft:"0.3rem"}}></ClearIcon></span>)
 
     return <div>{keywordlist}</div>
+    
   }
 
   //키워드삭제 함수
@@ -410,22 +427,35 @@ updateJobHandler = async e => {
                                           </div>
                                           <input id="input-workingHour" type="number" name="workingHour" value={this.state.workingHour} onChange={(e) => this.setState({workingHour: e.target.value})} class="form-control  border-left-0 border-md"/>
                                       </div>
-                  <div class="input-group col-sm-12 col-mg-12 col-lg-12 my-4 px-5 justify-content-center">
-                                          <span>{this.keywordList()}</span>
-                                      </div>
-                                          <div class="input-group col-lg-12 mb-4 px-5">
-                                          <div class="input-group-prepend">
-                                              <span class="input-group-text bg-white px-4 border-md border-right-0 account-input-text">
-                                              키워드
-                                              </span>
-                                          </div>
-                                          <input id="addkeywords" type="text" name="keyword" value={this.state.keyword} placeholder="" class="form-control bg-white border-md border-left-0"
+
+
+
+
+
+                                   
+
+                                <div class="input-group col-sm-12 col-mg-12 col-lg-12 my-4 px-5 justify-content-left">
+                                   거래 키워드
+                                </div>
+                                <div class="input-group offset-md-1  col-md-10  py-2 mb-3 justify-content-center"
+                                    style={{borderRadius:"20px",backgroundColor:"#f2f4f7"}}>
+                                    <span>{this.keywordList()}</span>
+                                </div>
+                                    <div class="input-group col-lg-12 mb-4 px-5">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-white px-1 border-md border-right-0 account-input-text">
+                                        </span>
+                                    </div>
+                                    <input id="addkeywords" type="text" name="keyword" value={this.state.keyword} placeholder="" class="form-control bg-white border-md border-left-0"
                                           onKeyPress={this.handleKeyPress} onChange={this.changeKeyword}
-                                          />
-                                          </div>
-                                          <div class="input-group col-sm-12 col-mg-12 col-lg-12 my-4 px-5 justify-content-center">
-                                          <p>키워드 클릭시 삭제</p>
-                                      </div>
+                                    />
+                                    </div>
+                                    <div class="input-group col-sm-12 col-mg-12 col-lg-12 my-4 px-5 justify-content-center">
+                                    <p>키워드단어 클릭시 삭제.</p>
+                                </div>
+
+
+
                                       <div class="input-group col-sm-12 col-mg-12 col-lg-12 my-4 px-5">
                                           <div class="input-group-prepend">
                                               <span class="input-group-text px-4 border-md border-right-0 account-input-text">

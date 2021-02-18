@@ -11,6 +11,7 @@ import {
     ButtonGroup,
     GridList,
     GridListTile,
+    Snackbar,
     Fab,
   } from '@material-ui/core';
   import PhoneIcon from '@material-ui/icons/Phone';
@@ -27,6 +28,7 @@ import { connect } from 'react-redux';
 class User extends React.Component {
   state = {
     userProfileData:{
+        snackOpen:false,
         "profileId": 0,
         "userUuid": "",
         "email": "",
@@ -133,8 +135,8 @@ class User extends React.Component {
   render(){
     return (
         <div className={"d-flex vh-100 profileModalRoot align-items-center justify-content-center"}>
-            <Fab onClick={this.moveBack} style={{position:"absolute",top:20,right:340}} size="small" color="secondary"><ClearIcon size={"extended"}></ClearIcon></Fab>
-
+            <Fab onClick={this.moveBack} style={{position:"absolute",top:20,right:150}} size="small" color="secondary"><ClearIcon size={"extended"}></ClearIcon></Fab>
+           
             <div className="User profileModalBox align-items-center justify-content-center">
                 <h4 style={{textAlign:"right",margin: '20px',display:"inline-block"}}>
                         유저정보
@@ -158,7 +160,7 @@ class User extends React.Component {
                 variant="contained"
                 aria-label="full-width contained secondary button group"
                 >
-                <Button variant="contained" color="primary" value={this.state.userProfileData.email} onClick={this.followHandler} value={this.state.isfollow}>팔로우취소</Button>
+                <Button variant="contained" color="default" value={this.state.userProfileData.email} onClick={this.followHandler} value={this.state.isfollow}>팔로우취소</Button>
                 </ButtonGroup>
                 :
 

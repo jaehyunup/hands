@@ -6,7 +6,7 @@ import "../../styles/join.css"
 import axios from 'axios'
 import { withRouter } from 'react-router';
 import Signin from "../account/SignIn"
-
+import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn';
 class Join extends React.Component {
   constructor(props) {
     super(props);
@@ -300,6 +300,8 @@ class Join extends React.Component {
             <p class="font-italic text-muted">자그마한 
                 재능을 가치있게 여깁니다
             </p>
+            <Link to="/home"><button style={{fontFamily:"gmarket-700"}} className={"btn btn-lg btn-secondary mt-4"}><KeyboardReturnIcon></KeyboardReturnIcon> 돌아가기</button></Link>
+
           </div>
           <div class="col-md-7 col-lg-6 ml-auto">
             <form action="#">
@@ -391,17 +393,17 @@ class Join extends React.Component {
                   <div class="border-bottom w-100 mr-5"></div>
                 </div>
                 <div class="form-group col-lg-12 mx-auto">
-                  <a href="#" class="btn btn-primary btn-block py-2 btn-facebook">
+                  <button href="#" class="btn btn-primary btn-block py-2 btn-facebook">
                     <i class="fa fa-facebook-f mr-2"></i>
                     <span class="font-weight-bold">페이스북으로 가입하기</span>
-                  </a>
-                  <a href="#" class="btn btn-primary btn-block py-2 btn-twitter">
+                  </button>
+                  <button href="#" class="btn btn-primary btn-block py-2 btn-twitter">
                     <i class="fa fa-twitter mr-2"></i>
                     <span class="font-weight-bold">트위터로 가입하기</span>
-                  </a>
+                  </button>
                 </div>
                 <div class="text-center w-100">
-                  <p class="text-muted">이미 계정이 있으신가요? <a onClick={this.modalToggle}  class="text-primary ml-2"> 로그인하기</a></p>
+                  <p class="text-muted">이미 계정이 있으신가요? <a style={{fontFamily:"gmarket-700"}} onClick={this.modalToggle}  class="text-primary ml-2"> 로그인하기</a></p>
                 </div>
               </div>
             </form>

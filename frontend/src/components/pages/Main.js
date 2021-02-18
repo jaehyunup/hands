@@ -6,6 +6,8 @@ import { Col, Container, Image, Row} from 'react-bootstrap'
 import "../../styles/mainpage.css"
 import MainHeader from "../header/MainHeader"
 import '../../styles/signin.css'
+import img1 from '../../img/freeman.png'
+import img2 from '../../img/women2.png'
 
 class Main extends React.Component {
   constructor(props) {
@@ -100,20 +102,22 @@ class Main extends React.Component {
                         </Col>
                     </Row>
         </Container>
+
+
         <Container fluid>
                   <Row className="d-flex align-items-center justify-content-center vh-100 section1">
                     <Col md={12} lg={12}>
                       <div class="section1TextDiv my-4 pt-2">
                           <h3>프로필을 통해 자신을 소개하고 연관된 소일거리를 찾아보세요.</h3>
                           <p>나와 연결된 사람, 관심사가 비슷한 사람과 거래하세요.</p>
-                          <Link to="">내 프로필 작성하러 가기</Link>
+                          <Link to=""><p style={{color:"#fff"}}>내 프로필 작성하러 가기</p></Link>
                       </div>
                     </Col>
-                    <Col md={3} lg={3}>
-                        
+                    <Col md={{span:5,offset:1}}>
+                        <Image src={img1} width={450}></Image>
                     </Col>
-                    <Col md={3} lg={3}>
-                        
+                    <Col md={{span:5,offset:1}}>
+                        <Image src={img2} width={450}></Image>
                     </Col>
                   </Row>
         </Container>

@@ -21,13 +21,14 @@
 
 @media (min-width: 576px) {
     .rounded-nav {
-      border-radius: 50rem !important;
+      border-bottom:10rem;
     }
   }
   
   @media (min-width: 576px) {
     .rounded-nav .nav-link {
-      border-radius: 50rem !important;
+      border-radius: 20rem !important;
+      font-family:'gmarket-700';
     }
 }
 
