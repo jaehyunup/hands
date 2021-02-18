@@ -210,7 +210,7 @@ class JobDetail extends React.Component {
       await axios
       .post("http://i4d101.p.ssafy.io:8080/chat/chat/room", 
       {roomName : this.state.jobName,
-        myUuid : this.props.logined.myUuid,
+        myUuid : this.props.userUuid,
         youUuid : this.state.jobUserUuid,
         jobUuid : this.state.jobId
         })

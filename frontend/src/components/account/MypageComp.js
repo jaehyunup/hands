@@ -267,6 +267,7 @@ class MypageComp extends React.Component {
     }
     //일거리 게시글 삭제
     deleteJob =(e)=>{
+        e.preventDefault()
         console.log(e.currentTarget.value)
         const body = {
             jobId : e.currentTarget.value
@@ -687,6 +688,7 @@ makeContractRow = async (selectJobUuid) =>{
             }
             contractRowArr.push(contractRowData)
     }
+    console.log(contractRowArr)
     this.setState({
         jobContractRows:contractRowArr
     }
@@ -695,7 +697,7 @@ makeContractRow = async (selectJobUuid) =>{
     
 }
 
-contractAcceptHandler = (contractJobId,handyUuid,contractId,handerUuid) =>{
+contractAcceptHandler = async (contractJobId,handyUuid,contractId,handerUuid) =>{
     const data={
         contractJobId:contractJobId,
         handy:handyUuid,
@@ -717,7 +719,7 @@ contractAcceptHandler = (contractJobId,handyUuid,contractId,handerUuid) =>{
         contractJobId:contractJobId,
         status:"거래중"
     }
-    axios.put("http://i4d101.p.ssafy.io:8080/job/updateJobStatus", JSON.stringify(jobstatusdata),
+    await axios.put("http://i4d101.p.ssafy.io:8080/job/updateJobStatus", JSON.stringify(jobstatusdata),
     {headers:{
         'Content-Type': 'application/json',
         'X-AUTH-TOKEN': this.props.logintoken
@@ -771,13 +773,12 @@ setFindContract = async (jid) => {
 
 }
 
-successHandler = (a,b) => {
-
+successHandler = async (a,b) => {
     const ContractSuccess_Info = {
         "contractJobId": b,
         "handy": a
     }
-    axios.post("http://i4d101.p.ssafy.io:8080/contract/change",
+    await axios.post("http://i4d101.p.ssafy.io:8080/contract/change",
                 JSON.stringify(ContractSuccess_Info),
                 {headers:{
                     'Content-Type': 'application/json',
@@ -789,7 +790,8 @@ successHandler = (a,b) => {
                 .catch(err => {
                     console.log(err)
                 })
-
+    
+    this.makeContractRow(b)
 
 }
 
@@ -822,6 +824,8 @@ render() {
                         size="small"
                         style={{marginRight:"4px"}}
                         onClick={(e)=>{
+                            // e.stopImmediatePropagation()
+                            // e.stopPropagation()
                             this.setState({
                             contractAcceptData:{
                                 contractJobId: params.getValue('contractJobId'),
@@ -1323,6 +1327,7 @@ render() {
                                             onSelectionChange={(newSelection) => {
                                                     this.makeContractRow(newSelection.rowIds[0]);
                                             }}
+                                            // apiRef=
                                 />
                             </div>
                         </Col>

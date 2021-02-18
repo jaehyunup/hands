@@ -45,7 +45,7 @@ class ChatContents extends React.Component {
     this.state = {
       stompClient: null,
       socketJsRef: null,
-      roomid: '', //props로 들어올 데이터
+      roomId: this.props.roomId,
       sender: this.props.myUuid,
       myMessage: '',
       roomAllmessages: [],
@@ -72,7 +72,7 @@ class ChatContents extends React.Component {
       function () {
         var client = this.state.stompClient;
         var recvMsg = this.recvMessage;
-        var roomId = this.state.roomid;
+        var roomId = this.props.roomId;
         //var myUuid = this.props.myUuid;
         var nickName = this.props.profile.nickname;
 
@@ -86,15 +86,15 @@ class ChatContents extends React.Component {
             }
           );
 
-          // client.send(
-          //   '/pub/chat/message',
-          //   {},
-          //   JSON.stringify({
-          //     type: 'ENTER',
-          //     roomId: roomId,
-          //     sender: nickName,
-          //   })
-          //);
+          client.send(
+            '/pub/chat/message',
+            {},
+            JSON.stringify({
+              type: 'ENTER',
+              roomId: roomId,
+              sender: nickName,
+            })
+          );
         });
       }
     );
@@ -119,7 +119,7 @@ class ChatContents extends React.Component {
   
   //내가 메세지 보내기
   sendMessage = async (msg) => {
-    var roomId = this.state.roomid;
+    var roomId = this.props.roomId;
     // var myUuid = this.props.myUuid;
     var nickName = this.props.profile.nickname;
 
@@ -163,7 +163,7 @@ class ChatContents extends React.Component {
       <>
         <Grid item xs={9}>
           <List className={classes.messageArea}>
-            {this.state.roomAllmessages.map( (msg, index) => {return( 
+            {this.state.roomAllmessages.map( (msg, index) => {console.log({msg});return( 
             msg.sender === this.props.profile.nickname
             ?(
               <ListItem key={index}>
