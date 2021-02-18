@@ -265,8 +265,40 @@ class MypageComp extends React.Component {
         var time = year + '-' + month + '-' + date + ' ' + hour + ':' + min
         return time;
     }
-
+    //일거리 게시글 삭제
     deleteJob =(e)=>{
+        console.log(e.currentTarget.value)
+        const body = {
+            jobId : e.currentTarget.value
+        }
+        axios.delete("http://i4d101.p.ssafy.io:8080/job/deleteJob", {
+            data: JSON.stringify(body),
+            headers:{
+                'Content-Type': 'application/json',
+                'X-AUTH-TOKEN': this.props.logintoken
+            }
+        }).then(res => {
+            console.log(res)
+            console.log('게시글 삭제')
+            axios.get("http://i4d101.p.ssafy.io:8080/job/findJobsByUuid?", {
+                params : {
+                    jobUserUUid:this.props.userUuid
+                }
+            },{headers:{
+                'Content-Type': 'application/json',
+            }})
+            .then(res => {
+                this.makeRows(res.data)
+            })
+        }).catch(err => {
+            console.error(err)
+        })
+
+        // delete 요청 바로날리기
+    }
+
+    //거래요청취소(handy입장)
+    deletehandyJob =(e)=>{
         console.log(e.currentTarget.value)
         const body = {
             jobId : e.target.value
@@ -693,7 +725,7 @@ contractAcceptHandler = (contractJobId,handyUuid,contractId,handerUuid) =>{
         console.log(res)
     })
     
-
+    this.makeContractRow(contractJobId)
 }
 
 ////////// 핸더의 글관리 끝 
@@ -739,6 +771,27 @@ setFindContract = async (jid) => {
 
 }
 
+successHandler = (a,b) => {
+
+    const ContractSuccess_Info = {
+        "contractJobId": b,
+        "handy": a
+    }
+    axios.post("http://i4d101.p.ssafy.io:8080/contract/change",
+                JSON.stringify(ContractSuccess_Info),
+                {headers:{
+                    'Content-Type': 'application/json',
+                    'X-AUTH-TOKEN': this.props.logintoken
+                }}
+                ).then(res => {
+                    console.log("삭제완료 ",res)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+
+
+}
 
 render() {
     const HandytableRow = this.state.HandytableRow
@@ -776,14 +829,16 @@ render() {
                             }
                             })                            
                             this.contractAcceptHandler(params.getValue('contractJobId'),
-                            params.getValue('handy'),params.getValue('contractId'),params.getValue('hander'));
+                            params.getValue('handy'),params.getValue('contractId'),params.getValue('hander'))
+                             ;
                         }}>
                         수락
                         </Button>
                     )
                 }else if(params.getValue('contractStatus')==("거래중")) {
                     return (
-                        <Link to={"/contract/"+params.getValue('contractJobId')}>
+                        <>
+                        <Link>
                             <Button
                             variant="contained"
                             color="secondary"
@@ -793,6 +848,18 @@ render() {
                             거래 정보 보기
                             </Button>
                         </Link>
+                        <Link >
+                            <Button
+                            variant="contained"
+                            color="secondary"
+                            size="small"
+                            style={{marginRight:"4px"}}
+                            onClick={this.successHandler(params.getValue("handy"),params.getValue("contractJobId"))}
+                            >
+                            거래 완료하기
+                            </Button>
+                        </Link>
+                        </>
                         
                     )
                 }else if(params.getValue('contractStatus')==("거래완료")){
@@ -806,8 +873,9 @@ render() {
                                 /*
                                 거래 완료 상태 변경 메서드 (일거리와 contract 함께 axios 날려야함)
                                 */
+                            //    ToggleIsFindContract
                             }}>
-                            거래완료
+                            영수증보기
                             </Button>
                     )
                 }
@@ -968,9 +1036,9 @@ render() {
                                 size="small"
                                 style={{marginLeft:"2px",marginRight:"2px"}}
                                 value={params.getValue('id')}
-                                onClick={this.deleteJob}
+                                onClick={this.deletehandyJob}
                                 >
-                                삭제
+                                요청취소
                                 </Button>
                             </>
                         )
