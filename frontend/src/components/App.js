@@ -28,7 +28,7 @@ class App extends Component {
         <Route path="/createjob" component={CreateJob} />
         <Route path="/findhandy" component={FindHandy} />
         <Route path="/chat" component={Chat} />
-        <Route path="/profile/:userUuid" component={User} />
+        <Route path="/profile/:userNickName" component={User} />
         <Route path="/mypage" component={MyPage} />
         <Route path="/job/:jobId" component={JobDetail} />
         <Route path="/review/:contractId" component={CreateReview} />

@@ -76,6 +76,7 @@ class FindJobContents extends React.Component {
   
 
     loadList = async () => {
+        console.log("loadList")
 
         this.setState({
             dong : this.props.currentlocation
@@ -86,20 +87,25 @@ class FindJobContents extends React.Component {
             category: this.state.category,
             minCredit: this.state.minCredit,
             maxCredit: this.state.maxCredit,
-            dday: this.initDday()
+            dday: await this.initDday()
         }
-        axios
+
+        console.log(body)
+
+        await axios
         .post("http://i4d101.p.ssafy.io:8080/job/totalSearch",JSON.stringify(body),
         {headers:{
             'Content-Type': 'application/json'
         }})
         .then(res => {
             console.log(res);
-            
             this.setState({
                 jobList : res.data,
                 outputJobList : res.data,
             } );
+        })
+        if (this.state.jobList) {
+
             for(var i=0; i<this.state.jobList.length; i++){
                 var jobid = this.state.jobList[i].jobId;
                 axios
@@ -116,17 +122,11 @@ class FindJobContents extends React.Component {
                             })
                             break;
                         }
-                    }
-                })
-                .catch(e => {
-                    console.error(e);
-                })
+                }
+            })
+        }}
+       
 
-            }
-        })
-        .catch(e => {
-            console.error(e);
-        });
     };
 
     // props가 변경되면 실행되는 lifecycle 함수
@@ -141,19 +141,59 @@ class FindJobContents extends React.Component {
     // }
 
     //component update된 후 실행되는 lifecycle함수
-    componentDidUpdate(prevState, nextProps) {
-        if (prevState.currentlocation !== nextProps.dong) {
-            console.log("if문");
-            this.loadList();
-        }
-        this.props.joblistpass(this.state.outputJobList);
+    // componentDidUpdate(prevState, nextProps) {
+    //     if (prevState.currentlocation !== nextProps.dong) {
+    //         console.log("if문");
+    //         this.loadList();
+    //     }
+    //     this.props.joblistpass(this.state.outputJobList);
+    // }
+    async componentDidUpdate(prevState,prevProps) {
+        // if (prevProps.currentlocation !== this.props.currentlocation) {
+        //     console.log("if문");
+        //     await this.loadList();
+        // }
+        // this.props.joblistpass(this.state.outputJobList);
     }
 
     moveJobDetail = (e) =>{
         this.props.history.push("/job/"+e.currentTarget.value)
     }
+    // 요청 여부 확인
+    checkContract = async props => {
+        const check_Info = {
+            contractJobId:props,
+            handy:this.props.userUuid,
+        }
+        const _data = await axios.post("http://i4d101.p.ssafy.io:8080/contract/check",
+                                    JSON.stringify(check_Info),
+                                    {headers:{
+                                        'Content-Type': 'application/json',
+                                        'X-AUTH-TOKEN': this.props.logintoken
+                                    }})
+        // console.log('_data : ',_data.data.message)
+        if (_data.data.message=="YES") {
+            console.log(true)
+            return true
+        }
+        else {
+            console.log(false)
+            return false
+        }
+        // return _data.data.message
+    }
 
     render() {
+        if (this.props.currentlocation) {
+            if (!this.state.dong) {
+                this.loadList()
+            }
+            else if (this.props.currentlocation != this.state.dong) {
+                this.loadList()
+            }
+            
+        }
+
         const {outputJobList} = this.state;
         console.log("render", this.props.currentlocation);
         return (
@@ -227,6 +267,7 @@ class FindJobContents extends React.Component {
                         <Row>
                             <Col md={12} lg={12} className={"mt-4 px-4"} style={{maxHeight:"30rem",overflow:"scroll"}}>
                                 {outputJobList.map( (job, index) => {
+                                    // const iscontract =  this.checkContract(job.jobId)
                                    return(
                                         <div className={"row d-flex joblist align-items-center"}>
                                             <div className={"col-md-2 col-sm-2 ml-0 pl-1"}>
@@ -250,8 +291,18 @@ class FindJobContents extends React.Component {
                                                 </div>
                                             </div>
                                                 <div className={"col-md-1 col-sm-2 mr-auto justify-content-right"}>
+                                                {/* {
+                                                    iscontract
+                                                    ?   <Button variant="outline-info" className={"mt-2"} style={{height:"40%",fontSize:"0.2rem"}}>신청완료</Button>
+                                                    :
+                                                    <span>
+                                                    <Button variant="outline-primary" style={{height:"40%",fontSize:"0.2rem"}} value={job.jobId} onClick={this.moveJobDetail}>정보</Button>
+                                                    <Button variant="outline-info" className={"mt-2"} style={{height:"40%",fontSize:"0.2rem"}}>위치</Button>
+                                                    </span>
+                                                } */}
                                                 <Button variant="outline-primary" style={{height:"40%",fontSize:"0.2rem"}} value={job.jobId} onClick={this.moveJobDetail}>정보</Button>
                                                 <Button variant="outline-info" className={"mt-2"} style={{height:"40%",fontSize:"0.2rem"}}>위치</Button>
+
                                             </div>
                                             <div className={"col-md-3 col-sm-3"}>
                                                 <div className={"articledata"}>
@@ -284,9 +335,14 @@ class FindJobContents extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return {
-      currentlocation: state.currentlocation
-  }
+    if (state.logined) {
+        return {
+            userUuid:state.logined.userUuid,
+            id : state.logined.id,
+            logintoken: state.token,
+            currentlocation: state.currentlocation
+        }
+    }
 }
 
 const mapDispatchToProps  = (dispatch) => {

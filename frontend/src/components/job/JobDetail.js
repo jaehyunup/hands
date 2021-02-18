@@ -27,6 +27,7 @@ import {
 import {Row,Col,Container} from 'react-bootstrap'
 import { connect } from 'react-redux';
 import '../../styles/profilemodal.css'
+import { Link } from "react-router-dom"
 
 class JobDetail extends React.Component {
     constructor(props){
@@ -56,6 +57,7 @@ class JobDetail extends React.Component {
         }
 
     }
+
   followUser = (e)=>{
     console.log(this.state.jobId)
   }
@@ -70,8 +72,9 @@ class JobDetail extends React.Component {
   }
   componentDidMount() {
     //job 상세정보 불러옴
-    this.getJobDetailData().then(async (response) => {
-        this.setState({
+    this.getJobDetailData()
+    .then(async (response) => {
+        await this.setState({
             contents:response.data.content,
             category:response.data.categoryId,
             workingHour: response.data.workingHour,
@@ -83,21 +86,29 @@ class JobDetail extends React.Component {
             jobUserUuid:response.data.jobUserUUid,
             dday: response.data.dday,
         });
+
         await axios
         .post("http://i4d101.p.ssafy.io:8080/auth/profile/uuid/"+this.state.jobUserUuid)
         .then(async (res)=>{
             console.log(res.data);
             await this.setState({userNickname: res.data.nickname});
             //useruuid로 리뷰데이터 가져오기
-            await this.getUserReviewData().then(
+            await this.getUserReviewData()
+            .then(
                 async(response) => {
                     await this.setState({reviewData: response.data});
-                    this.getUserProfile().then(res => {
-                        this.setState({ reviewWriter: res.data.nickname })
-                        }).catch(e => {console.log("리뷰글 쓴사람 프로필 조회 에러")})
-            }).catch(e=>{console.log("리뷰데이터가 존재하지 않습니다")})
+                    if (this.state.reviewData) {
+                        this.getUserProfile()
+                        .then(res => {
+                            this.setState({ reviewWriter: res.data.nickname })
+                        })
+                        .catch(e => {console.log("리뷰글 쓴사람 프로필 조회 에러")})
+                    }
+                }
+            ).catch(e=>{console.log("리뷰데이터가 존재하지 않습니다")})
         }).catch(e => {console.error("일거리 정보를 가져오는데 문제가 발생");})
-        }).catch(e => {console.log("job user id로 닉네임불러오기 에러")})
+    })
+    .catch(e => {console.log("job user id로 닉네임불러오기 에러")})
 
     //지도
     const script = document.createElement("script");
@@ -159,19 +170,28 @@ class JobDetail extends React.Component {
   }
   
   contractInsert = async() => {
+    const contract_Info = {
+        contractJobId : this.state.jobId,
+        handy : this.props.userUuid,
+        hander : this.state.jobUserUuid 
+    }
+    console.log(contract_Info)
     axios
     .post(
         "http://i4d101.p.ssafy.io:8080/contract/insert",
         JSON.stringify({
             contractJobId : this.state.jobId,
-            handy : this.props.logined.myUuid,
+            handy : this.props.userUuid,
             hander : this.state.jobUserUuid }),
         {headers:{
             'Content-Type': 'application/json',
             'X-AUTH-TOKEN': this.props.logintoken
         }}
     )
-    .then(res => {console.log(res.data)})
+    .then(res => {
+        console.log(res.data)
+        this.moveBack()
+    })
     .catch(e => {console.log(e)})
   }
   pointTOstar = (score) =>{
@@ -198,6 +218,12 @@ class JobDetail extends React.Component {
       .catch(e => {console.log("채팅방생성 실패", e)})
 
   }
+  MoveUserProfile = e => {
+    e.preventDefault()
+    console.log(e.currentTarget.getAttribute('value'))
+    this.props.history.push("/profile/"+e.currentTarget.getAttribute('value'))
+
+  }
   render(){
     return (
         <div className={"d-flex vh-100 profileModalRoot align-items-center justify-content-center"}>
@@ -215,10 +241,13 @@ class JobDetail extends React.Component {
                                     <Avatar src={"https://avatars.dicebear.com/4.5/api/male/"+Math.floor(Math.random() * 500)+".svg"} 
                                     alt={"아바타"} style={{width: '30px',height:'30px', marginRight: 10, display: 'inline-block', verticalAlign: 'middle'}}/>
                                     </ListItemIcon>
-                                    <ListItemText
-                                    primary={this.state.userNickname + "핸더"}
-                                    secondary={Math.floor(Math.random() * (80+ 1))+"번의 거래이력"}
-                                    />
+                                    <Link value={this.state.userNickname} ><span value={this.state.userNickname}>
+                                        <ListItemText onClick={this.MoveUserProfile} value={this.state.userNickname}
+                                        primary={this.state.userNickname + "핸더"}
+                                        secondary={Math.floor(Math.random() * (80+ 1))+"번의 거래이력"}
+                                        />
+                                        </span>
+                                    </Link>
                     <Button startIcon={<SendIcon/>} className={"mx-3"} variant="contained" color="primary" onClick={this.chatInsert}>채팅</Button>
                     <Button startIcon={<ThumbsUpDownIcon/>} className={"mr-3"} variant="contained" color="secondary" onClick={this.contractInsert}>거래신청</Button>
                     </ListItem>
@@ -355,10 +384,14 @@ class JobDetail extends React.Component {
   }
 }
 const mapStateToProps = (state) => {
-    return {
-      logintoken: state.token,
-      logined : state.logined
-  }}
+    if (state.logined) {
+        return {
+            userUuid:state.logined.userUuid,
+            id : state.logined.id,
+            logintoken: state.token
+        }
+    }
+}
   
 
   
