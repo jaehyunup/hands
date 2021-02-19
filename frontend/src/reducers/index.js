@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-import {USERLOGIN, USERLOGOUT, CHECKPROFILE, UPDATEPROFILE, FINDFOLLOW, CURRENTLOCATION, MAPJOBLIST} from '../actions/actionType'
+import {USERLOGIN, USERLOGOUT, CHECKPROFILE, UPDATEPROFILE, FINDFOLLOW, CURRENTLOCATION, MAPJOBLIST,CHATROOM} from '../actions/actionType'
 import {TOGLELOGIN} from '../actions/actionType'
 
 const persistConfig = {
@@ -32,6 +32,8 @@ const userApp = (state = {}, action) => {
       return {...state, currentlocation: action.payload }
     case MAPJOBLIST:
       return {...state, mapjoblist: action.payload }
+    case CHATROOM:
+      return {...state, roomId:action.payload}
     default:
       return state;
   }

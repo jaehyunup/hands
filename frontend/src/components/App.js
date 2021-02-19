@@ -13,7 +13,8 @@ import User from './Profile/User';
 import MyPage from './pages/MyPage';
 import JobDetail from './job/JobDetail';
 import CreateReview from './review/ReviewCreate';
-
+import UpdateJob from './job/JobUpdate'
+import Chat from './pages/Chat'
 import ChatContents from './chats/ChatContents';
 
 class App extends Component {
@@ -26,11 +27,12 @@ class App extends Component {
         <Route path="/findjob" component={FindJob} />
         <Route path="/createjob" component={CreateJob} />
         <Route path="/findhandy" component={FindHandy} />
-        <Route path="/chat" component={ChatContents} />
-        <Route path="/profile/:userUuid" component={User} />
+        <Route path="/chat" component={Chat} />
+        <Route path="/profile/:userNickName" component={User} />
         <Route path="/mypage" component={MyPage} />
         <Route path="/job/:jobId" component={JobDetail} />
-        <Route path="/review/create" component={CreateReview} />
+        <Route path="/review/:contractId" component={CreateReview} />
+        <Route path="/updatejob/:jobId" component={UpdateJob}/>
       </>
     );
   }

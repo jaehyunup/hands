@@ -2,7 +2,7 @@
 background-color: rgba(0,0,0,0.5);
 }
 .profileModalBox {
-    width:50%;
+    width:70%;
     max-height: 90%;
     overflow:scroll;
     background-color: white;

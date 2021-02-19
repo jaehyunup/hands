@@ -37,7 +37,6 @@
 *
 */
 
-
 input{
     font-size:0.6rem;
 }
@@ -47,16 +46,15 @@ input{
 
 select.form-control {
     height: 42px;
-    padding-left: 0.3rem;
+    padding-left: 0.1rem;
 }
 
 .form-control::placeholder {
-    color: #ccc;
-    
     font-size: 0.8rem;
+    font-family: 'jalnan' !important;
 }
 .form-control:focus {
-    box-shadow: none;
+    border-color: #6c63ff;
 }
 
 

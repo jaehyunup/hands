@@ -15,7 +15,7 @@ import DaumPostcode from 'react-daum-postcode';
 
 const postCodeStyle = {
   position: "absolute",
-  top: 70,
+  top: 60,
   zIndex: "100",
   overflow: "hidden"
 }
@@ -84,28 +84,7 @@ class MapDiv extends React.Component {
       <>
       
       <Paper component="form" background="dark" style={{width:"80%",marginLeft:"10%",zIndex:999,display: 'flex',alignItems: 'center',height:"4rem",marginTop:"8%"}}>
-      {
-                        (this.state.isdaumpost ? 
-                            <>
-                            <Button variant="contained" color="primary"  onClick={this.toggleDaumDiv}>취소</Button>
-                            <DaumPostcode
-                                className={"mt-5"}
-                                onComplete={this.handleAddress}
-                                autoResize
-                                autoClose
-                                width={600}
-                                height={200}
-                                style={postCodeStyle}
-                                isdaumpost={this.state.isdaumpost}
-                                
-                            />
-                            </>
-                        : null)
-                    }          
-          <IconButton style={{padding: 10}} aria-label="menu">
-              <MenuIcon />
-          </IconButton>
-          <InputBase
+      <InputBase
               style={{marginLeft: "1rem",flex: 1}}
               placeholder="여기를 클릭해 주소를 입력해주세요"
               // placeholder={this.props.currentlocation}
@@ -114,6 +93,26 @@ class MapDiv extends React.Component {
               onChange={this.handleDongInput}
               onClick={this.toggleDaumDiv}
           />
+      {
+                        (this.state.isdaumpost ? 
+                            <>
+                            <Button className={"ml-1"} variant="contained" color="primary"  onClick={this.toggleDaumDiv}>취소</Button>
+                            <DaumPostcode
+                                className={"mt-5"}
+                                onComplete={this.handleAddress}
+                                autoResize
+                                autoClose
+                                width={450}
+                                height={200}
+                                style={postCodeStyle}
+                                isdaumpost={this.state.isdaumpost}
+                                
+                            />
+                            </>
+                        : null)
+                    }          
+         
+         
           <IconButton style={{adding: 10}} aria-label="search" onClick={this.sendDongInput} disabled>
               <SearchIcon />
           </IconButton>
@@ -123,7 +122,7 @@ class MapDiv extends React.Component {
           </IconButton>
       </Paper>
       
-      <div id="jobmap" style={{ position:"relative",margin:"0",padding:"0",width:"100%",height:"35rem",marginTop:"-19%"}}>
+      <div id="jobmap" style={{ position:"relative",margin:"0",padding:"0",width:"100%",height:"40rem",marginTop:"-19%"}}>
       </div>
       </>
     );

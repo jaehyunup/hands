@@ -1,16 +1,83 @@
+.mycar {
+  display:flex;
+}
+.mycar .description {
+  font-family: 'gmarket-500';
+  padding: 1.5rem;
+  padding-bottom:1rem;
+  width: 60%;
+  margin:1rem;
+  margin-left:0.1rem;
+  float:left;
+  border-left: 2px solid #efefef;
+}
+
+.jobData{
+  padding-top: 2rem;
+  float:left;
+  margin-top:1.5rem;
+  width:40%;
+  font-size:0.8rem;
+  font-weight:300;
+  font-family: 'gmarket-500';
+}
+ .mycar .description h1 {
+  font-family: 'gmarket-700';
+  color: #000;
+  font-weight: 300;
+  padding-top: 15px;
+  margin: 0;
+  font-size: 1.4rem;
+  margin-bottom:1rem;
+}
+ .mycar .description h2 {
+   margin-top:1rem;
+  font-family: 'gmarket-500';
+  color: #000;
+  margin: 0;
+  text-transform: uppercase;
+  font-size:1rem;
+  margin-bottom:0.5rem;
+}
+ .mycar .description h4 {
+  margin-top:0.5rem ;
+  margin-bottom:0.5rem;
+  color: #444;
+  font-family:'gmarket-300';
+  text-transform: uppercase;
+  font-size: 0.7rem;
+}
+ .mycar .description p {
+  font-size: 12px;
+  line-height: 20px;
+  color: #444;
+  padding: 20px 0;
+  margin: 0;
+}
+
+
+
+.noscrollbar{
+  margin-left:-5%;
+  -ms-overflow-style: none; /* IE and Edge */
+scrollbar-width: none; /* Firefox */
+}
+.noscrollbar::-webkit-scrollbar {
+display: none; /* Chrome, Safari, Opera*/
+}
+
 .findjobroot{
   font-family: "gmarket-700";
 
 }
 
 .joblist{
-  border:1px solid #f2f4f7;
-  background-color:#fcfcfc;
   padding-left:1.2rem;
   padding-right:1.2rem;
-  padding-top:0.4rem;
-  padding-bottom:0.4rem;
+  padding-top:1rem;
+  padding-bottom:2rem;
   margin:4px;
+  margin-bottom:1rem;
 }
 
 .jobList > .article{
@@ -90,14 +157,12 @@ h6,h7,p{
 label.btn:not(.btn-flat) { 
     background-color: #fff;
     font-weight:700;
-    border:1px solid #000;
     font-family: "eland-300";
 
   }
 label.btn-flat{ 
     margin-left:3px;
     margin-right:3px;
-    background-color: #f2f4f7;
     border:none;
     font-weight:300;
     font-family: "eland-300";
