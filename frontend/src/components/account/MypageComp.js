@@ -40,7 +40,7 @@ class MypageComp extends React.Component {
             tableRow:[],
             jobContractRows:[],
             contractAcceptData:null,
-
+            
             HandytableRow:[],
             is_findContract:false,
             findContractInfo:{}
@@ -96,7 +96,7 @@ class MypageComp extends React.Component {
         if (findfollowinfo && logintoken) {
             this.props.findfollow(findfollowinfo, logintoken)
         }
-
+        
         //내가 만든 일거리 조회
         axios.get("http://i4d101.p.ssafy.io:8080/job/findJobsByUuid?", {
             params : {
@@ -389,7 +389,7 @@ class MypageComp extends React.Component {
 
     //팔로우 리스트 출력 함수
     followList = () => {
-        const follows = this.state.follows
+        const follows = this.props.follows
         if (!follows) {
             return <div>팔로우된 유저가 없습니다</div>
         }
@@ -399,7 +399,7 @@ class MypageComp extends React.Component {
                 }}>
                 <span className={"btn btn-md btn-info ml-2 mr-1 my-1"} style={{fontSize:"0.9rem",fontFamily:"samlib-basic"}} key={index} >
                     <ClearIcon style={{fontSize:"12px",color:"red",marginLeft:"0.3rem"}}></ClearIcon>
-                    follow.nickname
+                    {follow.nickname}
                 </span>
                 </Link>
                 )
@@ -817,7 +817,7 @@ successHandler = async (a,b) => {
                     console.log(err)
                 })
     
-    // this.makeContractRow(b)
+    this.makeContractRow(b)
 
 }
 
@@ -1304,7 +1304,7 @@ render() {
                                 </div>
                                 <div class="input-group offset-md-1  col-md-10  py-2 mb-3 justify-content-center"
                                     style={{borderRadius:"20px",backgroundColor:"#f2f4f7"}}>
-                                    <span>{this.state.follows}</span>
+                                    <span>치킨</span>
                                </div>
                             </Col>
 
