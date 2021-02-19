@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시판 - 글쓰기</title>
+    <link rel='stylesheet' href='/webjars/bootstrap/4.5.0/css/bootstrap.min.css'>
+</head>
+<body>
+<header th:insert="common/header.html"></header>
+<div class="container">
+    <form action="/review/review" method="post" enctype="multipart/form-data">
+        <div class="form-group row">
+            <label for="inputTitle" class="col-sm-2 col-form-label"><strong>user uuid</strong></label>
+            <div class="col-sm-10">
+                <input type="text" name="userUuid" class="form-control" id="inputTitle">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputTitle2" class="col-sm-2 col-form-label"><strong>contract id</strong></label>
+            <div class="col-sm-10">
+                <input type="text" name="contractId" class="form-control" id="inputTitle2">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputTitle3" class="col-sm-2 col-form-label"><strong>content</strong></label>
+            <div class="col-sm-10">
+                <input type="text" name="reviewContent" class="form-control" id="inputTitle3">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputTitle4" class="col-sm-2 col-form-label"><strong>score</strong></label>
+            <div class="col-sm-10">
+                <input type="text" name="score" class="form-control" id="inputTitle4">
+            </div>
+        </div>
+        <input type="checkbox" name="urls" value="https://www.google.com/url?sa=i&url=https%3A%2F%2Fkr.123rf.com%2Fphoto_61532164_%25EA%25B3%2584%25EB%25A6%25BC%25EC%259D%2598-%25ED%2592%258D%25EA%25B2%25BD.html&psig=AOvVaw2fOIRG-GAYxCYdp6AiP51T&ust=1612447013495000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCODviq3vze4CFQAAAAAdAAAAABAD">url1
+        <input type="checkbox" name="urls" value="https://www.google.com/url?sa=i&url=http%3A%2F%2Fwww.vdcm.co.kr%2Fnews%2FarticleView.html%3Fidxno%3D4538&psig=AOvVaw2fOIRG-GAYxCYdp6AiP51T&ust=1612447013495000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCODviq3vze4CFQAAAAAdAAAAABAJ">url2
+        <input type="checkbox" name="urls" value="https://www.google.com/url?sa=i&url=https%3A%2F%2Fjin2nul2.tistory.com%2F5636&psig=AOvVaw2fOIRG-GAYxCYdp6AiP51T&ust=1612447013495000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCODviq3vze4CFQAAAAAdAAAAABAO">url3
+        <input type="checkbox" name="urls" value="https://www.google.com/url?sa=i&url=http%3A%2F%2Fm.sisatouch.com%2Fmview.php%3Fnum%3D13422&psig=AOvVaw2fOIRG-GAYxCYdp6AiP51T&ust=1612447013495000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCODviq3vze4CFQAAAAAdAAAAABAT">url4
+        <input type="checkbox" name="urls" value="https://www.google.com/url?sa=i&url=https%3A%2F%2Fm.yna.co.kr%2Fview%2FIPT20200911000007365&psig=AOvVaw2fOIRG-GAYxCYdp6AiP51T&ust=1612447013495000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCODviq3vze4CFQAAAAAdAAAAABAZ">url5
+        <input type="checkbox" name="urls" value="https://www.google.com/url?sa=i&url=https%3A%2F%2Fkoojinwook.tistory.com%2F633&psig=AOvVaw2fOIRG-GAYxCYdp6AiP51T&ust=1612447013495000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCODviq3vze4CFQAAAAAdAAAAABAg">url6
+        
+        <div class="form-group row">
+            <label for="inputFile" class="col-sm-2 col-form-label"><strong>첨부 파일</strong></label>
+            <div class="col-sm-10">
+                <div class="custom-file" id="inputFile">
+                    <input name="imgs" type="file" class="custom-file-input" id="customFile" multiple="multiple">
+                    <label class="custom-file-label" for="customFile">파일을 선택해 주세요.</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-auto mr-auto"></div>
+            <div class="col-auto">
+                <input class="btn btn-primary" type="submit" role="button" value="글쓰기">
+            </div>
+        </div>
+    </form>
+</div>
+<script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+<script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script>
+$(".custom-file-input").on("change", function() {
+  var fileName = $(this).val().split("\\").pop();
+  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+});
+</script>
+</body>
+</html>

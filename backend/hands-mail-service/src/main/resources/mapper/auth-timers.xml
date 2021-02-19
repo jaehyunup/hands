@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.bangkoklab.data.repository.mapper.AuthTimerMapper">
+
+	<select id="isExistedTimerByEncryptedEmail" resultType="int"
+		parameterType="String">
+		SELECT COUNT(*) as "count"
+		FROM auth_timers
+		WHERE encrypted_email=
+		#{encrypted_email}
+	</select>
+
+	<update id="updateTimerByEncryptedEmail" parameterType="String">
+		UPDATE auth_timers
+		SET start_time = now()
+		WHERE encrypted_email=#{encrypted_email}
+	</update>
+
+	<insert id="addTimerByEncryptedEmail" parameterType="String">
+		INSERT INTO
+		auth_timers (
+		encrypted_email,
+		start_time
+		) VALUES (
+		#{encrypted_email},
+		now()
+		)
+	</insert>
+
+	<select id="getDiffTimeByEncryptedEmail" parameterType="String"
+		resultType="int">
+		SELECT TIMESTAMPDIFF(MINUTE, start_time, now())
+		FROM auth_timers
+		WHERE encrypted_email=#{encrypted_email}
+	</select>
+	
+	<select id="getStartTimeByEncryptedEmail" parameterType="String" resultType="String">
+		SELECT start_time
+		FROM auth_timers
+		WHERE encrypted_email = #{encrypted_email}
+	</select>
+	
+	<delete id="deleteTimerByEncryptedEmail" parameterType="String">
+		DELETE FROM auth_timers
+		WHERE encrypted_email = #{encrypted_email}
+	</delete>
+	<delete id="deleteAllByExpiredEmail" parameterType="int">
+		DELETE FROM auth_timers
+		WHERE TIMESTAMPDIFF(MINUTE, start_time, now()) >= #{time}
+	</delete>
+	<delete id="deleteAll">
+		DELETE FROM auth_timers
+	</delete>
+</mapper>

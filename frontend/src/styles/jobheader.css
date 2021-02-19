@@ -1,0 +1,30 @@
+
+  .subnavbtnpink{
+      border:1px solid #f50057 !important;
+      font-family: 'gmarket-500';
+      color:#f50057 !important;
+      background-color:#fff !important;
+  }
+
+  .subnavbtnblue{
+    border:1px solid #007bff !important;
+    margin-left:10px;
+    font-family: 'gmarket-500';
+    color:#007bff !important;
+    background-color:#fff !important;
+}
+
+.subnavbtnblue:hover{
+    border:1px solid #fff !important;
+    margin-left:10px;
+    font-family: 'gmarket-500';
+    color:#fff !important;
+    background-color:#007bff !important;
+}
+
+.subnavbtnpink:hover{
+    border:1px solid #fff !important;
+    font-family: 'gmarket-500';
+    color:#fff !important;
+    background-color:#f50057 !important;
+}

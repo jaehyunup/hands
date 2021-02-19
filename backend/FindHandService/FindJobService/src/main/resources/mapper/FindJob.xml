@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bangkoklab.findJobService.data.mapper.FindJobMapper">
+	<resultMap type="job" id="jobResult">
+		<result column="job_id" property="jobId"/>
+		<result column="job_user_uuid" property="jobUserUUid"/>
+		<result column="category_id" property="categoryId"/>
+		<result column="content" property="content"/>
+		<result column="job_regdate" property="jobRegdate"/>
+		<result column="working_hour" property="workingHour"/>
+		<result column="job_credit" property="jobCredit"/>
+		<result column="working_date" property="workingDate"/>
+		<result column="working_address" property="workingAddress"/>
+		<result column="status" property="status"/>
+		<result column="job_name" property="jobName"/>
+		<result column="userAddress" property="userAddress"/>
+		<result column="userEmail" property="userEmail"/>
+		<result column="userGender" property="userGender"/>
+		<result column="userName" property="userName"/>
+		<result column="userNickname" property="userNickname"/>
+		<result column="userPhone" property="userPhone"/>
+		
+	</resultMap>
+	
+	<select id="findJobs" resultMap="jobResult">
+		SELECT 
+				*
+		FROM 
+			job j 
+	</select>
+	
+	
+	<select id="findJobsById"  parameterType="String" resultMap="jobResult">
+		SELECT 
+				*
+		FROM 
+			job j
+		WHERE job_id = #{jobId}
+	</select>
+	<!-- 카테고리 별 조회 -->
+	<!-- select category_id from category where category_name = " "; -->
+	<select id="findByCategory" parameterType="String" resultMap="jobResult">
+	SELECT 
+		* 
+	FROM 
+		job
+	WHERE 
+		category_id  = #{category} 
+	</select>
+	
+	
+	<select id="findByUuid" parameterType="String" resultMap="jobResult">
+	SELECT 
+		* 
+	FROM 
+		job
+	WHERE 
+		job_user_uuid  = #{jobUserUUid} 
+	</select>
+	<!-- 동별검색  -->
+	<select id="findByDong" resultMap="jobResult">
+		SELECT 
+				*
+		FROM 
+			job j 
+		WHERE 
+			working_address like CONCAT('%',#{dong},'%')
+	</select>
+		
+	<!-- 크레딧 기준 정렬 -->
+	<select id="downCredit" resultMap="jobResult">
+		SELECT * FROM job order by job_credit desc
+	</select>
+	
+	<select id="upCredit" resultMap="jobResult">
+		SELECT * FROM job order by job_credit asc
+	</select>
+	
+	<!-- 남은 일별 조회 -->
+	<select id="findByTimeJob" parameterType="Int" resultMap="jobResult">
+		select * from job where #{day} &gt; TIMESTAMPDIFF(DAY, working_date, CURDATE());
+	</select>
+	
+</mapper>

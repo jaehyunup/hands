@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.bangkoklab.data.repository.mapper.ReviewMapper">
+	
+	<select id="getReviewByUserUuid" parameterType="String" resultType="ReviewVO">
+		SELECT review_id,
+			   user_uuid,
+			   contract_id,
+			   target_uuid,
+			   review_regdate,
+			   review_content,
+			   score
+		FROM review
+		WHERE user_uuid = #{user_uuid}
+	</select>
+	
+	<select id="getReviewByTargetUuid" parameterType="String" resultType="ReviewVO">
+		SELECT review_id,
+			   user_uuid,
+			   contract_id,
+			   target_uuid,
+			   review_regdate,
+			   review_content,
+			   score
+		FROM review
+		WHERE target_uuid = #{targetUuid}
+	</select>
+	
+	<select id="getReviewByReviewId" parameterType="String" resultType="ReviewVO">
+		SELECT review_id,
+			   user_uuid,
+			   contract_id,
+			   target_uuid,
+			   review_regdate,
+			   review_content,
+			   score
+		FROM review
+		WHERE review_id = #{reviewId}
+	</select>
+	
+	<select id="getReviewIdByContractId" parameterType="String" resultType="String">
+		SELECT review_id
+		FROM review
+		WHERE contract_id = #{contract_id}
+	</select>
+	
+	<insert id="insertReview" parameterType="ReviewVO">
+		INSERT INTO review (
+								review_id,
+								user_uuid,
+								contract_id,
+								target_uuid,
+								review_regdate,
+								review_content,
+								score
+							) VALUES (
+								#{reviewId},
+								#{userUuid},
+								#{contractId},
+								#{targetUuid},
+								#{reviewRegdate},
+								#{reviewContent},
+								#{score}
+							)
+	</insert>
+	
+	<select id="isReviewDuplicated" parameterType="ReviewVO" resultType="int">
+		SELECT COUNT(*) 
+		FROM review
+		WHERE user_uuid = #{userUuid} AND contract_id = #{contractId}
+	</select>
+	
+	<select id="getAllReview" resultType="ReviewVO">
+		SELECT review_id,
+			   user_uuid,
+			   contract_id,
+			   target_uuid,
+			   review_regdate,
+			   review_content,
+			   score
+		FROM review
+	</select>
+	
+	<delete id="deleteReviewByContractId" parameterType="String">
+		DELETE FROM review
+		WHERE contract_id = #{contract_id}
+		LIMIT 1
+	</delete>
+	
+	<delete id="deleteReviewAll">
+		DELETE FROM review;
+	</delete>
+	
+	<delete id="deleteReviewByReviewId" parameterType="String">
+		DELETE FROM review
+		WHERE review_id = #{reviewId}
+	</delete>
+	
+	<delete id="deleteReviewByUserUuid" parameterType="String">
+		DELETE FROM review
+		WHERE user_uuid = #{userUuid}
+	</delete>
+	
+</mapper>

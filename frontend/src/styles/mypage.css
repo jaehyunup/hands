@@ -1,0 +1,57 @@
+.tabInnerDiv{
+    border:1px solid #d9e0eb;
+    border-radius:3px;
+    
+}
+
+.tabInnerDivHeader{
+    font-size:1rem;
+    font-family: 'eland-500';
+}
+
+.account-input-text{
+    position:static !important;
+    font-size:0.8rem !important;
+    left:0 !important;
+
+}
+.form-control {
+    font-size:0.8rem !important;
+}
+
+@media (min-width: 576px) {
+    .rounded-nav {
+      border-bottom:10rem;
+    }
+  }
+  
+  @media (min-width: 576px) {
+    .rounded-nav .nav-link {
+      border-radius: 20rem !important;
+      font-family:'gmarket-700';
+    }
+}
+
+a {
+color:#000 !important;
+  
+}
+.btn-file {
+    position: relative;
+  }
+  
+  .btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: #000;
+    cursor: inherit;
+    display: block;
+  }

@@ -1,0 +1,57 @@
+.loginModalRoot {
+    background: rgba(0, 0, 0, 0.6);
+}
+.loginModalBox {
+    background-color: white;
+    box-sizing: border-box;
+    padding: 20px;
+    background: #fff;
+}
+
+.loginModalHeader{
+    font-family:'gmarket-300';
+    font-size:1.5rem;
+}
+
+.loginModalBtn1{
+    width:100% !important; 
+    background-color: black !important;
+    color:#fff !important;
+}
+
+.loginModalBtn2{
+    width:100% !important; 
+    background-color: #ffed34 !important;
+    color:#000 !important;
+}
+
+.loginModalBtn3{
+    width:100% !important; 
+    background-color: #22538a !important;
+    color:#fff !important;
+}
+
+.loginModalBtn1:hover{
+    box-shadow: 0 0 0 0.2rem rgba(199, 113, 0, 0.973)
+
+}
+.loginModalBtn2:hover{
+    box-shadow: 0 0 0 0.2rem rgba(73, 72, 0, 0.9)
+
+}
+.loginModalBtn3:hover{
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.5)
+
+}
+
+.modaljointext{
+    text-align:center;
+    font-size:0.9rem;
+    font-family: 'gmarket-500';
+}
+
+.forgotPassword{
+    text-align:center;
+    font-size:0.9rem;
+    font-family: 'gmarket-300';
+}
